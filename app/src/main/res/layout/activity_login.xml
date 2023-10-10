@@ -106,11 +106,13 @@
             android:layout_width="140dp"
             android:layout_height="60dp"
             android:layout_marginRight="20dp"
+            android:background="@drawable/bg_border"
             android:src="@drawable/ic_google"/>
 
         <ImageButton
             android:layout_width="140dp"
             android:layout_height="60dp"
+            android:background="@drawable/bg_border"
             android:src="@drawable/ic_facebook"/>
 
     </LinearLayout>
