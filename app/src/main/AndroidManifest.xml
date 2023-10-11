@@ -19,10 +19,7 @@
 
 
 
-        <activity
-            android:name=".activity.Manchao"
-            android:exported="false" >
-        </activity>
+
 
         <activity
             android:name=".activity.Register"
