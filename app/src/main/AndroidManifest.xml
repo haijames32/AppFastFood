@@ -12,11 +12,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppFastFood"
         tools:targetApi="31">
+
+
+
+
+
+
+
         <activity
             android:name=".activity.Manchao"
             android:exported="false" >
-
         </activity>
+
         <activity
             android:name=".activity.Register"
             android:exported="false" />
