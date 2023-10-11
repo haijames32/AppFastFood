@@ -51,6 +51,7 @@
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_username_login"
                 android:drawablePadding="8dp"
+                android:inputType="textPassword"
                 android:hint="Password" />
 
         </com.google.android.material.textfield.TextInputLayout>
