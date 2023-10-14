@@ -8,6 +8,25 @@
     android:padding="8dp"
     android:layout_height="match_parent"
     tools:context=".activity.ChangePass">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginBottom="20sp"
+        android:layout_height="30dp">
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/icon_back"
+            android:id="@+id/img_back"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edit password"
+            android:textStyle="bold"
+            android:layout_marginLeft="90dp"
+            android:textSize="19dp"/>
+
+    </LinearLayout>
 
     <ImageView
         android:layout_width="150dp"
