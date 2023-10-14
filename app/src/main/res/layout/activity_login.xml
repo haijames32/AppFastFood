@@ -49,8 +49,8 @@
                 android:id="@+id/ed_pw_login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_username_login"
-                android:drawablePadding="8dp"
+                android:drawableLeft="@drawable/ic_password_login"
+                android:drawablePadding="10dp"
                 android:inputType="textPassword"
                 android:hint="Password" />
 
