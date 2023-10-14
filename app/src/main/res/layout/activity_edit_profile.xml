@@ -10,11 +10,31 @@
     tools:context=".activity.EditProfile">
     <LinearLayout
         android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginBottom="20sp"
+        android:layout_height="30dp">
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/icon_back"
+            android:id="@+id/img_back"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edit personal info"
+            android:textStyle="bold"
+            android:layout_marginLeft="90dp"
+            android:textSize="19dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:src="@drawable/profile"
             android:id="@+id/id_img_edit_profile"/>
         <Button
@@ -153,7 +173,7 @@
         android:textStyle="bold"
         android:textSize="20sp"
         android:padding="8dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="30dp"
         android:id="@+id/btn_edit_save_profile"
         android:backgroundTint="#64ED76"
         android:textColor="@color/black"/>
