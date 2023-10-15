@@ -19,6 +19,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import hainb21127.poly.appfastfood.database.FirebaseDB;
 import hainb21127.poly.appfastfood.databinding.ActivityMainBinding;
+import hainb21127.poly.appfastfood.fragment.CartFragment;
 import hainb21127.poly.appfastfood.fragment.HomeFragment;
 import hainb21127.poly.appfastfood.fragment.OrderFragment;
 import hainb21127.poly.appfastfood.fragment.ProfileFragment;
@@ -96,6 +97,24 @@ public class MainActivity extends AppCompatActivity {
                     if(item.getItemId() == R.id.nav_order ){
                         // Khi chọn Home
                         fragment = new OrderFragment();
+                        replaceFragment(fragment);
+                        return true;
+                    }
+//                    if(checkLogin){
+//                        fragment = new OrderFragment();
+//                        replaceFragment(fragment);
+//                        return true;
+//                    }else{
+//                        Intent intent = new Intent(MainActivity.this, SigninActivity.class);
+//                        startActivity(intent);
+//                    }
+
+                }
+                if(item.getItemId() == R.id.nav_cart ){
+                    // Khi chọn Order
+                    if(item.getItemId() == R.id.nav_cart ){
+                        // Khi chọn Home
+                        fragment = new CartFragment();
                         replaceFragment(fragment);
                         return true;
                     }

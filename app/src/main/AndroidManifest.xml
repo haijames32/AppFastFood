@@ -15,6 +15,12 @@
         android:theme="@style/Theme.AppFastFood"
         tools:targetApi="31">
         <activity
+            android:name=".activity.CartDetail"
+            android:exported="false" />
+        <activity
+            android:name=".activity.OrderDetail"
+            android:exported="false" />
+        <activity
             android:name=".activity.ChangePass"
             android:exported="false" />
         <activity
