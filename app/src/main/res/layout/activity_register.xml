@@ -9,7 +9,7 @@
     tools:context=".activity.Register">
     <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="200dp"
+        android:layout_height="130dp"
         android:src="@drawable/anhnen_res"/>
     <TextView
         android:layout_width="wrap_content"
@@ -28,6 +28,18 @@
             android:drawableLeft="@drawable/item_user_res"
             android:drawablePadding="8dp"
             android:hint="Họ và tên" />
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/ed_tendn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/item_email_res"
+            android:drawablePadding="8dp"
+            android:hint="Tên đăng nhập" />
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
