@@ -19,6 +19,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import hainb21127.poly.appfastfood.activity.Login;
 import hainb21127.poly.appfastfood.database.FirebaseDB;
 import hainb21127.poly.appfastfood.databinding.ActivityMainBinding;
 import hainb21127.poly.appfastfood.fragment.CartFragment;
@@ -81,56 +82,56 @@ public class MainActivity extends AppCompatActivity {
                 }
                 if(item.getItemId() == R.id.nav_order ){
                     // Khi chọn Order
-                    if(item.getItemId() == R.id.nav_order ){
-                        // Khi chọn Home
-                        fragment = new OrderFragment();
-                        replaceFragment(fragment);
-                        return true;
-                    }
-//                    if(checkLogin){
+//                    if(item.getItemId() == R.id.nav_order ){
+//                        // Khi chọn Home
 //                        fragment = new OrderFragment();
 //                        replaceFragment(fragment);
 //                        return true;
-//                    }else{
-//                        Intent intent = new Intent(MainActivity.this, SigninActivity.class);
-//                        startActivity(intent);
 //                    }
+                    if(isLoggedIn){
+                        fragment = new OrderFragment();
+                        replaceFragment(fragment);
+                        return true;
+                    }else{
+                        Intent intent = new Intent(MainActivity.this, Login.class);
+                        startActivity(intent);
+                    }
 
                 }
                 if(item.getItemId() == R.id.nav_cart ){
                     // Khi chọn Order
-                    if(item.getItemId() == R.id.nav_cart ){
-                        // Khi chọn Home
+//                    if(item.getItemId() == R.id.nav_cart ){
+//                        // Khi chọn Home
+//                        fragment = new CartFragment();
+//                        replaceFragment(fragment);
+//                        return true;
+//                    }
+                    if(isLoggedIn){
                         fragment = new CartFragment();
                         replaceFragment(fragment);
                         return true;
+                    }else{
+                        Intent intent = new Intent(MainActivity.this, Login.class);
+                        startActivity(intent);
                     }
-//                    if(checkLogin){
-//                        fragment = new OrderFragment();
-//                        replaceFragment(fragment);
-//                        return true;
-//                    }else{
-//                        Intent intent = new Intent(MainActivity.this, SigninActivity.class);
-//                        startActivity(intent);
-//                    }
 
                 }
                 if(item.getItemId() == R.id.nav_profile ){
                     // Khi chọn Profile
-                    if(item.getItemId() == R.id.nav_profile ){
-                        // Khi chọn Home
-                        fragment = new ProfileFragment();
-                        replaceFragment(fragment);
-                        return true;
-                    }
-//                    if(checkLogin){
+//                    if(item.getItemId() == R.id.nav_profile ){
+//                        // Khi chọn Home
 //                        fragment = new ProfileFragment();
 //                        replaceFragment(fragment);
 //                        return true;
-//                    }else{
-//                        Intent intent = new Intent(MainActivity.this, SigninActivity.class);
-//                        startActivity(intent);
 //                    }
+                    if(isLoggedIn){
+                        fragment = new ProfileFragment();
+                        replaceFragment(fragment);
+                        return true;
+                    }else{
+                        Intent intent = new Intent(MainActivity.this, Login.class);
+                        startActivity(intent);
+                    }
                 }
                 return false;
             }

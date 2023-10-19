@@ -74,28 +74,22 @@ public class ProfileFragment extends Fragment {
                 .requestEmail()
                 .build());
 
-        // Check the sign-in status
-        if(MainActivity.isLoggedIn){
-            lo_check.setVisibility(View.INVISIBLE);
-        }else{
-            lo_check.setVisibility(View.VISIBLE);
-            lo_profile.setVisibility(View.INVISIBLE);
-        }
 
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), Login.class);
-                startActivity(intent);
-            }
-        });
-        register.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), Register.class);
-                startActivity(intent);
-            }
-        });
+
+//        login.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(getActivity(), Login.class);
+//                startActivity(intent);
+//            }
+//        });
+//        register.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(getActivity(), Register.class);
+//                startActivity(intent);
+//            }
+//        });
         btn_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
