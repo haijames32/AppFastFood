@@ -3,11 +3,14 @@ package hainb21127.poly.appfastfood.activity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -15,14 +18,23 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.SignInButton;
 
 import hainb21127.poly.appfastfood.MainActivity;
 import hainb21127.poly.appfastfood.R;
 
 public class Login extends AppCompatActivity {
     public static final int RC_SIGN_IN = 9001;
-    ImageButton btn_signin_google;
+    SignInButton btn_signin_google;
     private GoogleSignInClient mGoogleSignInClient;
+    public void saveSharedPref(String idUser, String displayname, String email){
+        SharedPreferences sharedPreferences = getSharedPreferences("user_signin_google", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("idUser", idUser);
+        editor.putString("displayname", displayname);
+        editor.putString("email", email);
+        editor.apply();
+    }
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +44,7 @@ public class Login extends AppCompatActivity {
 
         // Tạo client Google Sign In
         mGoogleSignInClient = GoogleSignIn.getClient(this, new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.google_client_id))
+//                .requestIdToken(getString(R.string.google_client_id))
                 .requestEmail()
                 .build());
 
@@ -64,10 +76,16 @@ public class Login extends AppCompatActivity {
         if (result.isSuccess()) {
             // Lấy thông tin người dùng từ Google Sign In
             GoogleSignInAccount account = result.getSignInAccount();
-            String name = account.getEmail();
+            String idToken = account.getIdToken();
+            String email = account.getEmail();
+            String name = account.getDisplayName();
+            saveSharedPref(idToken,name,email);
+            MainActivity.isLoggedIn = true;
             Intent intent = new Intent(Login.this, MainActivity.class);
-            intent.putExtra("email",name);
             startActivity(intent);
+            finish();
+            Toast.makeText(this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
         }
     }
+
 }

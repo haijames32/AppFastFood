@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     TextView tvName;
     BottomNavigationView bottomNavigationView;
     Fragment fragment;
-    public static boolean checkLogin = false;
+    public static boolean isLoggedIn = false;
     public static String frm = "";
     @SuppressLint("MissingInflatedId")
     @Override
@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
 //        binding = ActivityMainBinding.inflate(getLayoutInflater());
 //        setContentView(binding.getRoot());
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        tvName = findViewById(R.id.tv_name_user_home);
+
 
         // Set Tab home làm màn hình chính
         bottomNavigationView.setSelectedItemId(R.id.nav_home);
@@ -66,9 +66,7 @@ public class MainActivity extends AppCompatActivity {
 //                Log.e("TAG", "onCancelled: "+ error.toString());
 //            }
 //        });
-        Intent intent = getIntent();
-        String email = intent.getStringExtra("email");
-        tvName.setText(email);
+
 
 
 

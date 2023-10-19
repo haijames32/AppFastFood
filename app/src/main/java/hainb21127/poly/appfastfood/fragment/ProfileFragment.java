@@ -1,60 +1,49 @@
 package hainb21127.poly.appfastfood.fragment;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+
+import hainb21127.poly.appfastfood.MainActivity;
 import hainb21127.poly.appfastfood.R;
+import hainb21127.poly.appfastfood.activity.Login;
+import hainb21127.poly.appfastfood.activity.Register;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ProfileFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class ProfileFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     public ProfileFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ProfileFragment.
-     */
     // TODO: Rename and change types and number of parameters
-    public static ProfileFragment newInstance(String param1, String param2) {
+    public static ProfileFragment newInstance() {
         ProfileFragment fragment = new ProfileFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -62,5 +51,70 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_profile, container, false);
+    }
+
+    TextView tvFullname, tvEmail, tvUsername;
+    GoogleSignInClient mGoogleSignInClient;
+    LinearLayout lo_check, lo_profile, btn_logout;
+    Button login, register;
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        lo_check = view.findViewById(R.id.checklogin_profile);
+        lo_profile = view.findViewById(R.id.id_profile);
+        btn_logout = view.findViewById(R.id.btn_logout);
+        login = view.findViewById(R.id.btn_login_profile);
+        register = view.findViewById(R.id.btn_register_profile);
+        tvEmail = view.findViewById(R.id.tv_email_profile);
+        tvFullname = view.findViewById(R.id.tv_fullname_profile);
+
+        // Tạo client Google Sign In
+        mGoogleSignInClient = GoogleSignIn.getClient(getActivity(), new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//                .requestIdToken(getString(R.string.google_client_id))
+                .requestEmail()
+                .build());
+
+        // Check the sign-in status
+        if(MainActivity.isLoggedIn){
+            lo_check.setVisibility(View.INVISIBLE);
+        }else{
+            lo_check.setVisibility(View.VISIBLE);
+            lo_profile.setVisibility(View.INVISIBLE);
+        }
+
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), Login.class);
+                startActivity(intent);
+            }
+        });
+        register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), Register.class);
+                startActivity(intent);
+            }
+        });
+        btn_logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mGoogleSignInClient.signOut();
+                MainActivity.isLoggedIn = false;
+                Intent intent = new Intent(getActivity(), Login.class);
+                startActivity(intent);
+            }
+        });
+
+
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("user_signin_google", Context.MODE_PRIVATE);
+        String idu = sharedPreferences.getString("idUser","");
+        String name = sharedPreferences.getString("displayname","");
+        String email = sharedPreferences.getString("email","");
+
+
+        tvEmail.setText(email);
+        tvFullname.setText(name);
+
     }
 }
