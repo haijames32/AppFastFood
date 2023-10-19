@@ -2,4 +2,8 @@
     <string name="app_name">AppFastFood</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="google_client_id">638252826029-dtpk3tkhld8r5nvaoom4h30t1mhn533g.apps.googleusercontent.com</string>
+    <string name="google_client_secret">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</string>
+    <string name="text_btn_signin_google">Đăng nhập bằng Google</string>
 </resources>
