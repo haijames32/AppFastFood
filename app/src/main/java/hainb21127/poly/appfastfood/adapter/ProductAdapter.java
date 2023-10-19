@@ -17,18 +17,18 @@ import java.util.List;
 import hainb21127.poly.appfastfood.R;
 import hainb21127.poly.appfastfood.model.Product;
 
-public class ListDsAdapter extends RecyclerView.Adapter<ListDsAdapter.MyViewHolder>{
+public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHolder>{
     private List<Product> mProducts;
     private Context context;
 
-    public ListDsAdapter(Context context) {
+    public ProductAdapter(Context context) {
         this.context = context;
     }
     public void setData(List<Product> arrayList){
         this.mProducts = arrayList;
         notifyDataSetChanged();
     }
-    public ListDsAdapter(List<Product> mProducts) {
+    public ProductAdapter(List<Product> mProducts) {
         this.mProducts = mProducts;
     }
 

@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import hainb21127.poly.appfastfood.R;
-import hainb21127.poly.appfastfood.adapter.ListDsAdapter;
+import hainb21127.poly.appfastfood.adapter.ProductAdapter;
 import hainb21127.poly.appfastfood.database.FirebaseDB;
 import hainb21127.poly.appfastfood.model.Product;
 
@@ -57,7 +57,7 @@ public class HomeFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
     RecyclerView rcv_recommended;
-     ListDsAdapter adapter;
+     ProductAdapter adapter;
     Context context;
      List<Product> mpProducts;
     @Override
@@ -65,7 +65,7 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         rcv_recommended = view.findViewById(R.id.rcv_recommended);
         mpProducts = new ArrayList<>();
-        adapter = new ListDsAdapter(context);
+        adapter = new ProductAdapter(context);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false);
         rcv_recommended.setLayoutManager(linearLayoutManager);
         getListProduct();
