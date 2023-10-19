@@ -4,10 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -29,11 +31,12 @@ public class MainActivity extends AppCompatActivity {
     //    ActivityMainBinding binding;
     FirebaseDatabase database;
     DatabaseReference reference;
-
+    TextView tvName;
     BottomNavigationView bottomNavigationView;
     Fragment fragment;
-    public static boolean checkLogin = false;
+    public static boolean isLoggedIn = false;
     public static String frm = "";
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,46 +45,30 @@ public class MainActivity extends AppCompatActivity {
 //        setContentView(binding.getRoot());
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
+
         // Set Tab home làm màn hình chính
         bottomNavigationView.setSelectedItemId(R.id.nav_home);
         replaceFragment(new HomeFragment());
 
         database = FirebaseDB.getDatabaseInstance();
 
-        reference = database.getReference("product");
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String id = snapshot.child("id").getValue(String.class);
-                String name = snapshot.child("name").getValue(String.class);
-                Log.i("TAG", "onDataChange: "+id+" "+name);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.e("TAG", "onCancelled: "+ error.toString());
-            }
-        });
-//        reference.addValueEventListener(new ValueEventListener() {
+//        reference = database.getReference("product");
+//        reference.addListenerForSingleValueEvent(new ValueEventListener() {
 //            @Override
 //            public void onDataChange(@NonNull DataSnapshot snapshot) {
-////                String name = snapshot.getValue(String.class);
-////                Log.i("TAG", "onDataChange: "+name);
-//                for (DataSnapshot userSnapshot : snapshot.getChildren()) {
-//                    // Lấy dữ liệu của từng user
-//                    String id = userSnapshot.child("id").getValue(String.class);
-//                    String name = userSnapshot.child("name").getValue(String.class);
-//
-//                    // Do something with the data
-//                    Log.d("User", "Username: " + id + ", Email: " + name);
-//                }
+//                String id = snapshot.child("id").getValue(String.class);
+//                String name = snapshot.child("name").getValue(String.class);
+//                Log.i("TAG", "onDataChange: "+id+" "+name);
 //            }
 //
 //            @Override
 //            public void onCancelled(@NonNull DatabaseError error) {
-//                Log.i("TAG", "onCancelled: "+error.toString());
+//                Log.e("TAG", "onCancelled: "+ error.toString());
 //            }
 //        });
+
+
+
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
