@@ -12,6 +12,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +35,7 @@ import hainb21127.poly.appfastfood.R;
 
 public class Login extends AppCompatActivity {
     TextInputEditText edEmail, edPass;
+    ImageView btn_back;
     Button btn_login;
     public static final int RC_SIGN_IN = 9001;
     SignInButton btn_signin_google;
@@ -56,6 +58,7 @@ public class Login extends AppCompatActivity {
         edEmail = findViewById(R.id.ed_email_login);
         edPass = findViewById(R.id.ed_pw_login);
         btn_login = findViewById(R.id.btn_login);
+        btn_back = findViewById(R.id.btn_back_login);
 
         // Tạo client Google Sign In
         mGoogleSignInClient = GoogleSignIn.getClient(this, new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -68,6 +71,12 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 signIn();
+            }
+        });
+        btn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
             }
         });
         btn_login.setOnClickListener(new View.OnClickListener() {
