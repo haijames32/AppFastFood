@@ -122,7 +122,18 @@
         android:gravity="center_horizontal"
         android:orientation="horizontal">
 
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16dp"
+            android:text="Don't have account?"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="17dp"
+            android:textColor="#f9a825"
+            android:text=" Register"/>
 
     </LinearLayout>
 
