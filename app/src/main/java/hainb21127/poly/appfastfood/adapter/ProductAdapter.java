@@ -38,7 +38,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_item_product_home, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_item, parent, false);
         return new MyViewHolder(view);
     }
 
@@ -68,9 +68,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            tv_item_name = itemView.findViewById(R.id.tv_item_name);
-            tv_item_price = itemView.findViewById(R.id.tv_item_price);
-            id_image = itemView.findViewById(R.id.item_img);
+            tv_item_name = itemView.findViewById(R.id.tv_product_name_item);
+            tv_item_price = itemView.findViewById(R.id.tv_product_price_item);
+            id_image = itemView.findViewById(R.id.img_product_item);
         }
     }
 }
