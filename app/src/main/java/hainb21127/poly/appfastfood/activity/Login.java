@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -26,6 +27,7 @@ import hainb21127.poly.appfastfood.R;
 public class Login extends AppCompatActivity {
     public static final int RC_SIGN_IN = 9001;
     SignInButton btn_signin_google;
+    TextView tvRegister;
     private GoogleSignInClient mGoogleSignInClient;
     public void saveSharedPref(String idUser, String displayname, String email){
         SharedPreferences sharedPreferences = getSharedPreferences("user_signin_google", Context.MODE_PRIVATE);
@@ -40,13 +42,22 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        tvRegister = findViewById(R.id.tv_register_login);
         btn_signin_google = findViewById(R.id.btn_signin_google);
+
 
         // Tạo client Google Sign In
         mGoogleSignInClient = GoogleSignIn.getClient(this, new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
 //                .requestIdToken(getString(R.string.google_client_id))
                 .requestEmail()
                 .build());
+
+        tvRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(Login.this, Register.class));
+            }
+        });
 
         // Thêm sự kiện click cho button đăng nhập
         btn_signin_google.setOnClickListener(new View.OnClickListener() {

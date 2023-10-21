@@ -17,17 +17,19 @@ import java.util.List;
 import hainb21127.poly.appfastfood.R;
 import hainb21127.poly.appfastfood.model.Product;
 
-public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHolder>{
+public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHolder> {
     private List<Product> mProducts;
     private Context context;
 
     public ProductAdapter(Context context) {
         this.context = context;
     }
-    public void setData(List<Product> arrayList){
+
+    public void setData(List<Product> arrayList) {
         this.mProducts = arrayList;
         notifyDataSetChanged();
     }
+
     public ProductAdapter(List<Product> mProducts) {
         this.mProducts = mProducts;
     }
@@ -35,33 +37,34 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_item_product_home,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_item_product_home, parent, false);
         return new MyViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-   Product product = mProducts.get(position);
-   if (product == null){
-       return;
-   }
-   holder.tv_item_name.setText(product.getTensp());
-   holder.tv_item_price.setText(product.getGiasp()+"");
-   Picasso.get().load(product.getImage()).into(holder.id_image);
+        Product product = mProducts.get(position);
+        if (product == null) {
+            return;
+        }
+        holder.tv_item_name.setText(product.getTensp());
+        holder.tv_item_price.setText(product.getGiasp() + "");
+        Picasso.get().load(product.getImage()).into(holder.id_image);
     }
 
     @Override
     public int getItemCount() {
-        if (mProducts!= null){
+        if (mProducts != null) {
             return mProducts.size();
         }
         return 0;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-   private ImageView id_image;
-   private TextView tv_item_name;
-   private TextView tv_item_price;
+        private ImageView id_image;
+        private TextView tv_item_name;
+        private TextView tv_item_price;
+
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             tv_item_name = itemView.findViewById(R.id.tv_item_name);
