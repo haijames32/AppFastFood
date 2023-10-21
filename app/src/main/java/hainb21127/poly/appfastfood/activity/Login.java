@@ -1,5 +1,6 @@
 package hainb21127.poly.appfastfood.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -7,7 +8,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,11 +22,19 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 import hainb21127.poly.appfastfood.MainActivity;
 import hainb21127.poly.appfastfood.R;
 
 public class Login extends AppCompatActivity {
+    TextInputEditText edEmail, edPass;
+    Button btn_login;
     public static final int RC_SIGN_IN = 9001;
     SignInButton btn_signin_google;
     private GoogleSignInClient mGoogleSignInClient;
@@ -40,7 +51,11 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        FirebaseAuth auth = FirebaseAuth.getInstance();
         btn_signin_google = findViewById(R.id.btn_signin_google);
+        edEmail = findViewById(R.id.ed_email_login);
+        edPass = findViewById(R.id.ed_pw_login);
+        btn_login = findViewById(R.id.btn_login);
 
         // Tạo client Google Sign In
         mGoogleSignInClient = GoogleSignIn.getClient(this, new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -53,6 +68,36 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 signIn();
+            }
+        });
+        btn_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String email = edEmail.getText().toString();
+                String passwd = edPass.getText().toString();
+                if (!email.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+                    if (!passwd.isEmpty()){
+                        auth.signInWithEmailAndPassword(email,passwd)
+                                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                                    @Override
+                                    public void onSuccess(AuthResult authResult) {
+                                        Toast.makeText(Login.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
+                                        MainActivity.isLoggedIn = true;
+                                        startActivity(new Intent(Login.this, MainActivity.class));
+                                        finish();
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(Login.this, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                    } else {
+                        edPass.setError("Password không được để trống");
+                    }
+                } else if (email.isEmpty()) {
+                    edEmail.setError("Email không được để trống");
+                }
             }
         });
     }
