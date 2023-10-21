@@ -3,14 +3,14 @@ package hainb21127.poly.appfastfood.model;
 public class Product {
     String id;
     String tensp;
-    Float giasp;
+    int giasp;
     String image;
     String mota;
 
     public Product() {
     }
 
-    public Product(String id, String tensp, Float giasp, String image, String mota) {
+    public Product(String id, String tensp, int giasp, String image, String mota) {
         this.id = id;
         this.tensp = tensp;
         this.giasp = giasp;
@@ -34,11 +34,11 @@ public class Product {
         this.tensp = tensp;
     }
 
-    public Float getGiasp() {
+    public int getGiasp() {
         return giasp;
     }
 
-    public void setGiasp(Float giasp) {
+    public void setGiasp(int giasp) {
         this.giasp = giasp;
     }
 
