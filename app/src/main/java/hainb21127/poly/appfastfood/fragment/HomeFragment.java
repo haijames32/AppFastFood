@@ -24,8 +24,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import hainb21127.poly.appfastfood.R;
+import hainb21127.poly.appfastfood.adapter.CategoryAdapter;
 import hainb21127.poly.appfastfood.adapter.ProductAdapter;
 import hainb21127.poly.appfastfood.database.FirebaseDB;
+import hainb21127.poly.appfastfood.model.Category;
 import hainb21127.poly.appfastfood.model.Product;
 
 /**
@@ -56,19 +58,28 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
-    RecyclerView rcv_recommended;
+    RecyclerView rcv_recommended, rcv_cate;
      ProductAdapter adapter;
+     CategoryAdapter categoryAdapter;
     Context context;
      List<Product> mpProducts;
+     List<Category> mCategories;
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         rcv_recommended = view.findViewById(R.id.rcv_recommended);
+        rcv_cate = view.findViewById(R.id.rcv_cate);
         mpProducts = new ArrayList<>();
         adapter = new ProductAdapter(context);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false);
         rcv_recommended.setLayoutManager(linearLayoutManager);
         getListProduct();
+        categoryAdapter = new CategoryAdapter(context);
+        mCategories = new ArrayList<>();
+        LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false);
+        rcv_cate.setLayoutManager(linearLayoutManager1);
+        getListCate();
+
     }
     private void getListProduct(){
         FirebaseDatabase database = FirebaseDB.getDatabaseInstance();
@@ -106,4 +117,25 @@ public class HomeFragment extends Fragment {
             }
         });
     }
+private void getListCate(){
+    FirebaseDatabase database = FirebaseDB.getDatabaseInstance();
+    DatabaseReference myref = database.getReference("category");
+    myref.addValueEventListener(new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot snapshot) {
+            for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                Category category = dataSnapshot.getValue(Category.class);
+                mCategories.add(category);
+                categoryAdapter.setData(mCategories);
+                rcv_cate.setAdapter(categoryAdapter);
+            }
+            categoryAdapter.notifyDataSetChanged();
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError error) {
+            Toast.makeText(context, "faild", Toast.LENGTH_SHORT).show();
+        }
+    });
+}
 }
