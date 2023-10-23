@@ -49,11 +49,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
     }
     holder.tv_item_name.setText(category.getNameCat());
         Picasso.get().load(category.getImageCat()).into(holder.id_image);
-        holder.layout.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, CategoryDetail.class);
-                context.startActivity(intent);
+//                Intent intent = new Intent(context, CategoryDetail.class);
+//                context.startActivity(intent);
             }
         });
     }
@@ -73,6 +73,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
+            tv_item_name = itemView.findViewById(R.id.name_cat_item);
+            id_image = itemView.findViewById(R.id.img_cat_item);
         }
     }
 }
