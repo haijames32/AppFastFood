@@ -44,9 +44,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
         private TextView tv_item_price;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            tv_item_name = itemView.findViewById(R.id.tv_item_name);
-            tv_item_price = itemView.findViewById(R.id.tv_item_price);
-            id_image = itemView.findViewById(R.id.item_img);
+//            tv_item_name = itemView.findViewById(R.id.tv_item_name);
+//            tv_item_price = itemView.findViewById(R.id.tv_item_price);
+//            id_image = itemView.findViewById(R.id.item_img);
         }
     }
 }
