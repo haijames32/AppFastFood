@@ -2,7 +2,8 @@ package hainb21127.poly.appfastfood.model;
 
 public class Category {
     private String id;
-    private String name;
+    private String nameCat;
+    private String imageCat;
 
     public Category() {
     }
@@ -15,11 +16,19 @@ public class Category {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getNameCat() {
+        return nameCat;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNameCat(String nameCat) {
+        this.nameCat = nameCat;
+    }
+
+    public String getImageCat() {
+        return imageCat;
+    }
+
+    public void setImageCat(String imageCat) {
+        this.imageCat = imageCat;
     }
 }
