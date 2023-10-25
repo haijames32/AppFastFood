@@ -54,66 +54,89 @@ public class HomeFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
+
     RecyclerView rcv_recommended, rcv_cate;
-     ProductAdapter adapter;
-     CategoryAdapter categoryAdapter;
+    ProductAdapter adapter;
+    CategoryAdapter categoryAdapter;
     Context context;
-     List<Product> mpProducts;
-     List<Category> mCategories;
+    List<Product> mpProducts;
+    List<Category> mCategories;
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         rcv_recommended = view.findViewById(R.id.rcv_recommended);
         rcv_cate = view.findViewById(R.id.rcv_cate);
+
         mpProducts = new ArrayList<>();
         adapter = new ProductAdapter(context);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false);
-        rcv_recommended.setLayoutManager(linearLayoutManager);
-        getListProduct();
+
         categoryAdapter = new CategoryAdapter(context);
         mCategories = new ArrayList<>();
-        LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false);
+
+
+
+        LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
         rcv_cate.setLayoutManager(linearLayoutManager1);
         getListCate();
 
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
+        rcv_recommended.setLayoutManager(linearLayoutManager);
+        getListProduct();
     }
-    private void getListProduct(){
+
+    private void getListProduct() {
         FirebaseDatabase database = FirebaseDB.getDatabaseInstance();
         DatabaseReference myref = database.getReference("products");
-     Query query = myref.orderByChild("id");
-     query.addListenerForSingleValueEvent(new ValueEventListener() {
-         @Override
-         public void onDataChange(@NonNull DataSnapshot snapshot) {
-             for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-                 Product product = new Product();
-                 Category category = new Category();
-                 String theloai = dataSnapshot.child("id_theloai").getKey();
-                 String idPro = dataSnapshot.getKey();
-                 product.setId(dataSnapshot.getKey());
-                 product.setTensp(dataSnapshot.child("tensp").getValue(String.class));
-                 product.setGiasp(dataSnapshot.child("giasp").getValue(Integer.class));
-                 product.setMota(dataSnapshot.child("mota").getValue(String.class));
-                 product.setImage(dataSnapshot.child("image").getValue(String.class));
-                 product.setId_theloai(theloai);
-                 mpProducts.add(product);
-                 adapter.setData(mpProducts);
-                 rcv_recommended.setAdapter(adapter);
-                 Log.d("vvvvvvvv", "onDataChange: "+theloai);
-             }
-             adapter.notifyDataSetChanged();
-         }
+        myref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Product product = new Product();
 
-         @Override
-         public void onCancelled(@NonNull DatabaseError error) {
-             Toast.makeText(context, "faild", Toast.LENGTH_SHORT).show();
-         }
-     });
+                    DatabaseReference childRef = dataSnapshot.child("id/id").getRef();
+                    childRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for(DataSnapshot dataSnapshot1 : snapshot.getChildren()){
+                                String idCat = dataSnapshot1.getKey();
+                                Log.d("TAG", "onDataChange: "+idCat);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            Log.i("childref", "onCancelled: "+error.toString());
+                        }
+                    });
+
+                    String theloai = dataSnapshot.getKey();
+                    product.setId(dataSnapshot.getKey());
+                    product.setTensp(dataSnapshot.child("tensp").getValue(String.class));
+                    product.setGiasp(dataSnapshot.child("giasp").getValue(Integer.class));
+                    product.setMota(dataSnapshot.child("mota").getValue(String.class));
+                    product.setImage(dataSnapshot.child("image").getValue(String.class));
+//                    product.setId_theloai(theloai);
+                    mpProducts.add(product);
+                    adapter.setData(mpProducts);
+                    rcv_recommended.setAdapter(adapter);
+                    Log.d("vvvvvvvv", "onDataChange: " + theloai);
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(context, "faild", Toast.LENGTH_SHORT).show();
+            }
+        });
 //        myref.addValueEventListener(new ValueEventListener() {
 //            @Override
 //            public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -132,33 +155,34 @@ public class HomeFragment extends Fragment {
 //            }
 //        });
     }
-private void getListCate(){
-    FirebaseDatabase database = FirebaseDB.getDatabaseInstance();
-    DatabaseReference myref = database.getReference("category");
-    Query query = myref.orderByChild("id");
-    query.addListenerForSingleValueEvent(new ValueEventListener() {
-        @Override
-        public void onDataChange(@NonNull DataSnapshot snapshot) {
-            mCategories.clear();
-            for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-               Category category = new Category();
+
+    private void getListCate() {
+        FirebaseDatabase database = FirebaseDB.getDatabaseInstance();
+        DatabaseReference myref = database.getReference("category");
+        Query query = myref.orderByChild("id");
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                mCategories.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Category category = new Category();
 //                Category category = dataSnapshot.getValue(Category.class);
-                String idcat = dataSnapshot.getKey();
-                category.setId(dataSnapshot.getKey());
-                category.setNameCat(dataSnapshot.child("nameCat").getValue(String.class));
-                category.setImageCat(dataSnapshot.child("imageCat").getValue(String.class));
-                mCategories.add(category);
-                categoryAdapter.setData(mCategories);
-                rcv_cate.setAdapter(categoryAdapter);
-                Log.d("zzzzzzz", "onDataChange: "+ idcat);
+                    String idcat = dataSnapshot.getKey();
+                    category.setId(dataSnapshot.getKey());
+                    category.setNameCat(dataSnapshot.child("nameCat").getValue(String.class));
+                    category.setImageCat(dataSnapshot.child("imageCat").getValue(String.class));
+                    mCategories.add(category);
+                    categoryAdapter.setData(mCategories);
+                    rcv_cate.setAdapter(categoryAdapter);
+//                    Log.d("zzzzzzz", "onDataChange: " + idcat);
+                }
             }
-        }
 
-        @Override
-        public void onCancelled(@NonNull DatabaseError error) {
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
-        }
-    });
+            }
+        });
 //    myref.addValueEventListener(new ValueEventListener() {
 //        @Override
 //        public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -176,5 +200,5 @@ private void getListCate(){
 //            Toast.makeText(context, "faild", Toast.LENGTH_SHORT).show();
 //        }
 //    });
-}
+    }
 }

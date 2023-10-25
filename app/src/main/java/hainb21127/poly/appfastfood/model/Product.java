@@ -6,7 +6,7 @@ public class Product {
     int giasp;
     String image;
     String mota;
-   String id_theloai;
+    String id_theloai;
 
     public Product() {
     }
