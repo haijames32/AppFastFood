@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,11 +22,20 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import hainb21127.poly.appfastfood.MainActivity;
 import hainb21127.poly.appfastfood.R;
 import hainb21127.poly.appfastfood.activity.Login;
 import hainb21127.poly.appfastfood.activity.Register;
+import hainb21127.poly.appfastfood.model.User_Register;
 
 
 public class ProfileFragment extends Fragment {
@@ -53,20 +63,21 @@ public class ProfileFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_profile, container, false);
     }
 
-    TextView tvFullname, tvEmail, tvUsername;
+    TextView tvFullname, tvEmail, tvPhone, tvAddress;
     GoogleSignInClient mGoogleSignInClient;
-    LinearLayout lo_check, lo_profile, btn_logout;
-    Button login, register;
+    LinearLayout lo_profile, btn_logout;
+    FirebaseDatabase database;
+    DatabaseReference reference;
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        lo_check = view.findViewById(R.id.checklogin_profile);
         lo_profile = view.findViewById(R.id.id_profile);
         btn_logout = view.findViewById(R.id.btn_logout);
-        login = view.findViewById(R.id.btn_login_profile);
-        register = view.findViewById(R.id.btn_register_profile);
         tvEmail = view.findViewById(R.id.tv_email_profile);
         tvFullname = view.findViewById(R.id.tv_fullname_profile);
+        tvPhone = view.findViewById(R.id.tv_phone_profile);
+        tvAddress = view.findViewById(R.id.tv_address_profile);
 
         // Tạo client Google Sign In
         mGoogleSignInClient = GoogleSignIn.getClient(getActivity(), new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -74,41 +85,57 @@ public class ProfileFragment extends Fragment {
                 .requestEmail()
                 .build());
 
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        Log.i("TAG", "onViewCreated: "+user.getUid());
+        if(user != null){
+            database = FirebaseDatabase.getInstance();
+            String id = user.getUid();
+            reference = database.getReference("users").child(id);
+            tvEmail.setText(user.getEmail());
+            reference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if(snapshot.exists()){
+                        User_Register userRegister = snapshot.getValue(User_Register.class);
+                        String name = userRegister.getFullname();
+                        int phone = userRegister.getPhone();
+                        String address = userRegister.getAddress();
+                        tvFullname.setText(name);
+                        tvPhone.setText("0"+phone);
+                        tvAddress.setText(address);
+                    }else{
+                        Log.i("TAG", "onDataChange: Không lấy được thông tin người dùng");
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Log.i("TAG", "onCancelled: "+error.toString());
+                }
+            });
+        }
 
 
-//        login.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(getActivity(), Login.class);
-//                startActivity(intent);
-//            }
-//        });
-//        register.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(getActivity(), Register.class);
-//                startActivity(intent);
-//            }
-//        });
+
+
+//        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("user_signin_google", Context.MODE_PRIVATE);
+//        String idu = sharedPreferences.getString("idUser","");
+//        String name = sharedPreferences.getString("displayname","");
+//        String email = sharedPreferences.getString("email","");
+//
+//
+//        tvEmail.setText(email);
+//        tvFullname.setText(name);
+
         btn_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mGoogleSignInClient.signOut();
+                FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+                firebaseAuth.signOut();
                 MainActivity.isLoggedIn = false;
-                Intent intent = new Intent(getActivity(), Login.class);
-                startActivity(intent);
+                startActivity(new Intent(getActivity(), Login.class));
             }
         });
-
-
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("user_signin_google", Context.MODE_PRIVATE);
-        String idu = sharedPreferences.getString("idUser","");
-        String name = sharedPreferences.getString("displayname","");
-        String email = sharedPreferences.getString("email","");
-
-
-        tvEmail.setText(email);
-        tvFullname.setText(name);
-
     }
 }

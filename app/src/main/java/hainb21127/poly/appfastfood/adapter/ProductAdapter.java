@@ -24,7 +24,7 @@ import hainb21127.poly.appfastfood.model.Product;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHolder> {
     private List<Product> mProducts;
-    private Context context;
+    Context context;
 
     public ProductAdapter(Context context) {
         this.context = context;
@@ -54,13 +54,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent(context, ProductDetail.class);
-//                intent.putExtra("idPro",product.getId());
-//                intent.putExtra("namePro",product.getTensp());
-//                intent.putExtra("pricePro",product.getGiasp());
-//                intent.putExtra("imagePro",product.getImage());
-//                intent.putExtra("motaPro",product.getMota());
-//                context.startActivity(intent);
+                Intent intent = new Intent(view.getContext(), ProductDetail.class);
+                intent.putExtra("idPro",product.getId());
+                intent.putExtra("namePro",product.getTensp());
+                intent.putExtra("pricePro",product.getGiasp());
+                intent.putExtra("imagePro",product.getImage());
+                intent.putExtra("motaPro",product.getMota());
+                view.getContext().startActivity(intent);
             }
         });
     }

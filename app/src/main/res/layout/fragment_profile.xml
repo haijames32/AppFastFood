@@ -28,7 +28,7 @@
             android:id="@+id/btn_edit_profile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="130dp"
+            android:layout_marginLeft="110dp"
             android:src="@drawable/ic_dehaze"/>
 
     </LinearLayout>
@@ -358,49 +358,49 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/checklogin_profile"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="invisible"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
+<!--    <LinearLayout-->
+<!--        android:id="@+id/checklogin_profile"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:visibility="invisible"-->
+<!--        android:gravity="center_horizontal"-->
+<!--        android:orientation="vertical">-->
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_not_login"/>
+<!--        <ImageView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:src="@drawable/ic_not_login"/>-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Bạn chưa đăng nhập!"
-            android:textStyle="bold"
-            android:textSize="16dp"/>
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Bạn chưa đăng nhập!"-->
+<!--            android:textStyle="bold"-->
+<!--            android:textSize="16dp"/>-->
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:gravity="center"
-            android:orientation="horizontal">
-            <Button
-                android:id="@+id/btn_login_profile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="17dp"
-                android:background="@drawable/bg_border"
-                android:text="Đăng nhập"/>
-            <Button
-                android:id="@+id/btn_register_profile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:textSize="17dp"
-                android:background="@drawable/bg_border"
-                android:text="Đăng ký"/>
-        </LinearLayout>
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="20dp"-->
+<!--            android:gravity="center"-->
+<!--            android:orientation="horizontal">-->
+<!--            <Button-->
+<!--                android:id="@+id/btn_login_profile"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:textSize="17dp"-->
+<!--                android:background="@drawable/bg_border"-->
+<!--                android:text="Đăng nhập"/>-->
+<!--            <Button-->
+<!--                android:id="@+id/btn_register_profile"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginLeft="15dp"-->
+<!--                android:textSize="17dp"-->
+<!--                android:background="@drawable/bg_border"-->
+<!--                android:text="Đăng ký"/>-->
+<!--        </LinearLayout>-->
 
-    </LinearLayout>
+<!--    </LinearLayout>-->
 
 </LinearLayout>
