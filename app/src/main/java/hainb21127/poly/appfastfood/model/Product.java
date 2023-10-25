@@ -6,16 +6,18 @@ public class Product {
     int giasp;
     String image;
     String mota;
+   String id_theloai;
 
     public Product() {
     }
 
-    public Product(String id, String tensp, int giasp, String image, String mota) {
+    public Product(String id, String tensp, int giasp, String image, String mota, String id_theloai) {
         this.id = id;
         this.tensp = tensp;
         this.giasp = giasp;
         this.image = image;
         this.mota = mota;
+        this.id_theloai = id_theloai;
     }
 
     public String getId() {
@@ -56,5 +58,13 @@ public class Product {
 
     public void setMota(String mota) {
         this.mota = mota;
+    }
+
+    public String getId_theloai() {
+        return id_theloai;
+    }
+
+    public void setId_theloai(String id_theloai) {
+        this.id_theloai = id_theloai;
     }
 }

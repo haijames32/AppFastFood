@@ -47,12 +47,17 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
     if (category == null){
         return;
     }
+//    holder.id_item.setText(category.getId());
     holder.tv_item_name.setText(category.getNameCat());
         Picasso.get().load(category.getImageCat()).into(holder.id_image);
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent(context, CategoryDetail.class);
+                Intent intent = new Intent(view.getContext(), CategoryDetail.class);
+                intent.putExtra("id", category.getId());
+                intent.putExtra("nameCat", category.getNameCat());
+                view.getContext().startActivity(intent);
 //                context.startActivity(intent);
             }
         });
@@ -68,13 +73,14 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         private ImageView id_image;
-        private TextView tv_item_name;
+        private TextView tv_item_name, id_item;
         private LinearLayout layout;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             tv_item_name = itemView.findViewById(R.id.name_cat_item);
             id_image = itemView.findViewById(R.id.img_cat_item);
+//            id_item = itemView.findViewById(R.id.id_cat_item);
         }
     }
 }

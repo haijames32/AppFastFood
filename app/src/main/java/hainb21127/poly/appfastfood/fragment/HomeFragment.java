@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -84,58 +86,95 @@ public class HomeFragment extends Fragment {
     private void getListProduct(){
         FirebaseDatabase database = FirebaseDB.getDatabaseInstance();
         DatabaseReference myref = database.getReference("products");
-//        myref.addListenerForSingleValueEvent(new ValueEventListener() {
+     Query query = myref.orderByChild("id");
+     query.addListenerForSingleValueEvent(new ValueEventListener() {
+         @Override
+         public void onDataChange(@NonNull DataSnapshot snapshot) {
+             for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                 Product product = new Product();
+                 Category category = new Category();
+                 String theloai = dataSnapshot.child("id_theloai").getKey();
+                 String idPro = dataSnapshot.getKey();
+                 product.setId(dataSnapshot.getKey());
+                 product.setTensp(dataSnapshot.child("tensp").getValue(String.class));
+                 product.setGiasp(dataSnapshot.child("giasp").getValue(Integer.class));
+                 product.setMota(dataSnapshot.child("mota").getValue(String.class));
+                 product.setImage(dataSnapshot.child("image").getValue(String.class));
+                 product.setId_theloai(theloai);
+                 mpProducts.add(product);
+                 adapter.setData(mpProducts);
+                 rcv_recommended.setAdapter(adapter);
+                 Log.d("vvvvvvvv", "onDataChange: "+theloai);
+             }
+             adapter.notifyDataSetChanged();
+         }
+
+         @Override
+         public void onCancelled(@NonNull DatabaseError error) {
+             Toast.makeText(context, "faild", Toast.LENGTH_SHORT).show();
+         }
+     });
+//        myref.addValueEventListener(new ValueEventListener() {
 //            @Override
 //            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//
-//                String image = snapshot.child("image").getValue(String.class);
-//                String tensp = snapshot.child("tensp").getValue(String.class);
-//                String giasp = snapshot.child("giasp").getValue(String.class);
-//
+//              for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+//              Product product = dataSnapshot.getValue(Product.class);
+//              mpProducts.add(product);
+//              adapter.setData(mpProducts);
+//              rcv_recommended.setAdapter(adapter);
+//               }
+//              adapter.notifyDataSetChanged();
 //            }
 //
 //            @Override
 //            public void onCancelled(@NonNull DatabaseError error) {
-//
+//                Toast.makeText(context, "faild", Toast.LENGTH_SHORT).show();
 //            }
 //        });
-        myref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-              for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-              Product product = dataSnapshot.getValue(Product.class);
-              mpProducts.add(product);
-              adapter.setData(mpProducts);
-              rcv_recommended.setAdapter(adapter);
-               }
-              adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(context, "faild", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 private void getListCate(){
     FirebaseDatabase database = FirebaseDB.getDatabaseInstance();
     DatabaseReference myref = database.getReference("category");
-    myref.addValueEventListener(new ValueEventListener() {
+    Query query = myref.orderByChild("id");
+    query.addListenerForSingleValueEvent(new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot snapshot) {
+            mCategories.clear();
             for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-                Category category = dataSnapshot.getValue(Category.class);
+               Category category = new Category();
+//                Category category = dataSnapshot.getValue(Category.class);
+                String idcat = dataSnapshot.getKey();
+                category.setId(dataSnapshot.getKey());
+                category.setNameCat(dataSnapshot.child("nameCat").getValue(String.class));
+                category.setImageCat(dataSnapshot.child("imageCat").getValue(String.class));
                 mCategories.add(category);
                 categoryAdapter.setData(mCategories);
                 rcv_cate.setAdapter(categoryAdapter);
+                Log.d("zzzzzzz", "onDataChange: "+ idcat);
             }
-            categoryAdapter.notifyDataSetChanged();
         }
 
         @Override
         public void onCancelled(@NonNull DatabaseError error) {
-            Toast.makeText(context, "faild", Toast.LENGTH_SHORT).show();
+
         }
     });
+//    myref.addValueEventListener(new ValueEventListener() {
+//        @Override
+//        public void onDataChange(@NonNull DataSnapshot snapshot) {
+//            for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+//                Category category = dataSnapshot.getValue(Category.class);
+//                mCategories.add(category);
+//                categoryAdapter.setData(mCategories);
+//                rcv_cate.setAdapter(categoryAdapter);
+//            }
+//            categoryAdapter.notifyDataSetChanged();
+//        }
+//
+//        @Override
+//        public void onCancelled(@NonNull DatabaseError error) {
+//            Toast.makeText(context, "faild", Toast.LENGTH_SHORT).show();
+//        }
+//    });
 }
 }

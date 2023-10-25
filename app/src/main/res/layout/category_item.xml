@@ -33,7 +33,14 @@
                 android:text="Pizzas"
                 android:textSize="17dp"
                 android:textStyle="bold"/>
-
+            <TextView
+                android:id="@+id/id_cat_item"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="Pizzas"
+                android:textSize="17dp"
+                android:textStyle="bold"/>
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
