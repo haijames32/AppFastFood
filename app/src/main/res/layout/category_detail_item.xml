@@ -19,10 +19,12 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/img_detailtl_item"
                 android:layout_width="110dp"
                 android:layout_height="110dp"
                 android:src="@drawable/pizza1"/>
             <TextView
+                android:id="@+id/tv_name_detailtl_item"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -30,8 +32,10 @@
                 android:textSize="16dp"
                 android:textStyle="bold"/>
             <TextView
+                android:id="@+id/tv_price_detailtl_item"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:layout_marginTop="5dp"
                 android:text="59.000 đ"
                 android:textColor="#FF5722"

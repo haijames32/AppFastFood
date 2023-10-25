@@ -8,8 +8,7 @@
         android:layout_gravity="center"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:src="@drawable/pizza1"
-        android:id="@+id/item_img"/>
+        android:src="@drawable/pizza1" />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,8 +16,7 @@
         android:gravity="center"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:layout_marginTop="10dp"
-        android:id="@+id/tv_item_name"/>
+        android:layout_marginTop="10dp" />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -26,6 +24,5 @@
         android:gravity="center"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:layout_marginTop="10dp"
-        android:id="@+id/tv_item_price"/>
+        android:layout_marginTop="10dp" />
 </LinearLayout>
