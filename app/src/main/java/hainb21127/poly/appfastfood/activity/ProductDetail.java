@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -43,6 +44,8 @@ public class ProductDetail extends AppCompatActivity {
         int gia = intent.getIntExtra("pricePro",0);
         String mota = intent.getStringExtra("motaPro");
         String img = intent.getStringExtra("imgPro");
+
+        Log.i("idsanpham", "onCreate: "+id);
 
         tvName.setText(name);
         tvPrice.setText(Utilities.addDots(gia)+"đ");
