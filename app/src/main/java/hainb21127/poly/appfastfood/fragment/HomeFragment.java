@@ -100,7 +100,6 @@ public class HomeFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Product product = new Product();
-
                     DatabaseReference childRef = dataSnapshot.child("id/id").getRef();
                     childRef.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
