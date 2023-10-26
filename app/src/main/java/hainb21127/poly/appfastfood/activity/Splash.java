@@ -11,17 +11,17 @@ import android.widget.Button;
 import hainb21127.poly.appfastfood.MainActivity;
 import hainb21127.poly.appfastfood.R;
 
-public class Manchao extends AppCompatActivity {
+public class Splash extends AppCompatActivity {
     Button btn_getstart;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_manchao);
+        setContentView(R.layout.activity_splash);
         btn_getstart=findViewById(R.id.btn_getstart);
         btn_getstart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-             Intent intent = new Intent(Manchao.this, MainActivity.class);
+             Intent intent = new Intent(Splash.this, MainActivity.class);
              startActivity(intent);
              finish();
             }

@@ -30,7 +30,7 @@
             android:name=".activity.EditProfile"
             android:exported="false" />
         <activity
-            android:name=".activity.Manchao"
+            android:name=".activity.Splash"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
