@@ -81,8 +81,6 @@ public class HomeFragment extends Fragment {
         categoryAdapter = new CategoryAdapter(context);
         mCategories = new ArrayList<>();
 
-
-
         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
         rcv_cate.setLayoutManager(linearLayoutManager1);
         getListCate();
@@ -100,60 +98,31 @@ public class HomeFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Product product = new Product();
-
-                    DatabaseReference childRef = dataSnapshot.child("id/id").getRef();
-                    childRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            for(DataSnapshot dataSnapshot1 : snapshot.getChildren()){
-                                String idCat = dataSnapshot1.getKey();
-                                Log.d("TAG", "onDataChange: "+idCat);
-                            }
+                    for(DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){
+                        for(DataSnapshot dataSnapshot2 : dataSnapshot1.getChildren()){
+                            String idCat = dataSnapshot2.getKey();
+                            product.setId_theloai(idCat);
                         }
+                    }
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-                            Log.i("childref", "onCancelled: "+error.toString());
-                        }
-                    });
-
-                    String theloai = dataSnapshot.getKey();
                     product.setId(dataSnapshot.getKey());
                     product.setTensp(dataSnapshot.child("tensp").getValue(String.class));
                     product.setGiasp(dataSnapshot.child("giasp").getValue(Integer.class));
                     product.setMota(dataSnapshot.child("mota").getValue(String.class));
                     product.setImage(dataSnapshot.child("image").getValue(String.class));
-//                    product.setId_theloai(theloai);
+
                     mpProducts.add(product);
                     adapter.setData(mpProducts);
                     rcv_recommended.setAdapter(adapter);
-                    Log.d("vvvvvvvv", "onDataChange: " + theloai);
                 }
                 adapter.notifyDataSetChanged();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(context, "faild", Toast.LENGTH_SHORT).show();
+                Log.i("listsp", "onCancelled: "+error.toString());
             }
         });
-//        myref.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//              for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-//              Product product = dataSnapshot.getValue(Product.class);
-//              mpProducts.add(product);
-//              adapter.setData(mpProducts);
-//              rcv_recommended.setAdapter(adapter);
-//               }
-//              adapter.notifyDataSetChanged();
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//                Toast.makeText(context, "faild", Toast.LENGTH_SHORT).show();
-//            }
-//        });
     }
 
     private void getListCate() {
@@ -166,7 +135,6 @@ public class HomeFragment extends Fragment {
                 mCategories.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Category category = new Category();
-//                Category category = dataSnapshot.getValue(Category.class);
                     String idcat = dataSnapshot.getKey();
                     category.setId(dataSnapshot.getKey());
                     category.setNameCat(dataSnapshot.child("nameCat").getValue(String.class));
@@ -174,7 +142,6 @@ public class HomeFragment extends Fragment {
                     mCategories.add(category);
                     categoryAdapter.setData(mCategories);
                     rcv_cate.setAdapter(categoryAdapter);
-//                    Log.d("zzzzzzz", "onDataChange: " + idcat);
                 }
             }
 
@@ -183,22 +150,5 @@ public class HomeFragment extends Fragment {
 
             }
         });
-//    myref.addValueEventListener(new ValueEventListener() {
-//        @Override
-//        public void onDataChange(@NonNull DataSnapshot snapshot) {
-//            for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-//                Category category = dataSnapshot.getValue(Category.class);
-//                mCategories.add(category);
-//                categoryAdapter.setData(mCategories);
-//                rcv_cate.setAdapter(categoryAdapter);
-//            }
-//            categoryAdapter.notifyDataSetChanged();
-//        }
-//
-//        @Override
-//        public void onCancelled(@NonNull DatabaseError error) {
-//            Toast.makeText(context, "faild", Toast.LENGTH_SHORT).show();
-//        }
-//    });
     }
 }
