@@ -85,56 +85,9 @@ public class HomeFragment extends Fragment {
 
         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
         rcv_cate.setLayoutManager(linearLayoutManager1);
-        getListCate();
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
         rcv_recommended.setLayoutManager(linearLayoutManager);
     }
 
-
-    private void getListCate() {
-        FirebaseDatabase database = FirebaseDB.getDatabaseInstance();
-        DatabaseReference myref = database.getReference("category");
-        Query query = myref.orderByChild("id");
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                mCategories.clear();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    Category category = new Category();
-//                Category category = dataSnapshot.getValue(Category.class);
-                    String idcat = dataSnapshot.getKey();
-                    category.setId(dataSnapshot.getKey());
-                    category.setNameCat(dataSnapshot.child("nameCat").getValue(String.class));
-                    category.setImageCat(dataSnapshot.child("imageCat").getValue(String.class));
-                    mCategories.add(category);
-                    categoryAdapter.setData(mCategories);
-                    rcv_cate.setAdapter(categoryAdapter);
-//                    Log.d("zzzzzzz", "onDataChange: " + idcat);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-//    myref.addValueEventListener(new ValueEventListener() {
-//        @Override
-//        public void onDataChange(@NonNull DataSnapshot snapshot) {
-//            for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-//                Category category = dataSnapshot.getValue(Category.class);
-//                mCategories.add(category);
-//                categoryAdapter.setData(mCategories);
-//                rcv_cate.setAdapter(categoryAdapter);
-//            }
-//            categoryAdapter.notifyDataSetChanged();
-//        }
-//
-//        @Override
-//        public void onCancelled(@NonNull DatabaseError error) {
-//            Toast.makeText(context, "faild", Toast.LENGTH_SHORT).show();
-//        }
-//    });
-    }
 }
