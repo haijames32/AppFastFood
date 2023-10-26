@@ -81,8 +81,6 @@ public class HomeFragment extends Fragment {
         categoryAdapter = new CategoryAdapter(context);
         mCategories = new ArrayList<>();
 
-
-
         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
         rcv_cate.setLayoutManager(linearLayoutManager1);
         getListCate();
@@ -125,23 +123,6 @@ public class HomeFragment extends Fragment {
                 Log.i("listsp", "onCancelled: "+error.toString());
             }
         });
-//        myref.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//              for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-//              Product product = dataSnapshot.getValue(Product.class);
-//              mpProducts.add(product);
-//              adapter.setData(mpProducts);
-//              rcv_recommended.setAdapter(adapter);
-//               }
-//              adapter.notifyDataSetChanged();
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//                Toast.makeText(context, "faild", Toast.LENGTH_SHORT).show();
-//            }
-//        });
     }
 
     private void getListCate() {
@@ -168,22 +149,5 @@ public class HomeFragment extends Fragment {
 
             }
         });
-//    myref.addValueEventListener(new ValueEventListener() {
-//        @Override
-//        public void onDataChange(@NonNull DataSnapshot snapshot) {
-//            for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-//                Category category = dataSnapshot.getValue(Category.class);
-//                mCategories.add(category);
-//                categoryAdapter.setData(mCategories);
-//                rcv_cate.setAdapter(categoryAdapter);
-//            }
-//            categoryAdapter.notifyDataSetChanged();
-//        }
-//
-//        @Override
-//        public void onCancelled(@NonNull DatabaseError error) {
-//            Toast.makeText(context, "faild", Toast.LENGTH_SHORT).show();
-//        }
-//    });
     }
 }
