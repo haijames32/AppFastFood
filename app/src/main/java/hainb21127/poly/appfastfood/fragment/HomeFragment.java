@@ -89,71 +89,8 @@ public class HomeFragment extends Fragment {
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
         rcv_recommended.setLayoutManager(linearLayoutManager);
-        getListProduct();
     }
 
-    private void getListProduct() {
-        FirebaseDatabase database = FirebaseDB.getDatabaseInstance();
-        DatabaseReference myref = database.getReference("products");
-        myref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    Product product = new Product();
-                    DatabaseReference childRef = dataSnapshot.child("id/id").getRef();
-                    childRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            for(DataSnapshot dataSnapshot1 : snapshot.getChildren()){
-                                String idCat = dataSnapshot1.getKey();
-                                Log.d("TAG", "onDataChange: "+idCat);
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-                            Log.i("childref", "onCancelled: "+error.toString());
-                        }
-                    });
-
-                    String theloai = dataSnapshot.getKey();
-                    product.setId(dataSnapshot.getKey());
-                    product.setTensp(dataSnapshot.child("tensp").getValue(String.class));
-                    product.setGiasp(dataSnapshot.child("giasp").getValue(Integer.class));
-                    product.setMota(dataSnapshot.child("mota").getValue(String.class));
-                    product.setImage(dataSnapshot.child("image").getValue(String.class));
-//                    product.setId_theloai(theloai);
-                    mpProducts.add(product);
-                    adapter.setData(mpProducts);
-                    rcv_recommended.setAdapter(adapter);
-                    Log.d("vvvvvvvv", "onDataChange: " + theloai);
-                }
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(context, "faild", Toast.LENGTH_SHORT).show();
-            }
-        });
-//        myref.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//              for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-//              Product product = dataSnapshot.getValue(Product.class);
-//              mpProducts.add(product);
-//              adapter.setData(mpProducts);
-//              rcv_recommended.setAdapter(adapter);
-//               }
-//              adapter.notifyDataSetChanged();
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//                Toast.makeText(context, "faild", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-    }
 
     private void getListCate() {
         FirebaseDatabase database = FirebaseDB.getDatabaseInstance();
