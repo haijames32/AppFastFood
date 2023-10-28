@@ -34,6 +34,7 @@ import hainb21127.poly.appfastfood.MainActivity;
 import hainb21127.poly.appfastfood.R;
 
 public class Login extends AppCompatActivity {
+    TextView tv_dangky;
     TextInputEditText edEmail, edPass;
     ImageView btn_back;
     Button btn_login;
@@ -55,11 +56,18 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         FirebaseAuth auth = FirebaseAuth.getInstance();
         btn_signin_google = findViewById(R.id.btn_signin_google);
+        tv_dangky=findViewById(R.id.tv_dangky);
         edEmail = findViewById(R.id.ed_email_login);
         edPass = findViewById(R.id.ed_pw_login);
         btn_login = findViewById(R.id.btn_login);
         btn_back = findViewById(R.id.btn_back_login);
-
+tv_dangky.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+        Intent intent = new Intent(Login.this, Register.class);
+        startActivity(intent);
+    }
+});
         // Tạo client Google Sign In
         mGoogleSignInClient = GoogleSignIn.getClient(this, new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
 //                .requestIdToken(getString(R.string.google_client_id))
