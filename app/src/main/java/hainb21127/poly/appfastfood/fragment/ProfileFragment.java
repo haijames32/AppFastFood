@@ -86,7 +86,6 @@ public class ProfileFragment extends Fragment {
                 .build());
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        Log.i("TAG", "onViewCreated: "+user.getUid());
         if(user != null){
             database = FirebaseDatabase.getInstance();
             String id = user.getUid();
@@ -134,7 +133,7 @@ public class ProfileFragment extends Fragment {
                 FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
                 firebaseAuth.signOut();
                 MainActivity.isLoggedIn = false;
-                startActivity(new Intent(getActivity(), Login.class));
+                startActivity(new Intent(getActivity(), MainActivity.class));
             }
         });
     }
