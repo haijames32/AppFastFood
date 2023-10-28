@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -15,23 +16,28 @@ import java.util.List;
 
 import hainb21127.poly.appfastfood.R;
 import hainb21127.poly.appfastfood.activity.ProductDetail;
+import hainb21127.poly.appfastfood.config.Utilities;
 import hainb21127.poly.appfastfood.model.Category;
 import hainb21127.poly.appfastfood.model.Product;
 
 public class CategoryDetailAdapter extends BaseAdapter {
-    private Context context;
+    Context context;
     private List<Product> aProducts;
 
     public CategoryDetailAdapter(Context context) {
         this.context = context;
     }
+
     public void setData(List<Product> arrayList) {
-       this.aProducts = arrayList;
+        this.aProducts = arrayList;
         notifyDataSetChanged();
     }
+
     @Override
     public int getCount() {
-        return aProducts.size();
+        if(aProducts != null)
+            return aProducts.size();
+        return 0;
     }
 
     @Override
@@ -50,12 +56,14 @@ public class CategoryDetailAdapter extends BaseAdapter {
         if (view == null) {
             view = mInflater.inflate(R.layout.category_detail_item, null);
             Product product = aProducts.get(i);
+
             TextView tv_name = view.findViewById(R.id.tv_name_detailtl_item);
             TextView tv_price = view.findViewById(R.id.tv_price_detailtl_item);
-            TextView img_item = view.findViewById(R.id.img_detailtl_item);
-            Picasso.get().load(product.getImage()).into((Target) img_item);
+            ImageView img_item = view.findViewById(R.id.img_detailtl_item);
+
+            Picasso.get().load(product.getImage()).into(img_item);
             tv_name.setText(product.getTensp());
-            tv_price.setText(product.getGiasp() + "");
+            tv_price.setText(Utilities.addDots(product.getGiasp()) + "đ");
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

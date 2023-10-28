@@ -43,9 +43,8 @@ public class ProductDetail extends AppCompatActivity {
         String name = intent.getStringExtra("namePro");
         int gia = intent.getIntExtra("pricePro",0);
         String mota = intent.getStringExtra("motaPro");
-        String img = intent.getStringExtra("imgPro");
+        String img = intent.getStringExtra("imagePro");
 
-        Log.i("idsanpham", "onCreate: "+id);
 
         tvName.setText(name);
         tvPrice.setText(Utilities.addDots(gia)+"đ");
