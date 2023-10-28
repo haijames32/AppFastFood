@@ -47,6 +47,8 @@ public class CategoryDetail extends AppCompatActivity {
         btnBack = findViewById(R.id.btn_back_cate_detail);
         title = findViewById(R.id.title_cate_detail);
 
+        context = this;
+
         mProducts = new ArrayList<>();
         categoryDetailAdapter = new CategoryDetailAdapter(context);
 
@@ -92,25 +94,28 @@ public class CategoryDetail extends AppCompatActivity {
 //            }
 //        };
 //        databaseReference.addValueEventListener(valueEventListener);
-        FirebaseDatabase database = FirebaseDB.getDatabaseInstance();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myref = database.getReference("products");
         myref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    Product product = dataSnapshot.getValue(Product.class);
-                    if (product.getId_theloai().equals(id)) {
-                        Log.i("aidisp", "onDataChange: "+product.getId_theloai());
-//                        product.setId(dataSnapshot.getKey());
-//                        product.setTensp(dataSnapshot.child("tensp").getValue(String.class));
-//                        product.setGiasp(dataSnapshot.child("giasp").getValue(Integer.class));
-//                        product.setMota(dataSnapshot.child("mota").getValue(String.class));
-//                        product.setImage(dataSnapshot.child("image").getValue(String.class));
-                        mProducts.add(product);
+                    for(DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){
+                        for(DataSnapshot dataSnapshot2 : dataSnapshot1.getChildren()){
+                            String idCat = dataSnapshot2.getKey();
+                            if(idCat.equals(id)){
+                                Product product = new Product();
+                                product.setId(dataSnapshot.getKey());
+                                product.setTensp(dataSnapshot.child("tensp").getValue(String.class));
+                                product.setGiasp(dataSnapshot.child("giasp").getValue(Integer.class));
+                                product.setMota(dataSnapshot.child("mota").getValue(String.class));
+                                product.setImage(dataSnapshot.child("image").getValue(String.class));
+                                mProducts.add(product);
+                            }
+                        }
                     }
                     categoryDetailAdapter.setData(mProducts);
                     gridView.setAdapter(categoryDetailAdapter);
-
                 }
             }
 

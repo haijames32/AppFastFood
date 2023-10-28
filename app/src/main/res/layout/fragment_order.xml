@@ -10,9 +10,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
+        android:gravity="center"
         android:background="#fff"
-        android:padding="15dp"
+        android:padding="10dp"
         android:orientation="horizontal">
 
         <TextView
@@ -20,15 +20,15 @@
             android:layout_height="wrap_content"
             android:text="Đơn mua"
             android:textStyle="bold"
-            android:layout_marginStart="30dp"
             android:textSize="20dp"/>
 
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcv_order"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
+        android:padding="10dp"
         android:layout_height="wrap_content"/>
 
 
@@ -38,12 +38,12 @@
         android:gravity="center_horizontal"
         android:visibility="invisible"
         android:orientation="vertical"
-        android:id="@+id/no_order">
+        android:id="@+id/no_order_order">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_noorder"/>
+            android:src="@drawable/ic_no_order"/>
 
         <TextView
             android:id="@+id/txtOrder"

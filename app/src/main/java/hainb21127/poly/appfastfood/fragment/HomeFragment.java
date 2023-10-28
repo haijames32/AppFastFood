@@ -32,11 +32,7 @@ import hainb21127.poly.appfastfood.database.FirebaseDB;
 import hainb21127.poly.appfastfood.model.Category;
 import hainb21127.poly.appfastfood.model.Product;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link HomeFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class HomeFragment extends Fragment {
 
 
@@ -135,7 +131,6 @@ public class HomeFragment extends Fragment {
                 mCategories.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Category category = new Category();
-                    String idcat = dataSnapshot.getKey();
                     category.setId(dataSnapshot.getKey());
                     category.setNameCat(dataSnapshot.child("nameCat").getValue(String.class));
                     category.setImageCat(dataSnapshot.child("imageCat").getValue(String.class));
