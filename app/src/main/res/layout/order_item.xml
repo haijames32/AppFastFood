@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-
     android:orientation="horizontal">
     
     <androidx.cardview.widget.CardView
@@ -18,14 +17,16 @@
         android:orientation="horizontal">
 
             <LinearLayout
+                android:id="@+id/lo_bg_status_order_item"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:paddingHorizontal="10dp"
-                android:background="#673AB7"
-                android:paddingVertical="15dp">
+                android:paddingHorizontal="15dp"
+                android:background="#FF9800"
+                android:paddingVertical="20dp">
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/img_status_order_item"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:src="@drawable/ic_order_item"/>
             </LinearLayout>
 
@@ -34,23 +35,58 @@
             android:layout_height="match_parent"
             android:orientation="horizontal">
             <LinearLayout
-                android:layout_width="300dp"
+                android:layout_width="280dp"
                 android:layout_height="match_parent"
+                android:weightSum="10"
                 android:orientation="vertical">
-                <TextView
-                    android:id="@+id/tv_trangthai_order_item"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Đang giao hàng"/>
+                    android:layout_weight="9"
+                    android:paddingStart="70dp"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/tv_trangthai_order_item"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textSize="18dp"
+                        android:text="Đang giao hàng"/>
+                    <TextView
+                        android:id="@+id/tv_date_order_item"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15dp"
+                        android:text="28-10-2023"/>
+                </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Tổng tiền:"/>
+                    android:gravity="right"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16dp"
+                        android:textStyle="bold"
+                        android:text="Tổng tiền: "/>
+                    <TextView
+                        android:id="@+id/tv_tongtien_order_item"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1.988.000đ"
+                        android:textStyle="bold"
+                        android:textSize="17dp"
+                        android:textColor="#F44336"/>
+                </LinearLayout>
 
             </LinearLayout>
+
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:orientation="vertical">

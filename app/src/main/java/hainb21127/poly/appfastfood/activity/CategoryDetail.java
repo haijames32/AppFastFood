@@ -37,6 +37,7 @@ public class CategoryDetail extends AppCompatActivity {
     List<Product> mProducts;
     Context context;
     CategoryDetailAdapter categoryDetailAdapter;
+    String id;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -46,14 +47,13 @@ public class CategoryDetail extends AppCompatActivity {
         gridView = findViewById(R.id.grv_cat_detail);
         btnBack = findViewById(R.id.btn_back_cate_detail);
         title = findViewById(R.id.title_cate_detail);
-
         context = this;
 
         mProducts = new ArrayList<>();
         categoryDetailAdapter = new CategoryDetailAdapter(context);
 
         Intent intent = getIntent();
-        String id = intent.getStringExtra("id");
+        id = intent.getStringExtra("id");
         String name = intent.getStringExtra("nameCat");
 
         title.setText(name);
@@ -65,35 +65,9 @@ public class CategoryDetail extends AppCompatActivity {
             }
         });
 
-//        // Lấy tham chiếu đến Firebase Realtime Database
-//        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-//
-//// Lấy danh sách sản phẩm
-//        DatabaseReference databaseReference = firebaseDatabase.getReference("products");
-//        ValueEventListener valueEventListener = new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                // Lọc danh sách sản phẩm theo id của thể loại
-//                mProducts = new ArrayList<>();
-//               for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-//                   Product product = dataSnapshot.getValue(Product.class);
-//                   if (product.getId_theloai().getId().equals(id)){
-//                       mProducts.add(product);
-//                   }
-//               }
-//               gridView =findViewById(R.id.grv_cat_detail);
-//               categoryDetailAdapter = new CategoryDetailAdapter(context);
-//               categoryDetailAdapter.setData(mProducts);
-//               gridView.setAdapter(categoryDetailAdapter);
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//                Log.i("zzzzzz", "lỗi: "+error.toString());
-//            }
-//        };
-//        databaseReference.addValueEventListener(valueEventListener);
+        getListProductbyCategory();
+    }
+    private void getListProductbyCategory(){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myref = database.getReference("products");
         myref.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -124,27 +98,5 @@ public class CategoryDetail extends AppCompatActivity {
                 Log.d("TAG", "onCancelled: " + error.toString());
             }
         });
-
-//        myref.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                mProducts = new ArrayList<>();
-//                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-//                    Product product = dataSnapshot.getValue(Product.class);
-//                    if (product.getId_theloai().getId().equals(id)) {
-//                        mProducts.add(product);
-//                    }
-//                    categoryDetailAdapter.setData(mProducts);
-//                    gridView.setAdapter(categoryDetailAdapter);
-//                    Log.d("zzzzz", "onCreate: "+id);
-//                }
-//                categoryDetailAdapter.notifyDataSetChanged();
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//                Log.d("TAG", "onCancelled: "+error.toString());
-//            }
-//        });
     }
 }
