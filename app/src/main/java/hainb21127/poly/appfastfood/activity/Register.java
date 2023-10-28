@@ -64,25 +64,36 @@ public class Register extends AppCompatActivity {
                 String displayName = edName.getText().toString().trim();
                 int phoneNumber = Integer.parseInt(edPhone.getText().toString());
                 String address = edAddress.getText().toString().trim();
-
                 if (email.isEmpty()) {
                     edEmail.setError("Không để trống Email");
+                    return;
                 }
-                else if (password.isEmpty()) {
+                if (password.isEmpty()) {
                     edPass.setError("Không để trống Mật khẩu");
+                    return;
                 }
-                else if (displayName.isEmpty()) {
+                if (displayName.isEmpty()) {
                     edName.setError("Không để trống Họ tên");
+                    return;
                 }
-                else if (address.isEmpty()) {
+                if (phoneNumber == 0) {
+                    edPhone.setError("Không để trống Số điện thoại");
+                    return;
+                }
+                if (address.isEmpty()) {
                     edAddress.setError("Không để trống Địa chỉ");
+                    return;
                 }
-                else if (repass.isEmpty()) {
+                if (repass.isEmpty()) {
                     edRepass.setError("Không để trống");
+                    return;
                 }
-                else if (!repass.equals(password)) {
+// Kiểm tra xem mật khẩu và xác nhận mật khẩu có khớp hay không
+                if (!repass.equals(password)) {
                     edRepass.setError("Chưa trùng mật khẩu");
-                } else {
+                    return;
+                }
+                if (email.length() > 0 && password.length() > 0 && displayName.length() > 0 && phoneNumber > 0 && address.length() > 0 && repass.length() > 0 && repass.equals(password) ) {
                     firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
@@ -107,7 +118,10 @@ public class Register extends AppCompatActivity {
                             }
                         }
                     });
+                }else{
+                    Toast.makeText(Register.this, "Đăng ký không thành công", Toast.LENGTH_SHORT).show();
                 }
+
 
             }
         });

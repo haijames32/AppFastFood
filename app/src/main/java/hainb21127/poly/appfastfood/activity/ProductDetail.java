@@ -18,7 +18,7 @@ import hainb21127.poly.appfastfood.config.Utilities;
 
 public class ProductDetail extends AppCompatActivity {
     TextView tvName, tvPrice, tvSoluong, tvMota, tvTongtien;
-    ImageButton btnBack;
+    ImageView btnBack;
     ImageView imgSp, minus, plus;
     Button btnAddcart;
     private int so = 1;
