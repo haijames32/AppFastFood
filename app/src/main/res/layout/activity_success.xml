@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.success">
+<ImageView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="150dp"
+    android:src="@drawable/panner_thanhcong"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="All right"
+        android:textStyle="bold"
+        android:textSize="25dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="your event has been created"
+        android:textStyle="bold"
+        android:textSize="18dp"/>
+    <androidx.cardview.widget.CardView
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        app:cardElevation="10dp"
+        android:layout_gravity="center"
+        app:cardCornerRadius="10dp"
+        app:cardBackgroundColor="#ECD5D5">
+      <Button
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:backgroundTint="#F3F0F0"
+          android:text="next"
+          android:textColor="@color/black"
+          android:textSize="25dp"/>
+    </androidx.cardview.widget.CardView>
+</LinearLayout>

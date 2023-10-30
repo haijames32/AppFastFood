@@ -32,6 +32,10 @@
         android:text="Sign up"/>
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
+        app:boxCornerRadiusBottomEnd="17dp"
+        app:boxCornerRadiusBottomStart="17dp"
+        app:boxCornerRadiusTopEnd="17dp"
+        app:boxCornerRadiusTopStart="17dp"
         android:layout_height="wrap_content">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/ed_name_register"
@@ -44,6 +48,10 @@
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
+        app:boxCornerRadiusBottomEnd="17dp"
+        app:boxCornerRadiusBottomStart="17dp"
+        app:boxCornerRadiusTopEnd="17dp"
+        app:boxCornerRadiusTopStart="17dp"
         android:layout_marginTop="10dp"
         android:layout_height="wrap_content">
         <com.google.android.material.textfield.TextInputEditText
@@ -58,6 +66,10 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_marginTop="10dp"
+        app:boxCornerRadiusBottomEnd="17dp"
+        app:boxCornerRadiusBottomStart="17dp"
+        app:boxCornerRadiusTopEnd="17dp"
+        app:boxCornerRadiusTopStart="17dp"
         android:layout_height="wrap_content">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/ed_sdt_register"
@@ -71,6 +83,10 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_marginTop="10dp"
+        app:boxCornerRadiusBottomEnd="17dp"
+        app:boxCornerRadiusBottomStart="17dp"
+        app:boxCornerRadiusTopEnd="17dp"
+        app:boxCornerRadiusTopStart="17dp"
         android:layout_height="wrap_content">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/ed_address_register"
@@ -83,6 +99,10 @@
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
+        app:boxCornerRadiusBottomEnd="17dp"
+        app:boxCornerRadiusBottomStart="17dp"
+        app:boxCornerRadiusTopEnd="17dp"
+        app:boxCornerRadiusTopStart="17dp"
         android:layout_marginTop="10dp"
         android:layout_height="wrap_content">
         <com.google.android.material.textfield.TextInputEditText
@@ -96,6 +116,10 @@
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
+        app:boxCornerRadiusBottomEnd="17dp"
+        app:boxCornerRadiusBottomStart="17dp"
+        app:boxCornerRadiusTopEnd="17dp"
+        app:boxCornerRadiusTopStart="17dp"
         android:layout_marginTop="10dp"
         android:layout_height="wrap_content">
         <com.google.android.material.textfield.TextInputEditText
