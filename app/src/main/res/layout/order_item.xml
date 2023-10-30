@@ -20,9 +20,9 @@
                 android:id="@+id/lo_bg_status_order_item"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:paddingHorizontal="15dp"
+                android:paddingHorizontal="12dp"
                 android:background="#FF9800"
-                android:paddingVertical="20dp">
+                android:paddingVertical="17dp">
                 <ImageView
                     android:id="@+id/img_status_order_item"
                     android:layout_width="50dp"
@@ -35,7 +35,7 @@
             android:layout_height="match_parent"
             android:orientation="horizontal">
             <LinearLayout
-                android:layout_width="280dp"
+                android:layout_width="265dp"
                 android:layout_height="match_parent"
                 android:weightSum="10"
                 android:orientation="vertical">
@@ -43,7 +43,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="9"
-                    android:paddingStart="70dp"
+                    android:paddingStart="55dp"
                     android:gravity="center_vertical"
                     android:orientation="vertical">
                     <TextView

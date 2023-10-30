@@ -23,7 +23,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#F8F7F5"
+            android:background="@color/white"
             android:gravity="center"
             android:orientation="horizontal"
             android:padding="10dp">
@@ -31,7 +31,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Cart"
+                android:text="My Cart"
                 android:textSize="17dp"
                 android:textStyle="bold" />
 
@@ -39,14 +39,36 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rcv_cart"
+            android:layout_marginTop="10dp"
             android:padding="10dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:visibility="invisible"
+            android:orientation="vertical"
+            android:id="@+id/no_cart_cart">
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/ic_no_cart"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Không có sản phẩm trong giỏ hàng."/>
+
+        </LinearLayout>
 
     </LinearLayout>
 </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/lo_footer_cart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="8dp"
@@ -55,6 +77,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:gravity="right"
+        android:visibility="invisible"
         android:orientation="horizontal">
         <LinearLayout
             android:layout_width="wrap_content"
@@ -71,7 +94,7 @@
                 android:id="@+id/tvTongtien_tt2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="28.000.000đ"
+                android:text="0đ"
                 android:textColor="#F44336"
                 android:textStyle="bold"/>
         </LinearLayout>
