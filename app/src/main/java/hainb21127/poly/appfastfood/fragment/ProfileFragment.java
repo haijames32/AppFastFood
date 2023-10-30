@@ -33,6 +33,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import hainb21127.poly.appfastfood.MainActivity;
 import hainb21127.poly.appfastfood.R;
+import hainb21127.poly.appfastfood.activity.ChangePass;
+import hainb21127.poly.appfastfood.activity.EditProfile;
 import hainb21127.poly.appfastfood.activity.Login;
 import hainb21127.poly.appfastfood.activity.Register;
 import hainb21127.poly.appfastfood.model.User_Register;
@@ -65,7 +67,7 @@ public class ProfileFragment extends Fragment {
 
     TextView tvFullname, tvEmail, tvPhone, tvAddress;
     GoogleSignInClient mGoogleSignInClient;
-    LinearLayout lo_profile, btn_logout;
+    LinearLayout lo_profile, btn_logout, btn_changepass, ll_edit_profile;
     FirebaseDatabase database;
     DatabaseReference reference;
 
@@ -74,6 +76,8 @@ public class ProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         lo_profile = view.findViewById(R.id.id_profile);
         btn_logout = view.findViewById(R.id.btn_logout);
+        btn_changepass = view.findViewById(R.id.btn_changePass);
+        ll_edit_profile = view.findViewById(R.id.ll_edit_profile);
         tvEmail = view.findViewById(R.id.tv_email_profile);
         tvFullname = view.findViewById(R.id.tv_fullname_profile);
         tvPhone = view.findViewById(R.id.tv_phone_profile);
@@ -134,6 +138,20 @@ public class ProfileFragment extends Fragment {
                 firebaseAuth.signOut();
                 MainActivity.isLoggedIn = false;
                 startActivity(new Intent(getActivity(), MainActivity.class));
+            }
+        });
+        ll_edit_profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), EditProfile.class);
+                startActivity(intent);
+            }
+        });
+        btn_changepass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent1 = new Intent(getContext(), ChangePass.class);
+                startActivity(intent1);
             }
         });
     }
