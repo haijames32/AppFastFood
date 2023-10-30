@@ -1,26 +1,36 @@
 package hainb21127.poly.appfastfood.model;
 
 public class Cart {
-    String id_sanpham;
+    String id;
+    Product id_sanpham;
     String id_user;
     int soluong;
-    int tongGiohang;
+    int tongtien;
 
     public Cart() {
     }
 
-    public Cart(String id_sanpham, String id_user, int soluong, int tongGiohang) {
+    public Cart(String id, Product id_sanpham, String id_user, int soluong, int tongtien) {
+        this.id = id;
         this.id_sanpham = id_sanpham;
         this.id_user = id_user;
         this.soluong = soluong;
-        this.tongGiohang = tongGiohang;
+        this.tongtien = tongtien;
     }
 
-    public String getId_sanpham() {
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public Product getId_sanpham() {
         return id_sanpham;
     }
 
-    public void setId_sanpham(String id_sanpham) {
+    public void setId_sanpham(Product id_sanpham) {
         this.id_sanpham = id_sanpham;
     }
 
@@ -40,11 +50,11 @@ public class Cart {
         this.soluong = soluong;
     }
 
-    public int getTongGiohang() {
-        return tongGiohang;
+    public int getTongtien() {
+        return tongtien;
     }
 
-    public void setTongGiohang(int tongGiohang) {
-        this.tongGiohang = tongGiohang;
+    public void setTongtien(int tongGiohang) {
+        this.tongtien = tongGiohang;
     }
 }
