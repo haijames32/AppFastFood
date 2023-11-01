@@ -27,7 +27,6 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import hainb21127.poly.appfastfood.R;
 import hainb21127.poly.appfastfood.model.User;
-import hainb21127.poly.appfastfood.model.User_Register;
 
 public class Register extends AppCompatActivity {
     TextInputEditText edName, edEmail, edPhone, edPass, edRepass, edAddress;
