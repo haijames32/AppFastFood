@@ -3,6 +3,7 @@ package hainb21127.poly.appfastfood.activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -92,7 +93,9 @@ public class EditProfile extends AppCompatActivity {
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()){
                                     Toast.makeText(EditProfile.this, "Cập nhật thông tin thành công", Toast.LENGTH_SHORT).show();
-                                    onBackPressed();
+                                    Intent intent = new Intent(EditProfile.this,success.class);
+                                    intent.putExtra("checkman",3);
+                                    startActivity(intent);
                                 } else {
                                     Toast.makeText(EditProfile.this, "Cập nhật thông tin thất bại", Toast.LENGTH_SHORT).show();
                                 }

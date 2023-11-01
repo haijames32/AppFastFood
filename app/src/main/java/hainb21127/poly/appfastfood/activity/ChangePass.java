@@ -3,6 +3,7 @@ package hainb21127.poly.appfastfood.activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -84,7 +85,9 @@ String mk;
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         Toast.makeText(ChangePass.this, "Đổi mật khẩu thành công", Toast.LENGTH_SHORT).show();
-                                        onBackPressed();
+                                        Intent intent = new Intent(ChangePass.this, success.class);
+                                        intent.putExtra("checkman",2);
+                                        startActivity(intent);
                                     }
                                 });
                             } else {

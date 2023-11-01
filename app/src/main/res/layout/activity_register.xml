@@ -74,6 +74,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/ed_sdt_register"
             android:layout_width="match_parent"
+            android:text="0"
             android:layout_height="wrap_content"
             android:inputType="phone"
             android:drawableLeft="@drawable/item_phone_res"
