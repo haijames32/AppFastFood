@@ -1,19 +1,17 @@
 package hainb21127.poly.appfastfood.fragment;
 
-import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -31,11 +29,7 @@ import hainb21127.poly.appfastfood.adapter.CartAdapter;
 import hainb21127.poly.appfastfood.model.Cart;
 import hainb21127.poly.appfastfood.model.Product;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link CartFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class CartFragment extends Fragment {
 
     public CartFragment() {
@@ -59,22 +53,18 @@ public class CartFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_cart, container, false);
     }
 
-    RecyclerView rcv;
-    Context context;
+    ListView listView;
     List<Cart> listCat;
     LinearLayout no_cart, lo_footer;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        rcv = view.findViewById(R.id.rcv_cart);
+        listView = view.findViewById(R.id.lv_cart);
         no_cart = view.findViewById(R.id.no_cart_cart);
         lo_footer = view.findViewById(R.id.lo_footer_cart);
 
         listCat = new ArrayList<>();
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        rcv.setLayoutManager(linearLayoutManager);
 
         getListCartbyUser();
     }
@@ -91,7 +81,7 @@ public class CartFragment extends Fragment {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     DatabaseReference refSp = dataSnapshot.child("id_sanpham").getRef();
                     DatabaseReference refU = dataSnapshot.child("id_user").getRef();
-                    CartAdapter adapter = new CartAdapter(context);
+                    CartAdapter adapter = new CartAdapter(getContext());
                     Product product = new Product();
                     Cart cart = new Cart();
                     refSp.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -103,12 +93,6 @@ public class CartFragment extends Fragment {
                                 product.setGiasp(dataSnapshotsp.child("giasp").getValue(Integer.class));
                                 product.setImage(dataSnapshotsp.child("image").getValue(String.class));
                                 product.setMota(dataSnapshotsp.child("mota").getValue(String.class));
-
-                                Log.i("idSp", "onDataChange: "+dataSnapshotsp.getKey());
-                                Log.i("tensp", "onDataChange: "+dataSnapshotsp.child("tensp").getValue(String.class));
-                                Log.i("giasp", "onDataChange: "+dataSnapshotsp.child("giasp").getValue(Integer.class));
-                                Log.i("image", "onDataChange: "+dataSnapshotsp.child("image").getValue(String.class));
-                                Log.i("mota", "onDataChange: "+dataSnapshotsp.child("mota").getValue(String.class));
                             }
                         }
 
@@ -128,13 +112,6 @@ public class CartFragment extends Fragment {
                                     cart.setId_user(iduser);
                                     cart.setSoluong(dataSnapshot.child("soluong").getValue(Integer.class));
                                     cart.setTongtien(dataSnapshot.child("tongtien").getValue(Integer.class));
-
-                                    Log.i("idCart", "onDataChange: "+dataSnapshot.getKey());
-                                    Log.i("idCart_sanpham", "onDataChange: "+product);
-                                    Log.i("idCart_user", "onDataChange: "+iduser);
-                                    Log.i("soluong", "onDataChange: "+dataSnapshot.child("soluong").getValue(Integer.class));
-                                    Log.i("tongtien", "onDataChange: "+dataSnapshot.child("tongtien").getValue(Integer.class));
-
                                     listCat.add(cart);
                                 }
                                 if (listCat.size() == 0) {
@@ -145,7 +122,7 @@ public class CartFragment extends Fragment {
                             }
                             if (!listCat.isEmpty()) {
                                 adapter.setData(listCat);
-                                rcv.setAdapter(adapter);
+                                listView.setAdapter(adapter);
                             }
                             Log.i("size", "onDataChange: "+listCat.size());
                         }

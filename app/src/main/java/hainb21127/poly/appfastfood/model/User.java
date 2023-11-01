@@ -1,26 +1,17 @@
 package hainb21127.poly.appfastfood.model;
 
-public class User {
-    private String email;
+public class User_Register {
     private String fullname;
     private int phone;
     private String address;
 
-    public User() {
+    public User_Register() {
     }
 
-    public User(String email, String fullname, int phone, String address) {
+    public User_Register(String fullname, int phone, String address) {
         this.fullname = fullname;
         this.phone = phone;
         this.address = address;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getFullname() {

@@ -6,9 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -19,11 +17,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.FirebaseUserMetadata;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import hainb21127.poly.appfastfood.R;
-import hainb21127.poly.appfastfood.model.User;
+import hainb21127.poly.appfastfood.model.User_Register;
 
 public class Register extends AppCompatActivity {
     TextInputEditText edName, edEmail, edPhone, edPass, edRepass, edAddress;
@@ -63,43 +64,41 @@ public class Register extends AppCompatActivity {
                 String displayName = edName.getText().toString().trim();
                 int phoneNumber = Integer.parseInt(edPhone.getText().toString());
                 String address = edAddress.getText().toString().trim();
-
-                if (TextUtils.isEmpty(displayName)){
-                    edName.setError("Không để trôống tên");
-                    edName.requestFocus();
-                }else if(TextUtils.isEmpty(email)){
-                    edEmail.setError("Emailkhoongg được để trống");
-                    edEmail.requestFocus();
-                }else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-                    edEmail.setError("Email không đúng định dạng");
-                    edEmail.requestFocus();
-                }else if (edPhone.length()==0){
-                    edPhone.setError("Không được để trống số điện thoai");
-                    edPhone.requestFocus();
-                }else if (edPhone.getText().toString().length() !=10) {
-                    edPhone.setError("Phone number should be 10 digits");
-                    edPhone.requestFocus();
-                }else if (TextUtils.isEmpty(address)){
-                    edAddress.setError("Không để trống địa chỉ");
-                    edAddress.requestFocus();
-                } else if (TextUtils.isEmpty(password)){
-                    edPass.setError("Password Không để trống");
-                    edPass.requestFocus();
-                }else if (password.length() <6 || password.length() >6){
-                    edPass.setError("Password phải cos 6 ký tự");
-                    edPass.requestFocus();
-                }else if (TextUtils.isEmpty(repass)){
-                    edRepass.setError("Password Không để trống");
-                    edRepass.requestFocus();
-                }else if (!password.equals(repass)){
-                    edRepass.setError("Password không trùng");
-                    edRepass.requestFocus();
-                }else {
+                if (email.isEmpty()) {
+                    edEmail.setError("Không để trống Email");
+                    return;
+                }
+                if (password.isEmpty()) {
+                    edPass.setError("Không để trống Mật khẩu");
+                    return;
+                }
+                if (displayName.isEmpty()) {
+                    edName.setError("Không để trống Họ tên");
+                    return;
+                }
+                if (phoneNumber == 0) {
+                    edPhone.setError("Không để trống Số điện thoại");
+                    return;
+                }
+                if (address.isEmpty()) {
+                    edAddress.setError("Không để trống Địa chỉ");
+                    return;
+                }
+                if (repass.isEmpty()) {
+                    edRepass.setError("Không để trống");
+                    return;
+                }
+// Kiểm tra xem mật khẩu và xác nhận mật khẩu có khớp hay không
+                if (!repass.equals(password)) {
+                    edRepass.setError("Chưa trùng mật khẩu");
+                    return;
+                }
+                if (email.length() > 0 && password.length() > 0 && displayName.length() > 0 && phoneNumber > 0 && address.length() > 0 && repass.length() > 0 && repass.equals(password) ) {
                     firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                User user = new User(email,displayName, phoneNumber, address);
+                                User_Register user = new User_Register(displayName, phoneNumber, address);
                                 String uid = task.getResult().getUser().getUid();
                                 DatabaseReference userRef = firebaseDatabase.getReference("users").child(uid);
                                 userRef.setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -108,9 +107,7 @@ public class Register extends AppCompatActivity {
                                         if(task.isSuccessful()){
                                             Log.i("user", "onComplete: "+task.toString());
                                             Toast.makeText(Register.this, "Đăng ký thành công" + task.toString(), Toast.LENGTH_SHORT).show();
-                                            Intent intent = new Intent(Register.this, success.class);
-                                            intent.putExtra("checkman",1);
-                                            startActivity(intent);
+                                            onBackPressed();
                                         }else{
                                             Toast.makeText(Register.this, "Lỗi lưu thông tin người dùng" + task.toString(), Toast.LENGTH_SHORT).show();
                                         }
@@ -121,7 +118,11 @@ public class Register extends AppCompatActivity {
                             }
                         }
                     });
+                }else{
+                    Toast.makeText(Register.this, "Đăng ký không thành công", Toast.LENGTH_SHORT).show();
                 }
+
+
             }
         });
 
