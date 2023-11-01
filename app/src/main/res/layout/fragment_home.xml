@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:background="#EAEAEA"
+    android:orientation="vertical"
     tools:context=".fragment.HomeFragment">
 
     <LinearLayout
@@ -13,9 +13,9 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
         android:gravity="center_vertical"
-        android:paddingLeft="5dp"
+        android:orientation="horizontal"
         android:paddingVertical="5dp"
-        android:orientation="horizontal">
+        android:paddingLeft="5dp">
 
         <LinearLayout
             android:layout_width="295dp"
@@ -26,16 +26,17 @@
                 android:id="@+id/tv_name_user_home"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20dp"
                 android:layout_marginBottom="10dp"
-                android:textStyle="bold"
+                android:text="Hi Guys"
                 android:textColor="#FF541F"
-                android:text="Hi Guys"/>
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18dp"
-                android:text="Search and Order"/>
+                android:text="Search and Order"
+                android:textSize="18dp" />
 
         </LinearLayout>
 
@@ -47,7 +48,7 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/profile"/>
+                android:src="@drawable/profile" />
 
         </androidx.cardview.widget.CardView>
 
@@ -57,79 +58,92 @@
         android:layout_width="wrap_content"
         android:layout_height="170dp"
         android:layout_marginHorizontal="10dp"
-        android:src="@drawable/banner"/>
+        android:src="@drawable/banner" />
 
     <EditText
         android:id="@+id/ed_search"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:layout_marginHorizontal="20dp"
-        android:paddingStart="20dp"
+        android:background="@drawable/bg_search"
         android:drawableStart="@drawable/search"
         android:drawablePadding="10dp"
-        android:background="@drawable/bg_search"
-        android:hint="Search Your Favorite Food"/>
+        android:hint="Search Your Favorite Food"
+        android:paddingStart="20dp" />
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginHorizontal="20dp"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="19dp"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:text="Categories"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    </LinearLayout>
-    
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rcv_cate"
-        android:paddingStart="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginHorizontal="20dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Categories"
+                    android:textColor="@color/black"
+                    android:textSize="19dp"
+                    android:textStyle="bold" />
 
-        <TextView
-            android:layout_width="270dp"
-            android:layout_height="wrap_content"
-            android:textSize="19dp"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:text="Recommended"/>
+            </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#FF511A"
-            android:textStyle="bold"
-            android:textSize="16dp"
-            android:text="See more"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcv_cate"
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:paddingStart="5dp" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_seemore"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-    </LinearLayout>
+                <TextView
+                    android:layout_width="270dp"
+                    android:layout_height="wrap_content"
+                    android:text="Recommended"
+                    android:textColor="@color/black"
+                    android:textSize="19dp"
+                    android:textStyle="bold" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rcv_recommended"
-        android:paddingStart="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="See more"
+                    android:textColor="#FF511A"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_seemore" />
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcv_recommended"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="5dp" />
+
+        </LinearLayout>
+    </ScrollView>
+
 
 </LinearLayout>
