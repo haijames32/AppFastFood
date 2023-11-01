@@ -12,6 +12,7 @@
     android:layout_marginTop="150dp"
     android:src="@drawable/panner_thanhcong"/>
     <TextView
+        android:id="@+id/tv_success"
         android:layout_width="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_height="wrap_content"
@@ -19,13 +20,6 @@
         android:text="All right"
         android:textStyle="bold"
         android:textSize="25dp"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="your event has been created"
-        android:textStyle="bold"
-        android:textSize="18dp"/>
     <androidx.cardview.widget.CardView
         android:layout_width="130dp"
         android:layout_height="wrap_content"
@@ -35,6 +29,7 @@
         app:cardCornerRadius="10dp"
         app:cardBackgroundColor="#ECD5D5">
       <Button
+          android:id="@+id/btn_next"
           android:layout_width="match_parent"
           android:layout_height="match_parent"
           android:backgroundTint="#F3F0F0"
