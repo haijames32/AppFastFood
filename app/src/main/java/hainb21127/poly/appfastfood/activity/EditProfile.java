@@ -3,6 +3,7 @@ package hainb21127.poly.appfastfood.activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -26,7 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import hainb21127.poly.appfastfood.R;
-import hainb21127.poly.appfastfood.model.User_Register;
+import hainb21127.poly.appfastfood.model.User;
 
 public class EditProfile extends AppCompatActivity {
     TextInputEditText ed_edit_name, ed_edit_phone, ed_edit_address ;
@@ -53,10 +54,10 @@ public class EditProfile extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if (snapshot.exists()) {
-                        User_Register userRegister = snapshot.getValue(User_Register.class);
-                        String name = userRegister.getFullname();
-                        int phone = userRegister.getPhone();
-                        String address = userRegister.getAddress();
+                        User user1 = snapshot.getValue(User.class);
+                        String name = user1.getFullname();
+                        int phone = user1.getPhone();
+                        String address = user1.getAddress();
                         ed_edit_name.setText(name);
                         ed_edit_phone.setText("0" + phone);
                         ed_edit_address.setText(address);
@@ -92,7 +93,9 @@ public class EditProfile extends AppCompatActivity {
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()){
                                     Toast.makeText(EditProfile.this, "Cập nhật thông tin thành công", Toast.LENGTH_SHORT).show();
-                                    onBackPressed();
+                                    Intent intent = new Intent(EditProfile.this,success.class);
+                                    intent.putExtra("checkman",3);
+                                    startActivity(intent);
                                 } else {
                                     Toast.makeText(EditProfile.this, "Cập nhật thông tin thất bại", Toast.LENGTH_SHORT).show();
                                 }
