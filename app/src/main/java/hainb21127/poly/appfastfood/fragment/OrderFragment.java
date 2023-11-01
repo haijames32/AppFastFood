@@ -29,6 +29,7 @@ import java.util.List;
 import hainb21127.poly.appfastfood.R;
 import hainb21127.poly.appfastfood.adapter.OrderAdapter;
 import hainb21127.poly.appfastfood.model.Order;
+import hainb21127.poly.appfastfood.model.User;
 
 public class OrderFragment extends Fragment {
 
@@ -90,11 +91,20 @@ public class OrderFragment extends Fragment {
                             Log.i("TAG", "onDataChange: "+idOrder);
                             if (idOrder.equals(id)) {
                                 Order order = new Order();
-                                order.setId_user(dataSnapshot2.getKey());
+                                User user1 = new User();
+
+                                user1.setFullname(dataSnapshot2.child("fullname").getValue(String.class));
+                                user1.setEmail(dataSnapshot2.child("email").getValue(String.class));
+                                user1.setPhone(dataSnapshot2.child("phone").getValue(Integer.class));
+                                user1.setAddress(dataSnapshot2.child("address").getValue(String.class));
+
+                                order.setId(dataSnapshot.getKey());
+                                order.setId_user(user1);
                                 order.setId(dataSnapshot.getKey());
                                 order.setTrangthai(dataSnapshot.child("trangthai").getValue(String.class));
                                 order.setDate(dataSnapshot.child("date").getValue(String.class));
-                                order.setTongtien(dataSnapshot.child("tongtien").getValue(Integer.class));
+                                order.setTongtien(dataSnapshot.child("tongdonhang").getValue(Integer.class));
+
                                 listOrder.add(order);
                                 orderAdapter.setData(listOrder);
                                 rcv_order.setAdapter(orderAdapter);

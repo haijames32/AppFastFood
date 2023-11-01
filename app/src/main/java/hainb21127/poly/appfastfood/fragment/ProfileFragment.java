@@ -1,8 +1,6 @@
 package hainb21127.poly.appfastfood.fragment;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,13 +11,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,16 +23,13 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import hainb21127.poly.appfastfood.MainActivity;
 import hainb21127.poly.appfastfood.R;
 import hainb21127.poly.appfastfood.activity.ChangePass;
 import hainb21127.poly.appfastfood.activity.EditProfile;
-import hainb21127.poly.appfastfood.activity.Login;
-import hainb21127.poly.appfastfood.activity.Register;
-import hainb21127.poly.appfastfood.model.User_Register;
+import hainb21127.poly.appfastfood.model.User;
 
 
 public class ProfileFragment extends Fragment {
@@ -99,10 +91,12 @@ public class ProfileFragment extends Fragment {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if(snapshot.exists()){
-                        User_Register userRegister = snapshot.getValue(User_Register.class);
-                        String name = userRegister.getFullname();
-                        int phone = userRegister.getPhone();
-                        String address = userRegister.getAddress();
+                        User user1 = snapshot.getValue(User.class);
+                        String email = user1.getEmail();
+                        String name = user1.getFullname();
+                        int phone = user1.getPhone();
+                        String address = user1.getAddress();
+                        tvEmail.setText(email);
                         tvFullname.setText(name);
                         tvPhone.setText("0"+phone);
                         tvAddress.setText(address);

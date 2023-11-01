@@ -2,7 +2,7 @@ package hainb21127.poly.appfastfood.model;
 
 public class Order {
     String id;
-    String id_user;
+    User id_user;
     String date;
     String trangthai;
     int tongtien;
@@ -10,7 +10,7 @@ public class Order {
     public Order() {
     }
 
-    public Order(String id, String id_user, String date, String trangthai, int tongtien) {
+    public Order(String id, User id_user, String date, String trangthai, int tongtien) {
         this.id = id;
         this.id_user = id_user;
         this.date = date;
@@ -26,11 +26,11 @@ public class Order {
         this.id = id;
     }
 
-    public String getId_user() {
+    public User getId_user() {
         return id_user;
     }
 
-    public void setId_user(String id_user) {
+    public void setId_user(User id_user) {
         this.id_user = id_user;
     }
 
