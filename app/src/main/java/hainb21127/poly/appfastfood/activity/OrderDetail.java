@@ -92,10 +92,13 @@ public class OrderDetail extends AppCompatActivity {
             tvTrangthai.setTextColor(Color.YELLOW);
         } else if (trangthai.equals("Đang giao hàng")) {
             tvTrangthai.setTextColor(Color.GREEN);
-        } else if (trangthai.equals("Hoàn thành")) {
+            btnHuy.setEnabled(false);
+        } else if (trangthai.equals("Đã giao hàng")) {
             tvTrangthai.setTextColor(Color.BLUE);
+            btnHuy.setEnabled(false);
         } else {
             tvTrangthai.setTextColor(Color.RED);
+            btnHuy.setEnabled(false);
         }
     }
 

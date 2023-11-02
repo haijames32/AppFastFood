@@ -1,5 +1,8 @@
 package hainb21127.poly.appfastfood.adapter;
 
+import static java.security.AccessController.getContext;
+
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -7,11 +10,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -90,22 +98,59 @@ public class CartAdapter extends BaseAdapter {
                     view.getContext().startActivity(intent);
                 }
             });
+            view.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    Dialog dialog = new Dialog(context);
+                    dialog.setContentView(R.layout.dialog_confirm);
+                    TextView tvConfirm = dialog.findViewById(R.id.tv_confirm);
+                    Button btnCancel = dialog.findViewById(R.id.btn_cancel_dialog_confirm);
+                    Button btnAgree = dialog.findViewById(R.id.btn_agree_dialog_confirm);
+                    tvConfirm.setText("Bạn muốn xóa sản phẩm khỏi giỏ hàng?");
+                    btnCancel.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            dialog.dismiss();
+                        }
+                    });
+                    btnAgree.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            FirebaseDatabase database = FirebaseDatabase.getInstance();
+                            DatabaseReference reference = database.getReference("cart").child(cart.getId());
+                            reference.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if(task.isSuccessful()){
+                                        Toast.makeText(view.getContext(), "Đã xóa", Toast.LENGTH_SHORT).show();
+                                        list.remove(i);
+                                    }else{
+                                        Toast.makeText(view.getContext(), "Xóa thất bại", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                            dialog.dismiss();
+                        }
+                    });
+                    dialog.show();
+                    return false;
+                }
+            });
 
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             DatabaseReference reference = database.getReference("carts").child(cart.getId());
-            Log.i("aidicart_adapter", "getView: " + cart.getId());
-            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            DatabaseReference reference1 = reference.child("soluong");
+            reference1.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@androidx.annotation.NonNull DataSnapshot snapshot) {
                     tv_minus.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+                            so = cart.getSoluong();
                             if (so > 1) {
-                                so = cart.getSoluong();
                                 so--;
                                 tv_soluong.setText(String.valueOf(so));
-                                so = snapshot.child("soluong").getValue(Integer.class);
-                                reference.child("soluong").setValue(so);
+                                reference1.setValue(so);
                             }
                         }
                     });
@@ -115,8 +160,7 @@ public class CartAdapter extends BaseAdapter {
                             so = cart.getSoluong();
                             so++;
                             tv_soluong.setText(String.valueOf(so));
-                            so = snapshot.child("soluong").getValue(Integer.class);
-                            reference.child("soluong").setValue(so);
+                            reference1.setValue(so);
                         }
                     });
                 }

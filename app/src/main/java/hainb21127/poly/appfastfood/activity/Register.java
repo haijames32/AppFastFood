@@ -19,9 +19,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.FirebaseUserMetadata;
-import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -110,10 +107,10 @@ public class Register extends AppCompatActivity {
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if(task.isSuccessful()){
                                             Log.i("user", "onComplete: "+task.toString());
-                                            Toast.makeText(Register.this, "Đăng ký thành công" + task.toString(), Toast.LENGTH_SHORT).show();
-                                            Intent intent = new Intent(Register.this, success.class);
+                                            Intent intent = new Intent(Register.this, Success.class);
                                             intent.putExtra("checkman",1);
                                             startActivity(intent);
+                                            finish();
                                         }else{
                                             Toast.makeText(Register.this, "Lỗi lưu thông tin người dùng" + task.toString(), Toast.LENGTH_SHORT).show();
                                         }

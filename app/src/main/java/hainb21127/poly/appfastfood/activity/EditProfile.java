@@ -92,8 +92,7 @@ public class EditProfile extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()){
-                                    Toast.makeText(EditProfile.this, "Cập nhật thông tin thành công", Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(EditProfile.this,success.class);
+                                    Intent intent = new Intent(EditProfile.this, Success.class);
                                     intent.putExtra("checkman",3);
                                     startActivity(intent);
                                 } else {

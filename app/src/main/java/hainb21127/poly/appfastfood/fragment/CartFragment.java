@@ -28,6 +28,7 @@ import hainb21127.poly.appfastfood.R;
 import hainb21127.poly.appfastfood.adapter.CartAdapter;
 import hainb21127.poly.appfastfood.model.Cart;
 import hainb21127.poly.appfastfood.model.Product;
+import hainb21127.poly.appfastfood.model.User;
 
 
 public class CartFragment extends Fragment {
@@ -107,9 +108,15 @@ public class CartFragment extends Fragment {
                             for (DataSnapshot dataSnapshotu : snapshot.getChildren()) {
                                 String iduser = dataSnapshotu.getKey();
                                 if (iduser.equals(idU)) {
+                                    User user1 = new User();
+                                    user1.setEmail(dataSnapshotu.child("email").getValue(String.class));
+                                    user1.setFullname(dataSnapshotu.child("fullname").getValue(String.class));
+                                    user1.setPhone(dataSnapshotu.child("phone").getValue(Integer.class));
+                                    user1.setAddress(dataSnapshotu.child("address").getValue(String.class));
+
                                     cart.setId(dataSnapshot.getKey());
                                     cart.setId_sanpham(product);
-                                    cart.setId_user(iduser);
+                                    cart.setId_user(user1);
                                     cart.setSoluong(dataSnapshot.child("soluong").getValue(Integer.class));
                                     cart.setTongtien(dataSnapshot.child("tongtien").getValue(Integer.class));
                                     listCat.add(cart);

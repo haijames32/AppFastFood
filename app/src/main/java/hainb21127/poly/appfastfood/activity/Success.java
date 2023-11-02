@@ -10,9 +10,8 @@ import android.widget.TextView;
 
 import hainb21127.poly.appfastfood.MainActivity;
 import hainb21127.poly.appfastfood.R;
-import hainb21127.poly.appfastfood.fragment.ProfileFragment;
 
-public class success extends AppCompatActivity {
+public class Success extends AppCompatActivity {
     Button btn_next;
     int check;
     TextView tv_success;
@@ -25,20 +24,30 @@ public class success extends AppCompatActivity {
         tv_success = findViewById(R.id.tv_success);
         Intent intent = getIntent();
         check = intent.getIntExtra("checkman", 0);
+
+        if (check == 1) {
+            tv_success.setText("Đăng ký thành công");
+            btn_next.setText("Back To Login");
+        } else if (check == 2) {
+            tv_success.setText("Thay đổi mật khẩu thành công");
+            btn_next.setText("Complete");
+        } else {
+            tv_success.setText("Thay đổi thông tin thành công");
+            btn_next.setText("Complete");
+        }
         btn_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (check == 1) {
-                    Intent intent1 = new Intent(success.this, Login.class);
-                    tv_success.setText("Đăng ký tài khoản thành công");
+                    Intent intent1 = new Intent(Success.this, Login.class);
                     startActivity(intent1);
                     finish();
                 } else if (check == 2) {
-                    Intent intent2 = new Intent(success.this, MainActivity.class);
-                    startActivity(intent2);
+                    startActivity(new Intent(Success.this, MainActivity.class));
+                    finish();
                 } else if (check == 3) {
-                    Intent intent3 = new Intent(success.this, MainActivity.class);
-                    startActivity(intent3);
+                    startActivity(new Intent(Success.this, MainActivity.class));
+                    finish();
                 }
             }
         });

@@ -190,7 +190,7 @@
                         android:paddingTop="2dp"
                         android:enabled="false"
                         android:backgroundTint="#9A9A9A"
-                        android:text="abc@gmail.com"/>
+                        android:text=""/>
 
                 </LinearLayout>
             </LinearLayout>
@@ -223,7 +223,7 @@
                         android:paddingTop="2dp"
                         android:enabled="false"
                         android:backgroundTint="#BCBCBC"
-                        android:text="0962682680"/>
+                        android:text=""/>
 
                 </LinearLayout>
             </LinearLayout>
@@ -256,7 +256,7 @@
                         android:paddingTop="2dp"
                         android:enabled="false"
                         android:backgroundTint="#C6C6C6"
-                        android:text="Viet nam"/>
+                        android:text=""/>
 
                 </LinearLayout>
             </LinearLayout>

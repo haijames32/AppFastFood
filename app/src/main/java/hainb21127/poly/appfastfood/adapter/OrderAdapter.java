@@ -60,7 +60,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
             holder.lo_bg_status.setBackgroundColor(Color.GREEN);
             holder.img_status.setImageResource(R.drawable.ic_shipping);
             holder.tvTrangthai.setTextColor(Color.GREEN);
-        } else if (holder.tvTrangthai.getText().toString().equals("Hoàn thành")) {
+        } else if (holder.tvTrangthai.getText().toString().equals("Đã giao hàng")) {
 //            #03A9F4
             holder.lo_bg_status.setBackgroundColor(Color.BLUE);
             holder.img_status.setImageResource(R.drawable.ic_checkmark);

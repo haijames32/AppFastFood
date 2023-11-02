@@ -1,5 +1,6 @@
 package hainb21127.poly.appfastfood.fragment;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -126,11 +128,29 @@ public class ProfileFragment extends Fragment {
         btn_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mGoogleSignInClient.signOut();
-                FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-                firebaseAuth.signOut();
-                MainActivity.isLoggedIn = false;
-                startActivity(new Intent(getActivity(), MainActivity.class));
+                Dialog dialog = new Dialog(getContext());
+                dialog.setContentView(R.layout.dialog_confirm);
+                TextView tvConfirm = dialog.findViewById(R.id.tv_confirm);
+                Button btnCancel = dialog.findViewById(R.id.btn_cancel_dialog_confirm);
+                Button btnAgree = dialog.findViewById(R.id.btn_agree_dialog_confirm);
+                tvConfirm.setText("Bạn muốn đăng xuất?");
+                btnCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+                btnAgree.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mGoogleSignInClient.signOut();
+                        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+                        firebaseAuth.signOut();
+                        MainActivity.isLoggedIn = false;
+                        startActivity(new Intent(getActivity(), MainActivity.class));
+                    }
+                });
+                dialog.show();
             }
         });
         ll_edit_profile.setOnClickListener(new View.OnClickListener() {

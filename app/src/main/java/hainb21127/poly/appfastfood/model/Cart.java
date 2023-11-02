@@ -3,17 +3,14 @@ package hainb21127.poly.appfastfood.model;
 public class Cart {
     String id;
     Product id_sanpham;
-    String id_user;
+    User id_user;
     int soluong;
     int tongtien;
 
     public Cart() {
     }
 
-    public Cart(String id, Product id_sanpham, String id_user, int soluong, int tongtien) {
-        this.id = id;
-        this.id_sanpham = id_sanpham;
-        this.id_user = id_user;
+    public Cart(int soluong, int tongtien) {
         this.soluong = soluong;
         this.tongtien = tongtien;
     }
@@ -34,11 +31,11 @@ public class Cart {
         this.id_sanpham = id_sanpham;
     }
 
-    public String getId_user() {
+    public User getId_user() {
         return id_user;
     }
 
-    public void setId_user(String id_user) {
+    public void setId_user(User id_user) {
         this.id_user = id_user;
     }
 
