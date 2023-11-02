@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="20dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginRight="7dp"
+            android:src="@drawable/ic_google"/>
+        <TextView
+            android:id="@+id/tv_success_dialog_success"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Thành công"
+            android:textSize="16dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="@drawable/hr"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="10dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/btn_agree_dialog_success"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="Agree"
+            android:textSize="17dp"
+            android:textStyle="bold"
+            android:background="@drawable/bg_btn"/>
+    </LinearLayout>
+
+</LinearLayout>

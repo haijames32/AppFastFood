@@ -100,7 +100,6 @@ tv_dangky.setOnClickListener(new View.OnClickListener() {
                                     public void onSuccess(AuthResult authResult) {
                                         Toast.makeText(Login.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
                                         MainActivity.isLoggedIn = true;
-                                        startActivity(new Intent(Login.this, MainActivity.class));
                                         finish();
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {

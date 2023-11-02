@@ -84,10 +84,10 @@ String mk;
                                 reference1.setValue(passnew).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
-                                        Toast.makeText(ChangePass.this, "Đổi mật khẩu thành công", Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(ChangePass.this, success.class);
+                                        Intent intent = new Intent(ChangePass.this, Success.class);
                                         intent.putExtra("checkman",2);
                                         startActivity(intent);
+                                        finish();
                                     }
                                 });
                             } else {
