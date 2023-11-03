@@ -1,7 +1,9 @@
 package hainb21127.poly.appfastfood.fragment;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -26,6 +29,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import hainb21127.poly.appfastfood.MainActivity;
 import hainb21127.poly.appfastfood.R;
@@ -60,6 +64,7 @@ public class ProfileFragment extends Fragment {
     }
 
     TextView tvFullname, tvEmail, tvPhone, tvAddress;
+    ImageView avt;
     GoogleSignInClient mGoogleSignInClient;
     LinearLayout lo_profile, btn_logout, btn_changepass, ll_edit_profile;
     FirebaseDatabase database;
@@ -76,6 +81,7 @@ public class ProfileFragment extends Fragment {
         tvFullname = view.findViewById(R.id.tv_fullname_profile);
         tvPhone = view.findViewById(R.id.tv_phone_profile);
         tvAddress = view.findViewById(R.id.tv_address_profile);
+        avt = view.findViewById(R.id.img_profile);
 
         // Tạo client Google Sign In
         mGoogleSignInClient = GoogleSignIn.getClient(getActivity(), new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -97,10 +103,12 @@ public class ProfileFragment extends Fragment {
                         String name = user1.getFullname();
                         int phone = user1.getPhone();
                         String address = user1.getAddress();
+                        String img = user1.getImage();
                         tvEmail.setText(email);
                         tvFullname.setText(name);
                         tvPhone.setText("0"+phone);
                         tvAddress.setText(address);
+                        Picasso.get().load(img).into(avt);
                     }else{
                         Log.i("TAG", "onDataChange: Không lấy được thông tin người dùng");
                     }
@@ -156,15 +164,13 @@ public class ProfileFragment extends Fragment {
         ll_edit_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getContext(), EditProfile.class);
-                startActivity(intent);
+                startActivity(new Intent(getContext(), EditProfile.class));
             }
         });
         btn_changepass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent1 = new Intent(getContext(), ChangePass.class);
-                startActivity(intent1);
+                startActivity(new Intent(getContext(), ChangePass.class));
             }
         });
     }

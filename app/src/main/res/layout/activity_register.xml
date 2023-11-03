@@ -3,142 +3,160 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
     android:layout_height="match_parent"
     android:layout_margin="10dp"
+    android:orientation="vertical"
     tools:context=".activity.Register">
+
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="130dp"
-            android:src="@drawable/anhnen_res"/>
+            android:src="@drawable/anhnen_res" />
+
         <ImageView
             android:id="@+id/btn_back_register"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="10dp"
-            android:src="@drawable/ic_back"/>
+            android:src="@drawable/ic_back" />
     </FrameLayout>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="33dp"
-        android:textStyle="bold"
         android:layout_margin="10dp"
-        android:text="Sign up"/>
+        android:text="Sign up"
+        android:textSize="33dp"
+        android:textStyle="bold" />
+
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:boxCornerRadiusBottomEnd="17dp"
         app:boxCornerRadiusBottomStart="17dp"
         app:boxCornerRadiusTopEnd="17dp"
-        app:boxCornerRadiusTopStart="17dp"
-        android:layout_height="wrap_content">
+        app:boxCornerRadiusTopStart="17dp">
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/ed_name_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text"
             android:drawableLeft="@drawable/item_user_res"
             android:drawablePadding="8dp"
-            android:hint="Họ và tên" />
+            android:hint="Họ và tên"
+            android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
+
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         app:boxCornerRadiusBottomEnd="17dp"
         app:boxCornerRadiusBottomStart="17dp"
         app:boxCornerRadiusTopEnd="17dp"
-        app:boxCornerRadiusTopStart="17dp"
-        android:layout_marginTop="10dp"
-        android:layout_height="wrap_content">
+        app:boxCornerRadiusTopStart="17dp">
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/ed_email_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
             android:drawableLeft="@drawable/item_email_res"
             android:drawablePadding="8dp"
-            android:hint="Email" />
+            android:hint="Email"
+            android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
+
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         app:boxCornerRadiusBottomEnd="17dp"
         app:boxCornerRadiusBottomStart="17dp"
         app:boxCornerRadiusTopEnd="17dp"
-        app:boxCornerRadiusTopStart="17dp"
-        android:layout_height="wrap_content">
+        app:boxCornerRadiusTopStart="17dp">
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/ed_sdt_register"
             android:layout_width="match_parent"
-            android:text="0"
             android:layout_height="wrap_content"
-            android:inputType="phone"
             android:drawableLeft="@drawable/item_phone_res"
             android:drawablePadding="8dp"
-            android:hint="Số điện thoại" />
+            android:hint="Số điện thoại"
+            android:inputType="phone"
+            android:text="0" />
     </com.google.android.material.textfield.TextInputLayout>
+
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         app:boxCornerRadiusBottomEnd="17dp"
         app:boxCornerRadiusBottomStart="17dp"
         app:boxCornerRadiusTopEnd="17dp"
-        app:boxCornerRadiusTopStart="17dp"
-        android:layout_height="wrap_content">
+        app:boxCornerRadiusTopStart="17dp">
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/ed_address_register"
             android:layout_width="match_parent"
-            android:inputType="text"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/item_passwd_res"
             android:drawablePadding="8dp"
-            android:hint="Địa chỉ" />
+            android:hint="Địa chỉ"
+            android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
+
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:passwordToggleEnabled="true"
         app:boxCornerRadiusBottomEnd="17dp"
         app:boxCornerRadiusBottomStart="17dp"
         app:boxCornerRadiusTopEnd="17dp"
-        app:boxCornerRadiusTopStart="17dp"
-        android:layout_marginTop="10dp"
-        android:layout_height="wrap_content">
+        app:boxCornerRadiusTopStart="17dp">
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/ed_passwd_register"
             android:layout_width="match_parent"
-            android:inputType="textPassword"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/item_passwd_res"
             android:drawablePadding="8dp"
-            android:hint="Password" />
+            android:hint="Password"
+            android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
+
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:passwordToggleEnabled="true"
         app:boxCornerRadiusBottomEnd="17dp"
         app:boxCornerRadiusBottomStart="17dp"
         app:boxCornerRadiusTopEnd="17dp"
-        app:boxCornerRadiusTopStart="17dp"
-        android:layout_marginTop="10dp"
-        android:layout_height="wrap_content">
+        app:boxCornerRadiusTopStart="17dp">
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/ed_checkpw_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"
             android:drawableLeft="@drawable/item_passwd_res"
             android:drawablePadding="8dp"
-            android:hint="Xác nhận password" />
+            android:hint="Xác nhận password"
+            android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
+
     <Button
         android:id="@+id/btn_signup_register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Sign up"
-        android:textSize="20dp"
-        android:backgroundTint="#f9a825"
+        android:layout_gravity="center"
         android:layout_margin="20dp"
-        android:layout_gravity="center"/>
+        android:backgroundTint="#f9a825"
+        android:text="Sign up"
+        android:textSize="20dp" />
 </LinearLayout>

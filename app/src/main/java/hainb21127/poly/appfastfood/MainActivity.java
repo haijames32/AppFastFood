@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -13,6 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,13 +34,11 @@ import hainb21127.poly.appfastfood.url.URL;
 
 public class MainActivity extends AppCompatActivity {
     //    ActivityMainBinding binding;
-    FirebaseDatabase database;
-    DatabaseReference reference;
-    TextView tvName;
     BottomNavigationView bottomNavigationView;
     Fragment fragment;
     public static boolean isLoggedIn = false;
     public static String frm = "";
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,91 +48,49 @@ public class MainActivity extends AppCompatActivity {
 //        setContentView(binding.getRoot());
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
-
-        // Set Tab home làm màn hình chính
         bottomNavigationView.setSelectedItemId(R.id.nav_home);
         replaceFragment(new HomeFragment());
 
-        database = FirebaseDB.getDatabaseInstance();
-
-//        reference = database.getReference("product");
-//        reference.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                String id = snapshot.child("id").getValue(String.class);
-//                String name = snapshot.child("name").getValue(String.class);
-//                Log.i("TAG", "onDataChange: "+id+" "+name);
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//                Log.e("TAG", "onCancelled: "+ error.toString());
-//            }
-//        });
-
-
-
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            isLoggedIn = true;
+        }
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                if(item.getItemId() == R.id.nav_home ){
-                    // Khi chọn Home
+                if (item.getItemId() == R.id.nav_home) {
                     fragment = new HomeFragment();
                     replaceFragment(fragment);
                     return true;
                 }
-                if(item.getItemId() == R.id.nav_order ){
-                    // Khi chọn Order
-//                    if(item.getItemId() == R.id.nav_order ){
-//                        // Khi chọn Home
-//                        fragment = new OrderFragment();
-//                        replaceFragment(fragment);
-//                        return true;
-//                    }
-                    if(isLoggedIn){
+                if (item.getItemId() == R.id.nav_order) {
+                    if (isLoggedIn) {
                         fragment = new OrderFragment();
                         replaceFragment(fragment);
                         return true;
-                    }else{
-                        Intent intent = new Intent(MainActivity.this, Login.class);
-                        startActivity(intent);
+                    } else {
+                        startActivity(new Intent(MainActivity.this, Login.class));
                     }
 
                 }
-                if(item.getItemId() == R.id.nav_cart ){
-                    // Khi chọn Order
-//                    if(item.getItemId() == R.id.nav_cart ){
-//                        // Khi chọn Home
-//                        fragment = new CartFragment();
-//                        replaceFragment(fragment);
-//                        return true;
-//                    }
-                    if(isLoggedIn){
+                if (item.getItemId() == R.id.nav_cart) {
+                    if (isLoggedIn) {
                         fragment = new CartFragment();
                         replaceFragment(fragment);
                         return true;
-                    }else{
-                        Intent intent = new Intent(MainActivity.this, Login.class);
-                        startActivity(intent);
+                    } else {
+                        startActivity(new Intent(MainActivity.this, Login.class));
                     }
 
                 }
-                if(item.getItemId() == R.id.nav_profile ){
-                    // Khi chọn Profile
-//                    if(item.getItemId() == R.id.nav_profile ){
-//                        // Khi chọn Home
-//                        fragment = new ProfileFragment();
-//                        replaceFragment(fragment);
-//                        return true;
-//                    }
-                    if(isLoggedIn){
+                if (item.getItemId() == R.id.nav_profile) {
+                    if (isLoggedIn) {
                         fragment = new ProfileFragment();
                         replaceFragment(fragment);
                         return true;
-                    }else{
-                        Intent intent = new Intent(MainActivity.this, Login.class);
-                        startActivity(intent);
+                    } else {
+                        startActivity(new Intent(MainActivity.this, Login.class));
                     }
                 }
                 return false;
@@ -138,8 +98,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void replaceFragment(Fragment fragment){
-        getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout,fragment).commit();
+    private void replaceFragment(Fragment fragment) {
+        getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, fragment).commit();
 //        FragmentManager fragmentManager = getSupportFragmentManager();
 //        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 //        fragmentTransaction.replace(R.id.frameLayout,fragment);

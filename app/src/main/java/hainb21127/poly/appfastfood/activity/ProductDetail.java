@@ -39,8 +39,9 @@ public class ProductDetail extends AppCompatActivity {
     Button btnAddcart;
     int number = 1;
     int sum = 0;
-    String email, name, address;
+    String email, name, address, img;
     int phone;
+    String idUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,28 +66,32 @@ public class ProductDetail extends AppCompatActivity {
         String imgsp = intent.getStringExtra("imagePro");
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String idUser = user.getUid();
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference reference = database.getReference("users").child(idUser);
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    User user1 = snapshot.getValue(User.class);
-                    email = user1.getEmail();
-                    name = user1.getFullname();
-                    phone = user1.getPhone();
-                    address = user1.getAddress();
-                }else{
-                    Log.i("TAG", "onDataChange: Không lấy được thông tin người dùng");
+        if(user != null){
+            idUser = user.getUid();
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            DatabaseReference reference = database.getReference("users").child(idUser);
+            reference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        User user1 = snapshot.getValue(User.class);
+                        email = user1.getEmail();
+                        name = user1.getFullname();
+                        phone = user1.getPhone();
+                        address = user1.getAddress();
+                        img = user1.getImage();
+                    } else {
+                        Log.i("TAG", "onDataChange: Không lấy được thông tin người dùng");
+                    }
                 }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.i("TAG", "onCancelled: "+error.toString());
-            }
-        });
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Log.i("TAG", "onCancelled: " + error.toString());
+                }
+            });
+        }
+
 
         tvName.setText(namesp);
         tvPrice.setText(Utilities.addDots(giasp) + "đ");
@@ -146,7 +151,7 @@ public class ProductDetail extends AppCompatActivity {
 
                                 DatabaseReference referenceu = reference.child("id_user");
                                 DatabaseReference referenceu1 = referenceu.child(idUser);
-                                User user1 = new User(email,name,phone,address);
+                                User user1 = new User(email, name, phone, address, img);
                                 referenceu1.setValue(user1);
 
                                 Dialog dialog = new Dialog(getApplicationContext());
@@ -168,7 +173,28 @@ public class ProductDetail extends AppCompatActivity {
                         }
                     });
                 } else {
-                    startActivity(new Intent(ProductDetail.this, Login.class));
+                    Dialog dialog = new Dialog(view.getContext());
+                    dialog.setContentView(R.layout.dialog_confirm);
+                    TextView tvConfirm = dialog.findViewById(R.id.tv_confirm);
+                    Button btnCancel = dialog.findViewById(R.id.btn_cancel_dialog_confirm);
+                    Button btnAgree = dialog.findViewById(R.id.btn_agree_dialog_confirm);
+                    tvConfirm.setText("Bạn chưa đăng nhập!");
+                    btnAgree.setText("Login");
+                    btnCancel.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            dialog.dismiss();
+                        }
+                    });
+                    btnAgree.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            startActivity(new Intent(ProductDetail.this, Login.class));
+                            dialog.dismiss();
+                        }
+                    });
+                    dialog.show();
+
                 }
 
             }

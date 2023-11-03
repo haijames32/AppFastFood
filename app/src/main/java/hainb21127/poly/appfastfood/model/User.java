@@ -5,15 +5,17 @@ public class User {
     private String fullname;
     private int phone;
     private String address;
+    private String image;
 
     public User() {
     }
 
-    public User(String email, String fullname, int phone, String address) {
+    public User(String email, String fullname, int phone, String address, String image) {
         this.email = email;
         this.fullname = fullname;
         this.phone = phone;
         this.address = address;
+        this.image = image;
     }
 
     public String getEmail() {
@@ -46,5 +48,13 @@ public class User {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }
