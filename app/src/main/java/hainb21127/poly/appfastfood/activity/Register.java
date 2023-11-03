@@ -31,6 +31,7 @@ public class Register extends AppCompatActivity {
     ImageView btn_back;
     private FirebaseAuth firebaseAuth;
     private FirebaseDatabase firebaseDatabase;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,54 +65,55 @@ public class Register extends AppCompatActivity {
                 int phoneNumber = Integer.parseInt(edPhone.getText().toString());
                 String address = edAddress.getText().toString().trim();
 
-                if (TextUtils.isEmpty(displayName)){
+                if (TextUtils.isEmpty(displayName)) {
                     edName.setError("Không để trôống tên");
                     edName.requestFocus();
-                }else if(TextUtils.isEmpty(email)){
+                } else if (TextUtils.isEmpty(email)) {
                     edEmail.setError("Emailkhoongg được để trống");
                     edEmail.requestFocus();
-                }else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+                } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                     edEmail.setError("Email không đúng định dạng");
                     edEmail.requestFocus();
-                }else if (edPhone.length()==0){
+                } else if (edPhone.length() == 0) {
                     edPhone.setError("Không được để trống số điện thoai");
                     edPhone.requestFocus();
-                }else if (edPhone.getText().toString().length() !=10) {
+                } else if (edPhone.getText().toString().length() != 10) {
                     edPhone.setError("Phone number should be 10 digits");
                     edPhone.requestFocus();
-                }else if (TextUtils.isEmpty(address)){
+                } else if (TextUtils.isEmpty(address)) {
                     edAddress.setError("Không để trống địa chỉ");
                     edAddress.requestFocus();
-                } else if (TextUtils.isEmpty(password)){
+                } else if (TextUtils.isEmpty(password)) {
                     edPass.setError("Password Không để trống");
                     edPass.requestFocus();
-                }else if (password.length() <6 || password.length() >6){
+                } else if (password.length() < 6 || password.length() > 6) {
                     edPass.setError("Password phải cos 6 ký tự");
                     edPass.requestFocus();
-                }else if (TextUtils.isEmpty(repass)){
+                } else if (TextUtils.isEmpty(repass)) {
                     edRepass.setError("Password Không để trống");
                     edRepass.requestFocus();
-                }else if (!password.equals(repass)){
+                } else if (!password.equals(repass)) {
                     edRepass.setError("Password không trùng");
                     edRepass.requestFocus();
-                }else {
+                } else {
                     firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                User user = new User(email,displayName, phoneNumber, address);
+                                String avt = "https://firebasestorage.googleapis.com/v0/b/fastfood-df956.appspot.com/o/images%2Favatar_guest.png?alt=media&token=b439a94d-a5ac-4580-8fd6-8f4bb301b47e&_gl=1*48vbm9*_ga*NTA2MTQ5NTg4LjE2OTA4NzQ3MzM.*_ga_CW55HF8NVT*MTY5OTAxODQ0Ny40NS4xLjE2OTkwMjE0ODQuNTUuMC4w";
+                                User user = new User(email, displayName, phoneNumber, address, avt);
                                 String uid = task.getResult().getUser().getUid();
                                 DatabaseReference userRef = firebaseDatabase.getReference("users").child(uid);
                                 userRef.setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
-                                        if(task.isSuccessful()){
-                                            Log.i("user", "onComplete: "+task.toString());
+                                        if (task.isSuccessful()) {
+                                            Log.i("user", "onComplete: " + task.toString());
                                             Intent intent = new Intent(Register.this, Success.class);
-                                            intent.putExtra("checkman",1);
+                                            intent.putExtra("checkman", 1);
                                             startActivity(intent);
                                             finish();
-                                        }else{
+                                        } else {
                                             Toast.makeText(Register.this, "Lỗi lưu thông tin người dùng" + task.toString(), Toast.LENGTH_SHORT).show();
                                         }
                                     }

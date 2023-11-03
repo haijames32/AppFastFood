@@ -40,7 +40,7 @@ import hainb21127.poly.appfastfood.model.Product;
 public class CartAdapter extends BaseAdapter {
     Context context;
     private List<Cart> list;
-    int so = 0;
+    int number = 0;
 
     public CartAdapter(Context context) {
         this.context = context;
@@ -86,6 +86,7 @@ public class CartAdapter extends BaseAdapter {
             tv_item_price.setText(Utilities.addDots(cart.getId_sanpham().getGiasp()) + "đ");
             tv_soluong.setText(cart.getSoluong() + "");
             Picasso.get().load(cart.getId_sanpham().getImage()).into(id_image);
+            number = cart.getSoluong();
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -140,27 +141,44 @@ public class CartAdapter extends BaseAdapter {
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             DatabaseReference reference = database.getReference("carts").child(cart.getId());
             DatabaseReference reference1 = reference.child("soluong");
-            reference1.addListenerForSingleValueEvent(new ValueEventListener() {
+            Log.i("TAG", "getView: "+cart.getId());
+            reference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@androidx.annotation.NonNull DataSnapshot snapshot) {
                     tv_minus.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            so = cart.getSoluong();
-                            if (so > 1) {
-                                so--;
-                                tv_soluong.setText(String.valueOf(so));
-                                reference1.setValue(so);
+                            if (number > 1) {
+                                number--;
+                                tv_soluong.setText(String.valueOf(number));
+                                reference1.setValue(tv_soluong).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if(task.isSuccessful()){
+                                            Log.i("giam so luong", "onComplete: "+task.toString());
+                                        }else{
+                                            Log.i("giam so luong", "Lỗi giảm số lượng");
+                                        }
+                                    }
+                                });
                             }
                         }
                     });
                     tv_plus.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            so = cart.getSoluong();
-                            so++;
-                            tv_soluong.setText(String.valueOf(so));
-                            reference1.setValue(so);
+                            number++;
+                            tv_soluong.setText(String.valueOf(number));
+                            reference1.setValue(number).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if(task.isSuccessful()){
+                                        Log.i("tang so luong", "onComplete: "+task.toString());
+                                    }else{
+                                        Log.i("tang so luong", "Lỗi giảm số lượng");
+                                    }
+                                }
+                            });
                         }
                     });
                 }
