@@ -15,6 +15,9 @@
         android:theme="@style/Theme.AppFastFood"
         tools:targetApi="31">
         <activity
+            android:name=".activity.demo"
+            android:exported="false" />
+        <activity
             android:name=".activity.Success"
             android:exported="false" />
         <activity
@@ -22,9 +25,6 @@
             android:exported="false" />
         <activity
             android:name=".activity.CategoryDetail"
-            android:exported="false" />
-        <activity
-            android:name=".activity.CartDetail"
             android:exported="false" />
         <activity
             android:name=".activity.OrderDetail"

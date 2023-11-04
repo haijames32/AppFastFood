@@ -2,6 +2,7 @@ package hainb21127.poly.appfastfood.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,14 +25,15 @@ public class LineItemAdapter extends RecyclerView.Adapter<LineItemAdapter.MyView
     Context context;
     List<Lineitem> list;
 
-    public LineItemAdapter(Context context) {
+    public LineItemAdapter(Context context, List<Lineitem> list) {
         this.context = context;
+        this.list = list;
     }
 
-    public void setData(List<Lineitem> arrayList) {
-        this.list = arrayList;
-        notifyDataSetChanged();
-    }
+//    public void setData(List<Lineitem> arrayList) {
+//        this.list = arrayList;
+//        notifyDataSetChanged();
+//    }
 
     @NonNull
     @Override
@@ -48,7 +50,7 @@ public class LineItemAdapter extends RecyclerView.Adapter<LineItemAdapter.MyView
             return;
         holder.tvNameSp.setText(lineitem.getId_sanpham().getTensp());
         holder.tvSoluong.setText("x" + lineitem.getSoluong());
-        holder.tvPriceSp.setText(Utilities.addDots(lineitem.getId_sanpham().getGiasp()) + "đ");
+        holder.tvPriceSp.setText(Utilities.addDots(lineitem.getGiatien()) + "đ");
         holder.tvTongtien.setText(Utilities.addDots(lineitem.getTongtien()) + "đ");
         Picasso.get().load(lineitem.getId_sanpham().getImage()).into(holder.img_Sp);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -71,7 +73,6 @@ public class LineItemAdapter extends RecyclerView.Adapter<LineItemAdapter.MyView
             return list.size();
         return 0;
     }
-
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView tvNameSp, tvPriceSp, tvSoluong, tvTongtien;
         ImageView img_Sp;

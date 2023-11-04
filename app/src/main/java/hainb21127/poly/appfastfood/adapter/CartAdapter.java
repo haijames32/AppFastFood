@@ -41,6 +41,8 @@ public class CartAdapter extends BaseAdapter {
     Context context;
     private List<Cart> list;
     int number = 0;
+    int pricesp;
+    int sum = 0;
 
     public CartAdapter(Context context) {
         this.context = context;
@@ -78,6 +80,7 @@ public class CartAdapter extends BaseAdapter {
             TextView tv_item_name = view.findViewById(R.id.tv_name_cart_item);
             TextView tv_item_price = view.findViewById(R.id.tv_price_cart_item);
             TextView tv_soluong = view.findViewById(R.id.tv_soluong_cart_item);
+            TextView tv_tongtien = view.findViewById(R.id.tv_tongtien_cart_item);
             CardView tv_plus = view.findViewById(R.id.btn_plus_cart_item);
             CardView tv_minus = view.findViewById(R.id.btn_minus_cart_item);
             ImageView id_image = view.findViewById(R.id.img_cart_item);
@@ -85,6 +88,7 @@ public class CartAdapter extends BaseAdapter {
             tv_item_name.setText(cart.getId_sanpham().getTensp());
             tv_item_price.setText(Utilities.addDots(cart.getId_sanpham().getGiasp()) + "đ");
             tv_soluong.setText(cart.getSoluong() + "");
+            tv_tongtien.setText(Utilities.addDots(cart.getTongtien()) + "đ");
             Picasso.get().load(cart.getId_sanpham().getImage()).into(id_image);
             number = cart.getSoluong();
             view.setOnClickListener(new View.OnClickListener() {
@@ -139,53 +143,43 @@ public class CartAdapter extends BaseAdapter {
             });
 
             FirebaseDatabase database = FirebaseDatabase.getInstance();
-            DatabaseReference reference = database.getReference("carts").child(cart.getId());
-            DatabaseReference reference1 = reference.child("soluong");
-            Log.i("TAG", "getView: "+cart.getId());
-            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            DatabaseReference reference = database.getReference("cart").child(cart.getId());
+
+            DatabaseReference refSp = reference.child("id_sanpham");
+            DatabaseReference refSp2 = refSp.child(cart.getId_sanpham().getId());
+            refSp2.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
-                public void onDataChange(@androidx.annotation.NonNull DataSnapshot snapshot) {
-                    tv_minus.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            if (number > 1) {
-                                number--;
-                                tv_soluong.setText(String.valueOf(number));
-                                reference1.setValue(tv_soluong).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        if(task.isSuccessful()){
-                                            Log.i("giam so luong", "onComplete: "+task.toString());
-                                        }else{
-                                            Log.i("giam so luong", "Lỗi giảm số lượng");
-                                        }
-                                    }
-                                });
-                            }
-                        }
-                    });
-                    tv_plus.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            number++;
-                            tv_soluong.setText(String.valueOf(number));
-                            reference1.setValue(number).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if(task.isSuccessful()){
-                                        Log.i("tang so luong", "onComplete: "+task.toString());
-                                    }else{
-                                        Log.i("tang so luong", "Lỗi giảm số lượng");
-                                    }
-                                }
-                            });
-                        }
-                    });
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    pricesp = snapshot.child("giasp").getValue(Integer.class);
                 }
 
                 @Override
-                public void onCancelled(@androidx.annotation.NonNull DatabaseError error) {
-                    Log.i("cartadapter", "Lỗi tăng giảm số lượng: " + error.toString());
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+            tv_minus.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (number > 1) {
+                        number--;
+                        sum = number * pricesp;
+                        reference.child("soluong").setValue(number);
+                        reference.child("tongtien").setValue(sum);
+                        tv_soluong.setText(String.valueOf(number));
+                        tv_tongtien.setText(Utilities.addDots(sum) + "đ");
+                    }
+                }
+            });
+            tv_plus.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    number++;
+                    sum = number * pricesp;
+                    reference.child("soluong").setValue(number);
+                    reference.child("tongtien").setValue(sum);
+                    tv_soluong.setText(String.valueOf(number));
+                    tv_tongtien.setText(Utilities.addDots(sum) + "đ");
                 }
             });
         }
