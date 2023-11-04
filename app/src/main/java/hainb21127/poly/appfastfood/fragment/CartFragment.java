@@ -1,5 +1,6 @@
 package hainb21127.poly.appfastfood.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -25,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import hainb21127.poly.appfastfood.R;
+import hainb21127.poly.appfastfood.activity.ThanhToan;
 import hainb21127.poly.appfastfood.adapter.CartAdapter;
 import hainb21127.poly.appfastfood.model.Cart;
 import hainb21127.poly.appfastfood.model.Product;
@@ -57,6 +60,10 @@ public class CartFragment extends Fragment {
     ListView listView;
     List<Cart> listCat;
     LinearLayout no_cart, lo_footer;
+    Button btnMua;
+    FirebaseDatabase database;
+    DatabaseReference myref;
+    FirebaseUser user;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -64,16 +71,26 @@ public class CartFragment extends Fragment {
         listView = view.findViewById(R.id.lv_cart);
         no_cart = view.findViewById(R.id.no_cart_cart);
         lo_footer = view.findViewById(R.id.lo_footer_cart);
+        btnMua = view.findViewById(R.id.btn_mua_cart);
 
         listCat = new ArrayList<>();
 
         getListCartbyUser();
+
+
+        btnMua.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), ThanhToan.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void getListCartbyUser() {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myref = database.getReference("cart");
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        database = FirebaseDatabase.getInstance();
+        myref = database.getReference("cart");
+        user = FirebaseAuth.getInstance().getCurrentUser();
         String idU = user.getUid();
 
         myref.addListenerForSingleValueEvent(new ValueEventListener() {

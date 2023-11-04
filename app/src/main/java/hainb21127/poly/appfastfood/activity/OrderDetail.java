@@ -56,6 +56,15 @@ public class OrderDetail extends AppCompatActivity {
         btnHuy = findViewById(R.id.btn_huy_order_detail);
         btnBack = findViewById(R.id.btn_back_order_detail);
 
+
+
+        List<Lineitem> listLine = new ArrayList<>();
+        LineItemAdapter adapter = new LineItemAdapter(getApplicationContext(), listLine);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
+        rcv.setLayoutManager(linearLayoutManager);
+        rcv.setAdapter(adapter);
+
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,11 +72,70 @@ public class OrderDetail extends AppCompatActivity {
             }
         });
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
-        rcv.setLayoutManager(linearLayoutManager);
-
         getInfo();
-        getListProductbyOrder(idOrder);
+
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference reference = database.getReference("lineitems");
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    DatabaseReference referenceOd = dataSnapshot.child("id_order").getRef();
+                    DatabaseReference referenceSp = dataSnapshot.child("id_sanpham").getRef();
+                    Product product = new Product();
+                    referenceSp.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for (DataSnapshot dataSnapshotsp : snapshot.getChildren()) {
+                                product.setId(dataSnapshotsp.getKey());
+                                product.setTensp(dataSnapshotsp.child("tensp").getValue(String.class));
+                                product.setGiasp(dataSnapshotsp.child("giasp").getValue(Integer.class));
+                                product.setImage(dataSnapshotsp.child("image").getValue(String.class));
+                                product.setMota(dataSnapshotsp.child("mota").getValue(String.class));
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            Log.i("referenceSp", "onCancelled: " + error.toString());
+                        }
+                    });
+                    referenceOd.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for (DataSnapshot dataSnapshotod : snapshot.getChildren()) {
+                                String idOd = dataSnapshotod.getKey();
+                                if (idOd.equals(idOrder)) {
+                                    Lineitem lineitem = new Lineitem();
+                                    lineitem.setId(dataSnapshot.getKey());
+                                    lineitem.setId_order(idOd);
+                                    lineitem.setId_sanpham(product);
+                                    lineitem.setSoluong(dataSnapshot.child("soluong").getValue(Integer.class));
+                                    lineitem.setGiatien(dataSnapshot.child("giatien").getValue(Integer.class));
+                                    lineitem.setTongtien(dataSnapshot.child("tongmathang").getValue(Integer.class));
+
+                                    listLine.add(lineitem);
+
+                                    Log.i("TAG", "sai: " + listLine.size());
+                                }
+                            }
+                            adapter.notifyDataSetChanged();
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            Log.i("referenceOd", "onCancelled: " + error.toString());
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.i("lineitems", "onCancelled: " + error.toString());
+            }
+        });
     }
 
     private void getInfo() {
@@ -103,69 +171,6 @@ public class OrderDetail extends AppCompatActivity {
     }
 
     private void getListProductbyOrder(String id) {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference reference = database.getReference("lineitems");
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    DatabaseReference referenceOd = dataSnapshot.child("id_order").getRef();
-                    DatabaseReference referenceSp = dataSnapshot.child("id_sanpham").getRef();
-                    LineItemAdapter adapter = new LineItemAdapter(getApplicationContext());
-                    List<Lineitem> listLine = new ArrayList<>();
-                    Lineitem lineitem = new Lineitem();
-                    Product product = new Product();
-                    referenceSp.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            for (DataSnapshot dataSnapshotsp : snapshot.getChildren()) {
-                                product.setId(dataSnapshotsp.getKey());
-                                product.setTensp(dataSnapshotsp.child("tensp").getValue(String.class));
-                                product.setGiasp(dataSnapshotsp.child("giasp").getValue(Integer.class));
-                                product.setImage(dataSnapshotsp.child("image").getValue(String.class));
-                                product.setMota(dataSnapshotsp.child("mota").getValue(String.class));
-                            }
-                        }
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-                            Log.i("referenceSp", "onCancelled: " + error.toString());
-                        }
-                    });
-                    referenceOd.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            for (DataSnapshot dataSnapshotod : snapshot.getChildren()) {
-                                String idOd = dataSnapshotod.getKey();
-                                if (idOd.equals(id)) {
-                                    lineitem.setId(dataSnapshot.getKey());
-                                    lineitem.setId_order(idOd);
-                                    lineitem.setId_sanpham(product);
-                                    lineitem.setSoluong(dataSnapshot.child("soluong").getValue(Integer.class));
-                                    lineitem.setGiatien(dataSnapshot.child("giatien").getValue(Integer.class));
-                                    lineitem.setTongtien(dataSnapshot.child("tongmathang").getValue(Integer.class));
-
-                                    listLine.add(lineitem);
-                                    if (!listLine.isEmpty()) {
-                                        adapter.setData(listLine);
-                                        rcv.setAdapter(adapter);
-                                    }
-                                }
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-                            Log.i("referenceOd", "onCancelled: " + error.toString());
-                        }
-                    });
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.i("lineitems", "onCancelled: " + error.toString());
-            }
-        });
     }
 }
