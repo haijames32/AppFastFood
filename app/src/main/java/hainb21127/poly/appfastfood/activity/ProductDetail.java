@@ -64,7 +64,7 @@ public class ProductDetail extends AppCompatActivity {
         int giasp = intent.getIntExtra("pricePro", 0);
         String motasp = intent.getStringExtra("motaPro");
         String imgsp = intent.getStringExtra("imagePro");
-
+        sum = giasp * number;
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if(user != null){
             idUser = user.getUid();
@@ -154,18 +154,19 @@ public class ProductDetail extends AppCompatActivity {
                                 User user1 = new User(email, name, phone, address, img);
                                 referenceu1.setValue(user1);
 
-                                Dialog dialog = new Dialog(getApplicationContext());
-                                dialog.setContentView(R.layout.dialog_success);
-                                TextView tvConfirm = dialog.findViewById(R.id.tv_success_dialog_success);
-                                Button btnAgree = dialog.findViewById(R.id.btn_agree_dialog_success);
-                                tvConfirm.setText("Đã thêm vào giỏ hàng");
-                                btnAgree.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        dialog.dismiss();
-                                    }
-                                });
-                                dialog.show();
+//                                Dialog dialog = new Dialog(getApplicationContext());
+//                                dialog.setContentView(R.layout.dialog_success);
+//                                TextView tvConfirm = dialog.findViewById(R.id.tv_success_dialog_success);
+//                                Button btnAgree = dialog.findViewById(R.id.btn_agree_dialog_success);
+//                                tvConfirm.setText("Đã thêm vào giỏ hàng");
+//                                btnAgree.setOnClickListener(new View.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(View view) {
+//                                        dialog.dismiss();
+//                                    }
+//                                });
+//                                dialog.show();
+                                Toast.makeText(ProductDetail.this, "Đã thêm vào giỏ", Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(ProductDetail.this, "Thêm thất bại", Toast.LENGTH_SHORT).show();
                                 Log.i("cart", "onComplete: " + task.toString());

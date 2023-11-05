@@ -57,7 +57,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
-                            android:text="Thông tin người mua"
+                            android:text="Thông tin người nhận"
                             android:textSize="17dp"
                             android:textStyle="bold" />
 
@@ -210,6 +210,7 @@
         android:orientation="horizontal"
         android:padding="8dp"
         android:weightSum="10"
+        android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">

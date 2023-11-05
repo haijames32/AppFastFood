@@ -117,7 +117,6 @@ public class OrderDetail extends AppCompatActivity {
 
                                     listLine.add(lineitem);
 
-                                    Log.i("TAG", "sai: " + listLine.size());
                                 }
                             }
                             adapter.notifyDataSetChanged();

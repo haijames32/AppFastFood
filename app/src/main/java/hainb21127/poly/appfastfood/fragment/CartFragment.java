@@ -64,6 +64,8 @@ public class CartFragment extends Fragment {
     FirebaseDatabase database;
     DatabaseReference myref;
     FirebaseUser user;
+    Product product;
+    CartAdapter adapter;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -99,13 +101,12 @@ public class CartFragment extends Fragment {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     DatabaseReference refSp = dataSnapshot.child("id_sanpham").getRef();
                     DatabaseReference refU = dataSnapshot.child("id_user").getRef();
-                    CartAdapter adapter = new CartAdapter(getContext());
-                    Product product = new Product();
-                    Cart cart = new Cart();
+                    adapter = new CartAdapter(getContext());
                     refSp.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             for (DataSnapshot dataSnapshotsp : snapshot.getChildren()) {
+                                product = new Product();
                                 product.setId(dataSnapshotsp.getKey());
                                 product.setTensp(dataSnapshotsp.child("tensp").getValue(String.class));
                                 product.setGiasp(dataSnapshotsp.child("giasp").getValue(Integer.class));
@@ -125,6 +126,7 @@ public class CartFragment extends Fragment {
                             for (DataSnapshot dataSnapshotu : snapshot.getChildren()) {
                                 String iduser = dataSnapshotu.getKey();
                                 if (iduser.equals(idU)) {
+                                    Cart cart = new Cart();
                                     User user1 = new User();
                                     user1.setEmail(dataSnapshotu.child("email").getValue(String.class));
                                     user1.setFullname(dataSnapshotu.child("fullname").getValue(String.class));
@@ -144,19 +146,16 @@ public class CartFragment extends Fragment {
                                     lo_footer.setVisibility(View.VISIBLE);
                                 }
                             }
-                            if (!listCat.isEmpty()) {
-                                adapter.setData(listCat);
-                                listView.setAdapter(adapter);
-                            }
-                            Log.i("size", "onDataChange: "+listCat.size());
+                            adapter.setData(listCat);
+                            listView.setAdapter(adapter);
                         }
-
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
                             Log.i("user", "onCancelled: " + error.toString());
                         }
                     });
                 }
+
             }
 
             @Override

@@ -90,7 +90,7 @@ public class CartAdapter extends BaseAdapter {
             tv_soluong.setText(cart.getSoluong() + "");
             tv_tongtien.setText(Utilities.addDots(cart.getTongtien()) + "đ");
             Picasso.get().load(cart.getId_sanpham().getImage()).into(id_image);
-            number = cart.getSoluong();
+
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -147,6 +147,17 @@ public class CartAdapter extends BaseAdapter {
 
             DatabaseReference refSp = reference.child("id_sanpham");
             DatabaseReference refSp2 = refSp.child(cart.getId_sanpham().getId());
+            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    number = snapshot.child("soluong").getValue(Integer.class);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
             refSp2.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {

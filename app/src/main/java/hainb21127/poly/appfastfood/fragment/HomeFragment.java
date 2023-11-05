@@ -30,6 +30,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,6 +84,7 @@ public class HomeFragment extends Fragment {
     Timer timer;
     private int currentPage = 0;
     TextView tvName;
+    ImageView img_user;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -90,6 +92,7 @@ public class HomeFragment extends Fragment {
         rcv_recommended = view.findViewById(R.id.rcv_recommended);
         rcv_cate = view.findViewById(R.id.rcv_cate);
         tvName = view.findViewById(R.id.tv_name_user_home);
+        img_user = view.findViewById(R.id.img_user_home);
 
         mpProducts = new ArrayList<>();
         mCategories = new ArrayList<>();
@@ -111,7 +114,9 @@ public class HomeFragment extends Fragment {
                     if(snapshot.exists()){
                         User user1 = snapshot.getValue(User.class);
                         String name = user1.getFullname();
+                        String img = user1.getImage();
                         tvName.setText("Hi "+name);
+                        Picasso.get().load(img).into(img_user);
                     }
                 }
 
@@ -131,7 +136,7 @@ public class HomeFragment extends Fragment {
     private void getListProduct() {
         FirebaseDatabase database = FirebaseDB.getDatabaseInstance();
         DatabaseReference myref = database.getReference("products");
-        myref.addListenerForSingleValueEvent(new ValueEventListener() {
+        myref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
@@ -167,7 +172,7 @@ public class HomeFragment extends Fragment {
         FirebaseDatabase database = FirebaseDB.getDatabaseInstance();
         DatabaseReference myref = database.getReference("category");
         Query query = myref.orderByChild("id");
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
+        query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 mCategories.clear();
