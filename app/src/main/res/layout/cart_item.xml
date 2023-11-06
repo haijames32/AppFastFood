@@ -41,9 +41,8 @@
                 android:weightSum="10">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="235dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="7"
                     android:weightSum="10"
                     android:orientation="vertical">
 
@@ -97,9 +96,8 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="3"
                     android:background="#F4F4F4"
                     android:orientation="vertical"
                     android:weightSum="6">

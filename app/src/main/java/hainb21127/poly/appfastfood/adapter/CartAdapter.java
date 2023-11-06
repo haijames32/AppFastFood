@@ -28,30 +28,33 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import hainb21127.poly.appfastfood.R;
 import hainb21127.poly.appfastfood.activity.ProductDetail;
 import hainb21127.poly.appfastfood.config.Utilities;
 import hainb21127.poly.appfastfood.model.Cart;
+import hainb21127.poly.appfastfood.model.Cart2;
 import hainb21127.poly.appfastfood.model.Category;
 import hainb21127.poly.appfastfood.model.Product;
 
 public class CartAdapter extends BaseAdapter {
     Context context;
-    private List<Cart> list;
-    int number = 0;
+    private List<Cart2> list;
+    int number = 1;
     int pricesp;
-    int sum = 0;
+    int sum;
 
-    public CartAdapter(Context context) {
+    public CartAdapter(Context context, List<Cart2> list) {
         this.context = context;
+        this.list = list;
     }
 
-    public void setData(List<Cart> arrayList) {
-        this.list = arrayList;
-        notifyDataSetChanged();
-    }
+//    public void setData(List<Cart2> arrayList) {
+//        this.list = arrayList;
+//        notifyDataSetChanged();
+//    }
 
     @Override
     public int getCount() {
@@ -75,7 +78,7 @@ public class CartAdapter extends BaseAdapter {
         LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (view == null) {
             view = mInflater.inflate(R.layout.cart_item, null);
-            Cart cart = list.get(i);
+            Cart2 cart = list.get(i);
 
             TextView tv_item_name = view.findViewById(R.id.tv_name_cart_item);
             TextView tv_item_price = view.findViewById(R.id.tv_price_cart_item);
@@ -90,7 +93,10 @@ public class CartAdapter extends BaseAdapter {
             tv_soluong.setText(cart.getSoluong() + "");
             tv_tongtien.setText(Utilities.addDots(cart.getTongtien()) + "đ");
             Picasso.get().load(cart.getId_sanpham().getImage()).into(id_image);
-
+            number = cart.getSoluong();
+            pricesp = cart.getId_sanpham().getGiasp();
+            cart.setNumber(number);
+            cart.setPricesp(pricesp);
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -126,10 +132,10 @@ public class CartAdapter extends BaseAdapter {
                             reference.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
-                                    if(task.isSuccessful()){
+                                    if (task.isSuccessful()) {
                                         Toast.makeText(view.getContext(), "Đã xóa", Toast.LENGTH_SHORT).show();
-                                        list.remove(i);
-                                    }else{
+//                                        list.remove(i);
+                                    } else {
                                         Toast.makeText(view.getContext(), "Xóa thất bại", Toast.LENGTH_SHORT).show();
                                     }
                                 }
@@ -145,52 +151,47 @@ public class CartAdapter extends BaseAdapter {
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             DatabaseReference reference = database.getReference("cart").child(cart.getId());
 
-            DatabaseReference refSp = reference.child("id_sanpham");
-            DatabaseReference refSp2 = refSp.child(cart.getId_sanpham().getId());
-            reference.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    number = snapshot.child("soluong").getValue(Integer.class);
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
-            refSp2.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    pricesp = snapshot.child("giasp").getValue(Integer.class);
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
             tv_minus.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (number > 1) {
-                        number--;
-                        sum = number * pricesp;
-                        reference.child("soluong").setValue(number);
-                        reference.child("tongtien").setValue(sum);
-                        tv_soluong.setText(String.valueOf(number));
-                        tv_tongtien.setText(Utilities.addDots(sum) + "đ");
+                    if (cart.getNumber() > 1) {
+                        cart.setNumber(cart.getNumber() - 1);
+                        cart.setSum(cart.getNumber() * cart.getPricesp());
+                        reference.child("soluong").setValue(cart.getNumber());
+                        reference.child("tongtien").setValue(cart.getSum());
+                        tv_soluong.setText(String.valueOf(cart.getNumber()));
+                        tv_tongtien.setText(Utilities.addDots(cart.getSum()) + "đ");
                     }
+//                    if (number > 1) {
+//                        number--;
+//                        sum = number * pricesp;
+//                        reference.child("soluong").setValue(number);
+//                        reference.child("tongtien").setValue(sum);
+//                        tv_soluong.setText(String.valueOf(number));
+//                        tv_tongtien.setText(Utilities.addDots(sum) + "đ");
+//
+//                        for (Cart otherCart : otherCarts) {
+//                            otherCart.setTongtien(otherCart.getSoluong() * otherCart.getId_sanpham().getGiasp());
+//                            otherCart.getReference().child("tongtien").setValue(otherCart.getTongtien());
+//                        }
+//                    }
                 }
             });
             tv_plus.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    number++;
-                    sum = number * pricesp;
-                    reference.child("soluong").setValue(number);
-                    reference.child("tongtien").setValue(sum);
-                    tv_soluong.setText(String.valueOf(number));
-                    tv_tongtien.setText(Utilities.addDots(sum) + "đ");
+                    cart.setNumber(cart.getNumber() + 1);
+                    cart.setSum(cart.getNumber() * cart.getPricesp());
+                    reference.child("soluong").setValue(cart.getNumber());
+                    reference.child("tongtien").setValue(cart.getSum());
+                    tv_soluong.setText(String.valueOf(cart.getNumber()));
+                    tv_tongtien.setText(Utilities.addDots(cart.getSum()) + "đ");
+//                    number++;
+//                    sum = number * pricesp;
+//                    reference.child("soluong").setValue(number);
+//                    reference.child("tongtien").setValue(sum);
+//                    tv_soluong.setText(String.valueOf(number));
+//                    tv_tongtien.setText(Utilities.addDots(sum) + "đ");
                 }
             });
         }

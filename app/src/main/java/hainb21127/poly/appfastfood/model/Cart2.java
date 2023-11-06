@@ -1,17 +1,20 @@
 package hainb21127.poly.appfastfood.model;
 
-public class Cart {
+public class Cart2 {
     String id;
     Product id_sanpham;
     User id_user;
     int soluong;
     int tongtien;
 
+    int number;
+    int pricesp;
+    int sum;
 
-    public Cart() {
+    public Cart2() {
     }
 
-    public Cart(int soluong, int tongtien) {
+    public Cart2(int soluong, int tongtien) {
         this.soluong = soluong;
         this.tongtien = tongtien;
     }
@@ -56,5 +59,27 @@ public class Cart {
         this.tongtien = tongGiohang;
     }
 
+    public int getNumber() {
+        return number;
+    }
 
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    public int getPricesp() {
+        return pricesp;
+    }
+
+    public void setPricesp(int pricesp) {
+        this.pricesp = pricesp;
+    }
+
+    public int getSum() {
+        return sum;
+    }
+
+    public void setSum(int sum) {
+        this.sum = sum;
+    }
 }
