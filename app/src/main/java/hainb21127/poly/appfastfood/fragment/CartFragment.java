@@ -30,6 +30,7 @@ import hainb21127.poly.appfastfood.R;
 import hainb21127.poly.appfastfood.activity.ThanhToan;
 import hainb21127.poly.appfastfood.adapter.CartAdapter;
 import hainb21127.poly.appfastfood.model.Cart;
+import hainb21127.poly.appfastfood.model.Cart2;
 import hainb21127.poly.appfastfood.model.Product;
 import hainb21127.poly.appfastfood.model.User;
 
@@ -58,7 +59,7 @@ public class CartFragment extends Fragment {
     }
 
     ListView listView;
-    List<Cart> listCat;
+    List<Cart2> listCart;
     LinearLayout no_cart, lo_footer;
     Button btnMua;
     FirebaseDatabase database;
@@ -75,7 +76,7 @@ public class CartFragment extends Fragment {
         lo_footer = view.findViewById(R.id.lo_footer_cart);
         btnMua = view.findViewById(R.id.btn_mua_cart);
 
-        listCat = new ArrayList<>();
+        listCart = new ArrayList<>();
 
         getListCartbyUser();
 
@@ -101,7 +102,8 @@ public class CartFragment extends Fragment {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     DatabaseReference refSp = dataSnapshot.child("id_sanpham").getRef();
                     DatabaseReference refU = dataSnapshot.child("id_user").getRef();
-                    adapter = new CartAdapter(getContext());
+                    adapter = new CartAdapter(getContext(), listCart);
+
                     refSp.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -126,7 +128,7 @@ public class CartFragment extends Fragment {
                             for (DataSnapshot dataSnapshotu : snapshot.getChildren()) {
                                 String iduser = dataSnapshotu.getKey();
                                 if (iduser.equals(idU)) {
-                                    Cart cart = new Cart();
+                                    Cart2 cart = new Cart2();
                                     User user1 = new User();
                                     user1.setEmail(dataSnapshotu.child("email").getValue(String.class));
                                     user1.setFullname(dataSnapshotu.child("fullname").getValue(String.class));
@@ -138,17 +140,18 @@ public class CartFragment extends Fragment {
                                     cart.setId_user(user1);
                                     cart.setSoluong(dataSnapshot.child("soluong").getValue(Integer.class));
                                     cart.setTongtien(dataSnapshot.child("tongtien").getValue(Integer.class));
-                                    listCat.add(cart);
+                                    listCart.add(cart);
                                 }
-                                if (listCat.size() == 0) {
+                                if (listCart.size() == 0) {
                                     no_cart.setVisibility(View.VISIBLE);
-                                }else{
+                                } else {
                                     lo_footer.setVisibility(View.VISIBLE);
                                 }
+                                listView.setAdapter(adapter);
                             }
-                            adapter.setData(listCat);
-                            listView.setAdapter(adapter);
+                            adapter.notifyDataSetChanged();
                         }
+
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
                             Log.i("user", "onCancelled: " + error.toString());

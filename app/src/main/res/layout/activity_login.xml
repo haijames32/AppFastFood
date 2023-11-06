@@ -51,7 +51,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/item_email_res"
-                    android:text="hai@gmail.com"
                     android:drawablePadding="8dp"
                     android:hint="Email" />
 
@@ -72,7 +71,6 @@
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/ic_password_login"
                     android:drawablePadding="10dp"
-                    android:text="123456"
                     android:inputType="textPassword"
                     android:hint="Password" />
 

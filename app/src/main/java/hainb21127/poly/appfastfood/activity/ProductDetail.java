@@ -66,7 +66,7 @@ public class ProductDetail extends AppCompatActivity {
         String imgsp = intent.getStringExtra("imagePro");
         sum = giasp * number;
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if(user != null){
+        if (user != null) {
             idUser = user.getUid();
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             DatabaseReference reference = database.getReference("users").child(idUser);
@@ -135,7 +135,8 @@ public class ProductDetail extends AppCompatActivity {
                 if (MainActivity.isLoggedIn) {
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
                     DatabaseReference reference = database.getReference("cart").push();
-                    Cart cart = new Cart(number, sum);
+                    int tong = Integer.parseInt(String.valueOf(sum));
+                    Cart cart = new Cart(number, tong);
                     reference.setValue(cart).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
