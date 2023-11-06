@@ -72,7 +72,7 @@ public class OrderFragment extends Fragment {
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         rcv_order.setLayoutManager(linearLayoutManager);
-
+        rcv_order.setAdapter(orderAdapter);
         getListOrder();
     }
 
@@ -81,7 +81,7 @@ public class OrderFragment extends Fragment {
         String id = user.getUid();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference reference = database.getReference("orders");
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+        reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
@@ -98,7 +98,6 @@ public class OrderFragment extends Fragment {
                                 user1.setPhone(dataSnapshot2.child("phone").getValue(Integer.class));
                                 user1.setAddress(dataSnapshot2.child("address").getValue(String.class));
 
-                                order.setId(dataSnapshot.getKey());
                                 order.setId_user(user1);
                                 order.setId(dataSnapshot.getKey());
                                 order.setTrangthai(dataSnapshot.child("trangthai").getValue(String.class));
@@ -106,13 +105,13 @@ public class OrderFragment extends Fragment {
                                 order.setTongtien(dataSnapshot.child("tongdonhang").getValue(Integer.class));
 
                                 listOrder.add(order);
-                                orderAdapter.setData(listOrder);
-                                rcv_order.setAdapter(orderAdapter);
+
                                 if(listOrder.size() == 0){
                                     no_order.setVisibility(View.VISIBLE);
                                 }
                             }
                         }
+                        orderAdapter.setData(listOrder);
                     }
 
                 }

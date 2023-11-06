@@ -39,8 +39,7 @@ public class Success extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (check == 1) {
-                    Intent intent1 = new Intent(Success.this, Login.class);
-                    startActivity(intent1);
+                    startActivity(new Intent(Success.this, Login.class));
                     finish();
                 } else if (check == 2) {
                     startActivity(new Intent(Success.this, MainActivity.class));

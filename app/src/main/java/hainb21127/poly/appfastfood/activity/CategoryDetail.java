@@ -70,7 +70,7 @@ public class CategoryDetail extends AppCompatActivity {
     private void getListProductbyCategory(){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myref = database.getReference("products");
-        myref.addListenerForSingleValueEvent(new ValueEventListener() {
+        myref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
