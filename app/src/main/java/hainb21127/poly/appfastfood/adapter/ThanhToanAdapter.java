@@ -23,17 +23,12 @@ import hainb21127.poly.appfastfood.model.Cart2;
 
 public class ThanhToanAdapter extends BaseAdapter {
     Context context;
-    List<Cart2> list;
+    private List<Cart2> list;
 
     public ThanhToanAdapter(Context context, List<Cart2> list) {
         this.context = context;
         this.list = list;
     }
-
-//    public void setData(List<Cart2> arrayList) {
-//        this.list = arrayList;
-//        notifyDataSetChanged();
-//    }
 
     @Override
     public int getCount() {
@@ -56,51 +51,34 @@ public class ThanhToanAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (view == null) {
-//            view = mInflater.inflate(R.layout.item_thanhtoan, null);
-//            Cart2 cart = list.get(i);
-//
-//            TextView tv_item_name = view.findViewById(R.id.tv_name_product_lineitem_item);
-//            TextView tv_item_price = view.findViewById(R.id.tv_price_product_lineitem_item);
-//            TextView tv_soluong = view.findViewById(R.id.tv_soluong_lineitem_item);
-//            TextView tv_tongtien = view.findViewById(R.id.tv_tongtien_lineitem_item);
-//            ImageView id_image = view.findViewById(R.id.img_product_lineitem_item);
-//
-//            tv_item_name.setText(cart.getId_sanpham().getTensp());
-//            tv_item_price.setText(Utilities.addDots(cart.getId_sanpham().getGiasp()) + "đ");
-//            tv_soluong.setText("x"+cart.getSoluong());
-//            tv_tongtien.setText(Utilities.addDots(cart.getTongtien()) + "đ");
-//            Picasso.get().load(cart.getId_sanpham().getImage()).into(id_image);
-
-
-            view = mInflater.inflate(R.layout.cart_item, null);
-            Cart2 cart = list.get(i);
-
-            TextView tv_item_name = view.findViewById(R.id.tv_name_cart_item);
-            TextView tv_item_price = view.findViewById(R.id.tv_price_cart_item);
-            TextView tv_soluong = view.findViewById(R.id.tv_soluong_cart_item);
-            TextView tv_tongtien = view.findViewById(R.id.tv_tongtien_cart_item);
-            CardView tv_plus = view.findViewById(R.id.btn_plus_cart_item);
-            CardView tv_minus = view.findViewById(R.id.btn_minus_cart_item);
-            ImageView id_image = view.findViewById(R.id.img_cart_item);
-
-            tv_item_name.setText(cart.getId_sanpham().getTensp());
-            tv_item_price.setText(Utilities.addDots(cart.getId_sanpham().getGiasp()) + "đ");
-            tv_soluong.setText(cart.getSoluong() + "");
-            tv_tongtien.setText(Utilities.addDots(cart.getTongtien()) + "đ");
-            Picasso.get().load(cart.getId_sanpham().getImage()).into(id_image);
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(view.getContext(), ProductDetail.class);
-                    intent.putExtra("idPro", cart.getId_sanpham().getId());
-                    intent.putExtra("namePro", cart.getId_sanpham().getTensp());
-                    intent.putExtra("pricePro", cart.getId_sanpham().getGiasp());
-                    intent.putExtra("imagePro", cart.getId_sanpham().getImage());
-                    intent.putExtra("motaPro", cart.getId_sanpham().getMota());
-                    view.getContext().startActivity(intent);
-                }
-            });
+            view = mInflater.inflate(R.layout.item_thanhtoan, null);
         }
+        Cart2 cart = list.get(i);
+
+        TextView tv_item_name = view.findViewById(R.id.tv_name_product_lineitem_item);
+        TextView tv_item_price = view.findViewById(R.id.tv_price_product_lineitem_item);
+        TextView tv_soluong = view.findViewById(R.id.tv_soluong_lineitem_item);
+        TextView tv_tongtien = view.findViewById(R.id.tv_tongtien_lineitem_item);
+        ImageView id_image = view.findViewById(R.id.img_product_lineitem_item);
+
+        tv_item_name.setText(cart.getId_sanpham().getTensp());
+        tv_item_price.setText(Utilities.addDots(cart.getId_sanpham().getGiasp()) + "đ");
+        tv_soluong.setText("x"+cart.getSoluong());
+        tv_tongtien.setText(Utilities.addDots(cart.getTongtien()) + "đ");
+        Picasso.get().load(cart.getId_sanpham().getImage()).into(id_image);
+
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), ProductDetail.class);
+                intent.putExtra("idPro", cart.getId_sanpham().getId());
+                intent.putExtra("namePro", cart.getId_sanpham().getTensp());
+                intent.putExtra("pricePro", cart.getId_sanpham().getGiasp());
+                intent.putExtra("imagePro", cart.getId_sanpham().getImage());
+                intent.putExtra("motaPro", cart.getId_sanpham().getMota());
+                view.getContext().startActivity(intent);
+            }
+        });
         return view;
     }
 }

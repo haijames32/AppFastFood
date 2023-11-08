@@ -4,16 +4,18 @@ public class Order {
     String id;
     User id_user;
     String date;
+    String thanhtoan;
     String trangthai;
     int tongtien;
 
     public Order() {
     }
 
-    public Order(String id, User id_user, String date, String trangthai, int tongtien) {
+    public Order(String id, User id_user, String date, String thanhtoan, String trangthai, int tongtien) {
         this.id = id;
         this.id_user = id_user;
         this.date = date;
+        this.thanhtoan = thanhtoan;
         this.trangthai = trangthai;
         this.tongtien = tongtien;
     }
@@ -56,5 +58,13 @@ public class Order {
 
     public void setTongtien(int tongtien) {
         this.tongtien = tongtien;
+    }
+
+    public String getThanhtoan() {
+        return thanhtoan;
+    }
+
+    public void setThanhtoan(String thanhtoan) {
+        this.thanhtoan = thanhtoan;
     }
 }

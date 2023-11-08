@@ -17,6 +17,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,10 +33,11 @@ import hainb21127.poly.appfastfood.adapter.LineItemAdapter;
 import hainb21127.poly.appfastfood.config.Utilities;
 import hainb21127.poly.appfastfood.model.Lineitem;
 import hainb21127.poly.appfastfood.model.Product;
+import hainb21127.poly.appfastfood.model.User;
 
 public class OrderDetail extends AppCompatActivity {
-    TextView tvName, tvEmail, tvPhone, tvAddress, tvTongtien, tvDate, tvTrangthai;
-    ImageView btnBack;
+    TextView tvName, tvEmail, tvPhone, tvAddress, tvTongtien, tvDate, tvTrangthai,tvThanhtoan;
+    ImageView btnBack, imgTrangthai;
     Button btnHuy;
     RecyclerView rcv;
     Context context;
@@ -55,8 +58,8 @@ public class OrderDetail extends AppCompatActivity {
         tvTrangthai = findViewById(R.id.tv_trangthai_order_detail);
         btnHuy = findViewById(R.id.btn_huy_order_detail);
         btnBack = findViewById(R.id.btn_back_order_detail);
-
-
+        imgTrangthai = findViewById(R.id.img_trangthai_order_detail);
+        tvThanhtoan = findViewById(R.id.tv_pttt_order_detail);
 
         List<Lineitem> listLine = new ArrayList<>();
         LineItemAdapter adapter = new LineItemAdapter(getApplicationContext(), listLine);
@@ -141,35 +144,60 @@ public class OrderDetail extends AppCompatActivity {
         Intent intent = getIntent();
         idOrder = intent.getStringExtra("id_order");
         String trangthai = intent.getStringExtra("trangthai_order");
+        String pttt = intent.getStringExtra("pttt_order");
         String date = intent.getStringExtra("date_order");
         int tongtien = intent.getIntExtra("tongtien_order", 0);
-        String nameU = intent.getStringExtra("nameUser_order");
-        String emailU = intent.getStringExtra("emailUser_order");
-        int phoneU = intent.getIntExtra("phoneUser_order", 0);
-        String addressU = intent.getStringExtra("addressUser_order");
 
-        tvName.setText(nameU);
-        tvEmail.setText(emailU);
-        tvPhone.setText("0" + phoneU);
-        tvAddress.setText(addressU);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user != null){
+            String id = user.getUid();
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            DatabaseReference reference = database.getReference("users").child(id);
+            reference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if(snapshot.exists()){
+                        User user1 = snapshot.getValue(User.class);
+                        String email = user1.getEmail();
+                        String name = user1.getFullname();
+                        int phone = user1.getPhone();
+                        String address = user1.getAddress();
+                        tvName.setText(name);
+                        tvEmail.setText(email);
+                        tvPhone.setText("0"+phone);
+                        tvAddress.setText(address);
+                    }else{
+                        Log.i("TAG", "onDataChange: Không lấy được thông tin người dùng");
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Log.i("TAG", "onCancelled: "+error.toString());
+                }
+            });
+        }
+
         tvTongtien.setText(Utilities.addDots(tongtien) + "đ");
         tvDate.setText(date);
         tvTrangthai.setText(trangthai);
+        tvThanhtoan.setText(pttt);
+
         if (trangthai.equals("Chờ xác nhận")) {
+            imgTrangthai.setImageResource(R.drawable.ic_preparing);
             tvTrangthai.setTextColor(Color.YELLOW);
         } else if (trangthai.equals("Đang giao hàng")) {
+            imgTrangthai.setImageResource(R.drawable.ic_shipping);
             tvTrangthai.setTextColor(Color.GREEN);
             btnHuy.setEnabled(false);
         } else if (trangthai.equals("Đã giao hàng")) {
+            imgTrangthai.setImageResource(R.drawable.ic_finish);
             tvTrangthai.setTextColor(Color.BLUE);
             btnHuy.setEnabled(false);
         } else {
+            imgTrangthai.setImageResource(R.drawable.ic_cancel);
             tvTrangthai.setTextColor(Color.RED);
             btnHuy.setEnabled(false);
         }
-    }
-
-    private void getListProductbyOrder(String id) {
-
     }
 }
