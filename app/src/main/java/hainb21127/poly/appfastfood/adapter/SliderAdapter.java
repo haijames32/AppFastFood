@@ -9,15 +9,18 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
 import hainb21127.poly.appfastfood.R;
 
 public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.MyViewHolder>{
+
     Context context;
-    int[] images = {
-            R.drawable.banner,
-            R.drawable.logo,
-            R.drawable.panner_thanhcong
-    };
+    int[] images ;
+
+    public SliderAdapter(int[] images) {
+        this.images = images;
+    }
 
     public SliderAdapter(Context context) {
         this.context = context;
@@ -33,6 +36,7 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.MyViewHold
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.img.setImageResource(images[position]);
+//        Picasso.get().load(images[position]).into(holder.img);
     }
 
     @Override
