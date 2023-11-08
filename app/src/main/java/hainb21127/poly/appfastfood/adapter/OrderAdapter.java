@@ -63,9 +63,10 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
         } else if (holder.tvTrangthai.getText().toString().equals("Đã giao hàng")) {
 //            #03A9F4
             holder.lo_bg_status.setBackgroundColor(Color.BLUE);
-            holder.img_status.setImageResource(R.drawable.ic_checkmark);
+            holder.img_status.setImageResource(R.drawable.ic_finish);
             holder.tvTrangthai.setTextColor(Color.BLUE);
         } else if (holder.tvTrangthai.getText().toString().equals("Đã hủy")) {
+            holder.img_status.setImageResource(R.drawable.ic_cancel);
             holder.lo_bg_status.setBackgroundColor(Color.RED);
             holder.tvTrangthai.setTextColor(Color.RED);
         }
@@ -74,6 +75,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), OrderDetail.class);
                 intent.putExtra("id_order", order.getId());
+                intent.putExtra("pttt_order", order.getThanhtoan());
                 intent.putExtra("trangthai_order", order.getTrangthai());
                 intent.putExtra("date_order", order.getDate());
                 intent.putExtra("tongtien_order", order.getTongtien());

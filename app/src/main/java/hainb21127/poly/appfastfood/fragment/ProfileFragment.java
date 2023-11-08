@@ -91,8 +91,8 @@ public class ProfileFragment extends Fragment {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if(user != null){
-            database = FirebaseDatabase.getInstance();
             String id = user.getUid();
+            database = FirebaseDatabase.getInstance();
             reference = database.getReference("users").child(id);
             reference.addValueEventListener(new ValueEventListener() {
                 @Override

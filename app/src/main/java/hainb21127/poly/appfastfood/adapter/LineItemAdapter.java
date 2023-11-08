@@ -30,10 +30,6 @@ public class LineItemAdapter extends RecyclerView.Adapter<LineItemAdapter.MyView
         this.list = list;
     }
 
-//    public void setData(List<Lineitem> arrayList) {
-//        this.list = arrayList;
-//        notifyDataSetChanged();
-//    }
 
     @NonNull
     @Override

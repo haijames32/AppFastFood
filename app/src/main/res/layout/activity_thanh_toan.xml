@@ -10,7 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
         tools:ignore="MissingConstraints">
 
         <FrameLayout
@@ -48,26 +47,37 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:elevation="10dp">
+                    app:cardCornerRadius="10dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="vertical"
-                        android:padding="20dp">
+                        android:paddingVertical="15dp"
+                        android:paddingHorizontal="10dp">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+                            <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:src="@drawable/ic_location"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:layout_gravity="center_horizontal"
+                                android:text="Thông tin người nhận"
+                                android:textSize="17dp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:text="Thông tin người nhận"
-                            android:textSize="17dp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
+                            android:layout_marginStart="30dp"
                             android:layout_marginTop="8dp"
                             android:text="Họ và tên:"
                             android:textSize="15dp"
@@ -77,13 +87,13 @@
                             android:id="@+id/tv_fullname_thanhtoan"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="20dp"
+                            android:layout_marginStart="40dp"
                             android:text="Nguyễn Bá Hải" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
+                            android:layout_marginStart="30dp"
                             android:text="Email:"
                             android:textSize="15dp"
                             android:textStyle="bold" />
@@ -92,13 +102,13 @@
                             android:id="@+id/tv_email_thanhtoan"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="20dp"
+                            android:layout_marginStart="40dp"
                             android:text="hainb@gmail.com" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
+                            android:layout_marginStart="30dp"
                             android:text="Điện thoại:"
                             android:textSize="15dp"
                             android:textStyle="bold" />
@@ -107,13 +117,13 @@
                             android:id="@+id/tv_phone_thanhtoan"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="20dp"
+                            android:layout_marginStart="40dp"
                             android:text="0962386626" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
+                            android:layout_marginStart="30dp"
                             android:text="Địa chỉ:"
                             android:textSize="15dp"
                             android:textStyle="bold" />
@@ -122,7 +132,7 @@
                             android:id="@+id/tv_address_thanhtoan"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="20dp"
+                            android:layout_marginStart="40dp"
                             android:text="hạ mỗ, đan phượng, hà nôị" />
 
                     </LinearLayout>
@@ -131,27 +141,40 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    app:cardCornerRadius="10dp"
                     android:layout_marginTop="15dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="vertical"
-                        android:padding="20dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
+                        android:paddingVertical="15dp"
+                        android:paddingHorizontal="10dp">
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:text="Thông tin sản phẩm"
+                            android:gravity="center_vertical"
                             android:layout_marginBottom="5dp"
-                            android:textSize="17dp"
-                            android:textStyle="bold" />
+                            android:orientation="horizontal">
+                            <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:src="@drawable/ic_food"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:layout_gravity="center_horizontal"
+                                android:text="Thông tin sản phẩm"
+                                android:textSize="17dp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
 
-                        <androidx.recyclerview.widget.RecyclerView
+                        <ListView
                             android:id="@+id/lv_thanhtoan"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"/>
 
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
@@ -159,26 +182,40 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    app:cardCornerRadius="10dp"
                     android:layout_marginTop="15dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="150dp"
                         android:orientation="vertical"
-                        android:padding="20dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
+                        android:paddingVertical="15dp"
+                        android:paddingHorizontal="10dp">
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:text="Phương thức thanh toán"
-                            android:textSize="17dp"
-                            android:textStyle="bold" />
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+                            <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:src="@drawable/ic_dollar"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:layout_gravity="center_horizontal"
+                                android:text="Phương thức thanh toán"
+                                android:textSize="17dp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
 
                         <Spinner
                             android:id="@+id/spn_thanhtoan"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:paddingVertical="8dp"
+                            android:paddingStart="20dp"
                             android:layout_marginTop="10dp" />
 
                     </LinearLayout>
@@ -191,6 +228,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -218,7 +256,9 @@
                 android:id="@+id/tv_tongtien_thanhtoan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="28.000.000đ"
+                android:layout_gravity="right"
+                android:textSize="16dp"
+                android:text="0đ"
                 android:textColor="#F44336"
                 android:textStyle="bold" />
         </LinearLayout>

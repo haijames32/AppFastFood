@@ -101,6 +101,7 @@ public class OrderFragment extends Fragment {
                                 order.setId_user(user1);
                                 order.setId(dataSnapshot.getKey());
                                 order.setTrangthai(dataSnapshot.child("trangthai").getValue(String.class));
+                                order.setThanhtoan(dataSnapshot.child("thanhtoan").getValue(String.class));
                                 order.setDate(dataSnapshot.child("date").getValue(String.class));
                                 order.setTongtien(dataSnapshot.child("tongdonhang").getValue(Integer.class));
 
