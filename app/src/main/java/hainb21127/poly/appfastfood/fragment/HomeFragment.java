@@ -93,7 +93,6 @@ public class HomeFragment extends Fragment {
         rcv_cate = view.findViewById(R.id.rcv_cate);
         tvName = view.findViewById(R.id.tv_name_user_home);
         img_user = view.findViewById(R.id.img_user_home);
-
         mpProducts = new ArrayList<>();
         mCategories = new ArrayList<>();
         productAdapter = new ProductAdapter(context);
