@@ -35,14 +35,13 @@ import hainb21127.poly.appfastfood.R;
 import hainb21127.poly.appfastfood.activity.ThanhToan;
 import hainb21127.poly.appfastfood.adapter.CartAdapter;
 import hainb21127.poly.appfastfood.config.Utilities;
-import hainb21127.poly.appfastfood.inter.InterDelete;
 import hainb21127.poly.appfastfood.model.Cart;
 import hainb21127.poly.appfastfood.model.Cart2;
 import hainb21127.poly.appfastfood.model.Product;
 import hainb21127.poly.appfastfood.model.User;
 
 
-public class CartFragment extends Fragment implements InterDelete {
+public class CartFragment extends Fragment {
 
     public CartFragment() {
 
@@ -75,7 +74,6 @@ public class CartFragment extends Fragment implements InterDelete {
     FirebaseUser user;
     Product product;
     CartAdapter adapter;
-
     SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
@@ -89,7 +87,7 @@ public class CartFragment extends Fragment implements InterDelete {
         swipeRefreshLayout = view.findViewById(R.id.refresh_cart);
 
         listCart = new ArrayList<>();
-        adapter = new CartAdapter(getContext(), listCart, this::onDelete);
+        adapter = new CartAdapter(getContext(), listCart);
 
         getListCartbyUser();
 
@@ -108,104 +106,22 @@ public class CartFragment extends Fragment implements InterDelete {
             }
         });
 
-//        database = FirebaseDatabase.getInstance();
-//        myref = database.getReference("cart");
-//        user = FirebaseAuth.getInstance().getCurrentUser();
-//        String idU = user.getUid();
-//
-//        myref.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-//                    DatabaseReference refSp = dataSnapshot.child("id_sanpham").getRef();
-//                    DatabaseReference refU = dataSnapshot.child("id_user").getRef();
-//                    refSp.addListenerForSingleValueEvent(new ValueEventListener() {
-//                        @Override
-//                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                            for (DataSnapshot dataSnapshotsp : snapshot.getChildren()) {
-//                                product = new Product();
-//                                product.setId(dataSnapshotsp.getKey());
-//                                product.setTensp(dataSnapshotsp.child("tensp").getValue(String.class));
-//                                product.setGiasp(dataSnapshotsp.child("giasp").getValue(Integer.class));
-//                                product.setImage(dataSnapshotsp.child("image").getValue(String.class));
-//                                product.setMota(dataSnapshotsp.child("mota").getValue(String.class));
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void onCancelled(@NonNull DatabaseError error) {
-//                            Log.i("sanpham", "onCancelled: " + error.toString());
-//                        }
-//                    });
-//                    refU.addListenerForSingleValueEvent(new ValueEventListener() {
-//                        @Override
-//                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                            for (DataSnapshot dataSnapshotu : snapshot.getChildren()) {
-//                                String iduser = dataSnapshotu.getKey();
-//                                if (iduser.equals(idU)) {
-//                                    Cart2 cart = new Cart2();
-//                                    User user1 = new User();
-//                                    user1.setEmail(dataSnapshotu.child("email").getValue(String.class));
-//                                    user1.setFullname(dataSnapshotu.child("fullname").getValue(String.class));
-//                                    user1.setPhone(dataSnapshotu.child("phone").getValue(Integer.class));
-//                                    user1.setAddress(dataSnapshotu.child("address").getValue(String.class));
-//
-//                                    cart.setId(dataSnapshot.getKey());
-//                                    cart.setId_sanpham(product);
-//                                    cart.setId_user(user1);
-//                                    cart.setSoluong(dataSnapshot.child("soluong").getValue(Integer.class));
-//                                    cart.setTongtien(dataSnapshot.child("tongtien").getValue(Integer.class));
-//                                    listCart.add(cart);
-//                                }
-//                            }
-//                            if (listCart.size() == 0) {
-//                                no_cart.setVisibility(View.VISIBLE);
-//                            } else {
-//                                lo_footer.setVisibility(View.VISIBLE);
-//                            }
-//                            listView.setAdapter(adapter);
-//                            adapter.notifyDataSetChanged();
-//                            int total = 0;
-//                            for (int i = 0; i < adapter.getCount(); i++) {
-//                                Cart2 cart = (Cart2) adapter.getItem(i);
-//                                total += cart.getTongtien();
-//                                Log.i("sumcart", "onDataChange: " + cart.getTongtien());
-//                            }
-//                            tvTongtien.setText(Utilities.addDots(total) + "đ");
-//                        }
-//
-//                        @Override
-//                        public void onCancelled(@NonNull DatabaseError error) {
-//                            Log.i("user", "onCancelled: " + error.toString());
-//                        }
-//                    });
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//                Log.d("TAG", "onCancelled: " + error.toString());
-//            }
-//        });
-
-
     }
 
     private void getListCartbyUser() {
-        listCart.clear();
         database = FirebaseDatabase.getInstance();
         myref = database.getReference("cart");
         user = FirebaseAuth.getInstance().getCurrentUser();
         String idU = user.getUid();
 
-        myref.addListenerForSingleValueEvent(new ValueEventListener() {
+        myref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                listCart.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     DatabaseReference refSp = dataSnapshot.child("id_sanpham").getRef();
                     DatabaseReference refU = dataSnapshot.child("id_user").getRef();
-                    refSp.addListenerForSingleValueEvent(new ValueEventListener() {
+                    refSp.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             for (DataSnapshot dataSnapshotsp : snapshot.getChildren()) {
@@ -223,7 +139,7 @@ public class CartFragment extends Fragment implements InterDelete {
                             Log.i("sanpham", "onCancelled: " + error.toString());
                         }
                     });
-                    refU.addListenerForSingleValueEvent(new ValueEventListener() {
+                    refU.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             for (DataSnapshot dataSnapshotu : snapshot.getChildren()) {
@@ -242,13 +158,15 @@ public class CartFragment extends Fragment implements InterDelete {
                                     cart.setSoluong(dataSnapshot.child("soluong").getValue(Integer.class));
                                     cart.setTongtien(dataSnapshot.child("tongtien").getValue(Integer.class));
                                     listCart.add(cart);
+                                    no_cart.setVisibility(View.INVISIBLE);
+                                    Log.i("sai", "onDataChange: "+listCart.size());
+                                } else if (listCart.size() == 0) {
+                                    no_cart.setVisibility(View.VISIBLE);
                                 }
                             }
-                            if (listCart.size() == 0) {
-                                no_cart.setVisibility(View.VISIBLE);
-                            } else {
-                                lo_footer.setVisibility(View.VISIBLE);
-                            }
+//                            else {
+//                                lo_footer.setVisibility(View.VISIBLE);
+//                            }
                             listView.setAdapter(adapter);
                             adapter.notifyDataSetChanged();
 
@@ -279,21 +197,4 @@ public class CartFragment extends Fragment implements InterDelete {
         });
     }
 
-    @Override
-    public void onDelete(Cart2 cart2) {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference reference = database.getReference("cart").child(cart2.getId());
-        reference.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    Toast.makeText(getContext(), "Đã xóa", Toast.LENGTH_SHORT).show();
-                    getListCartbyUser();
-                } else {
-                    Toast.makeText(getContext(), "Xóa thất bại", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-    }
 }
