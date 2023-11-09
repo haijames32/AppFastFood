@@ -87,7 +87,7 @@ public class CategoryDetail extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                Log.i("zzzzz", "afterTextChanged: "+ editable.toString());
+                Log.i("zzzzz", "afterTextChanged: " + editable.toString());
                 mProducts.clear();
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 DatabaseReference myref = database.getReference("products");
@@ -95,11 +95,11 @@ public class CategoryDetail extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                            for(DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){
-                                for(DataSnapshot dataSnapshot2 : dataSnapshot1.getChildren()){
+                            for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                                for (DataSnapshot dataSnapshot2 : dataSnapshot1.getChildren()) {
                                     String idCat = dataSnapshot2.getKey();
-                                    if(idCat.equals(id)){
-                                        if (dataSnapshot.child("tensp").getValue(String.class).contains(editable)){
+                                    if (idCat.equals(id)) {
+                                        if (dataSnapshot.child("tensp").getValue(String.class).contains(editable)) {
                                             Product product = new Product();
                                             product.setId(dataSnapshot.getKey());
                                             product.setTensp(dataSnapshot.child("tensp").getValue(String.class));
@@ -108,10 +108,9 @@ public class CategoryDetail extends AppCompatActivity {
                                             product.setImage(dataSnapshot.child("image").getValue(String.class));
                                             mProducts.add(product);
                                             id_lineaerlayout.setVisibility(View.INVISIBLE);
-                                        }else if (mProducts.size()==0){
+                                        } else if (mProducts.size() == 0) {
                                             id_lineaerlayout.setVisibility(View.VISIBLE);
                                         }
-
                                     }
                                 }
                             }
@@ -129,17 +128,18 @@ public class CategoryDetail extends AppCompatActivity {
         });
         getListProductbyCategory();
     }
-    private void getListProductbyCategory(){
+
+    private void getListProductbyCategory() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myref = database.getReference("products");
         myref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    for(DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){
-                        for(DataSnapshot dataSnapshot2 : dataSnapshot1.getChildren()){
+                    for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                        for (DataSnapshot dataSnapshot2 : dataSnapshot1.getChildren()) {
                             String idCat = dataSnapshot2.getKey();
-                            if(idCat.equals(id)){
+                            if (idCat.equals(id)) {
                                 Product product = new Product();
                                 product.setId(dataSnapshot.getKey());
                                 product.setTensp(dataSnapshot.child("tensp").getValue(String.class));
@@ -161,18 +161,19 @@ public class CategoryDetail extends AppCompatActivity {
             }
         });
     }
-    private void searchProductbyCategory(String keyword){
+
+    private void searchProductbyCategory(String keyword) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myref = database.getReference("products");
         myref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    for(DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){
-                        for(DataSnapshot dataSnapshot2 : dataSnapshot1.getChildren()){
+                    for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                        for (DataSnapshot dataSnapshot2 : dataSnapshot1.getChildren()) {
                             String idCat = dataSnapshot2.getKey();
                             Product product1 = dataSnapshot2.getValue(Product.class);
-                            if(product1.getTensp().contains(keyword)){
+                            if (product1.getTensp().contains(keyword)) {
                                 Product product = new Product();
                                 product.setId(dataSnapshot.getKey());
                                 product.setTensp(dataSnapshot.child("tensp").getValue(String.class));
@@ -187,6 +188,7 @@ public class CategoryDetail extends AppCompatActivity {
                     gridView.setAdapter(categoryDetailAdapter);
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Log.d("TAG", "onCancelled: " + error.toString());

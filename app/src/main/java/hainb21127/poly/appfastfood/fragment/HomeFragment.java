@@ -1,6 +1,7 @@
 package hainb21127.poly.appfastfood.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -8,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Handler;
@@ -18,6 +20,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +41,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import hainb21127.poly.appfastfood.R;
+import hainb21127.poly.appfastfood.activity.AllProduct;
 import hainb21127.poly.appfastfood.adapter.CategoryAdapter;
 import hainb21127.poly.appfastfood.adapter.ProductAdapter;
 import hainb21127.poly.appfastfood.adapter.SliderAdapter;
@@ -73,16 +77,13 @@ public class HomeFragment extends Fragment {
     }
 
     RecyclerView rcv_recommended, rcv_cate;
+    SwipeRefreshLayout swipeRefreshLayout;
+    LinearLayout btn_seemore;
     ProductAdapter productAdapter;
     CategoryAdapter categoryAdapter;
-    SliderAdapter sliderAdapter;
     Context context;
     List<Product> mpProducts;
     List<Category> mCategories;
-    ViewPager2 viewPager2;
-    GestureDetector gestureDetector;
-    Timer timer;
-    private int currentPage = 0;
     TextView tvName;
     ImageView img_user;
 
@@ -93,6 +94,9 @@ public class HomeFragment extends Fragment {
         rcv_cate = view.findViewById(R.id.rcv_cate);
         tvName = view.findViewById(R.id.tv_name_user_home);
         img_user = view.findViewById(R.id.img_user_home);
+        btn_seemore = view.findViewById(R.id.btn_seemore);
+        swipeRefreshLayout = view.findViewById(R.id.refresh_home);
+
         mpProducts = new ArrayList<>();
         mCategories = new ArrayList<>();
         productAdapter = new ProductAdapter(context);
@@ -102,6 +106,21 @@ public class HomeFragment extends Fragment {
         rcv_cate.setLayoutManager(linearLayoutManager1);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
         rcv_recommended.setLayoutManager(linearLayoutManager);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getListCate();
+                getListProduct();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+        btn_seemore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(), AllProduct.class));
+            }
+        });
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if(user != null){
@@ -135,9 +154,11 @@ public class HomeFragment extends Fragment {
     private void getListProduct() {
         FirebaseDatabase database = FirebaseDB.getDatabaseInstance();
         DatabaseReference myref = database.getReference("products");
-        myref.addValueEventListener(new ValueEventListener() {
+        Query query = myref.limitToFirst(10);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                mpProducts.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Product product = new Product();
                     for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
@@ -171,7 +192,7 @@ public class HomeFragment extends Fragment {
         FirebaseDatabase database = FirebaseDB.getDatabaseInstance();
         DatabaseReference myref = database.getReference("category");
         Query query = myref.orderByChild("id");
-        query.addValueEventListener(new ValueEventListener() {
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 mCategories.clear();
@@ -193,12 +214,4 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (timer != null) {
-            timer.cancel();
-            timer = null;
-        }
-    }
 }

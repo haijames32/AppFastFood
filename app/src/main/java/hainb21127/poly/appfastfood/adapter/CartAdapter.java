@@ -34,7 +34,6 @@ import java.util.List;
 import hainb21127.poly.appfastfood.R;
 import hainb21127.poly.appfastfood.activity.ProductDetail;
 import hainb21127.poly.appfastfood.config.Utilities;
-import hainb21127.poly.appfastfood.inter.InterDelete;
 import hainb21127.poly.appfastfood.model.Cart;
 import hainb21127.poly.appfastfood.model.Cart2;
 import hainb21127.poly.appfastfood.model.Category;
@@ -43,16 +42,13 @@ import hainb21127.poly.appfastfood.model.Product;
 public class CartAdapter extends BaseAdapter {
     Context context;
     private List<Cart2> list;
-    InterDelete interDelete;
     int number = 1;
     int pricesp;
 
-    public CartAdapter(Context context, List<Cart2> list,InterDelete interDelete) {
+    public CartAdapter(Context context, List<Cart2> list) {
         this.context = context;
         this.list = list;
-        this.interDelete = interDelete;
     }
-
 
     @Override
     public int getCount() {
@@ -126,20 +122,19 @@ public class CartAdapter extends BaseAdapter {
                     btnAgree.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                                interDelete.onDelete(cart);
-//                            FirebaseDatabase database = FirebaseDatabase.getInstance();
-//                            DatabaseReference reference = database.getReference("cart").child(cart.getId());
-//                            reference.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
-//                                @Override
-//                                public void onComplete(@NonNull Task<Void> task) {
-//                                    if (task.isSuccessful()) {
-//                                        Toast.makeText(view.getContext(), "Đã xóa", Toast.LENGTH_SHORT).show();
-//                                        list.remove(i);
-//                                    } else {
-//                                        Toast.makeText(view.getContext(), "Xóa thất bại", Toast.LENGTH_SHORT).show();
-//                                    }
-//                                }
-//                            });
+//                                interDelete.onDelete(cart);
+                            FirebaseDatabase database = FirebaseDatabase.getInstance();
+                            DatabaseReference reference = database.getReference("cart").child(cart.getId());
+                            reference.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(view.getContext(), "Đã xóa", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Toast.makeText(view.getContext(), "Xóa thất bại", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
                             dialog.dismiss();
                         }
                     });
@@ -154,6 +149,7 @@ public class CartAdapter extends BaseAdapter {
             tv_minus.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    list.clear();
                     if (cart.getNumber() > 1) {
                         cart.setNumber(cart.getNumber() - 1);
                         cart.setSum(cart.getNumber() * cart.getPricesp());
@@ -167,13 +163,13 @@ public class CartAdapter extends BaseAdapter {
             tv_plus.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    list.clear();
                     cart.setNumber(cart.getNumber() + 1);
                     cart.setSum(cart.getNumber() * cart.getPricesp());
                     reference.child("soluong").setValue(cart.getNumber());
                     reference.child("tongtien").setValue(cart.getSum());
                     tv_soluong.setText(String.valueOf(cart.getNumber()));
                     tv_tongtien.setText(Utilities.addDots(cart.getSum()) + "đ");
-                    list.clear();
                 }
             });
         }
