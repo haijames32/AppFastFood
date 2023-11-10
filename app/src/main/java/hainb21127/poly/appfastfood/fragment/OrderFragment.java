@@ -103,7 +103,7 @@ public class OrderFragment extends Fragment {
                                 order.setTrangthai(dataSnapshot.child("trangthai").getValue(String.class));
                                 order.setThanhtoan(dataSnapshot.child("thanhtoan").getValue(String.class));
                                 order.setDate(dataSnapshot.child("date").getValue(String.class));
-                                order.setTongtien(dataSnapshot.child("tongdonhang").getValue(Integer.class));
+                                order.setTongdonhang(dataSnapshot.child("tongdonhang").getValue(Integer.class));
 
                                 listOrder.add(order);
 
