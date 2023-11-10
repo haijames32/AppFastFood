@@ -16,7 +16,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -26,7 +29,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import hainb21127.poly.appfastfood.R;
 import hainb21127.poly.appfastfood.adapter.LineItemAdapter;
@@ -42,6 +47,8 @@ public class OrderDetail extends AppCompatActivity {
     RecyclerView rcv;
     Context context;
     String idOrder;
+    String trangthaihuy = " Đã hủy đơn hàng";
+    String trangthaidagiaohang = "Đã giao hàng";
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -55,7 +62,7 @@ public class OrderDetail extends AppCompatActivity {
         tvAddress = findViewById(R.id.tv_address_order_detail);
         tvTongtien = findViewById(R.id.tv_tongtien_order_detail);
         tvDate = findViewById(R.id.tv_date_order_detail);
-        tvTrangthai = findViewById(R.id.tv_trangthai_order_item);
+        tvTrangthai = findViewById(R.id.tv_trangthai_order_detail);
         btnHuy = findViewById(R.id.btn_huy_order_detail);
         btnBack = findViewById(R.id.btn_back_order_detail);
         imgTrangthai = findViewById(R.id.img_trangthai_order_detail);
@@ -186,10 +193,39 @@ public class OrderDetail extends AppCompatActivity {
         if (trangthai.equals("Chờ xác nhận")) {
             imgTrangthai.setImageResource(R.drawable.ic_preparing);
             tvTrangthai.setTextColor(Color.YELLOW);
+            btnHuy.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+                    DatabaseReference reference = firebaseDatabase.getReference("orders").child(idOrder);
+                    DatabaseReference reference1 = reference.child("trangthai");
+                    reference1.setValue(trangthaihuy).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            btnHuy.setText("Đã hủy đơn hàng");
+                            btnHuy.setEnabled(false);
+                        }
+                    });
+                }
+            });
         } else if (trangthai.equals("Đang giao hàng")) {
             imgTrangthai.setImageResource(R.drawable.ic_shipping);
             tvTrangthai.setTextColor(Color.GREEN);
-            btnHuy.setEnabled(false);
+            btnHuy.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+                    DatabaseReference reference = firebaseDatabase.getReference("orders").child(idOrder);
+                    DatabaseReference reference1 = reference.child("trangthai");
+                    reference1.setValue(trangthaidagiaohang).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            btnHuy.setText("Đã giao hàng");
+                            btnHuy.setEnabled(false);
+                        }
+                    });
+                }
+            });
         } else if (trangthai.equals("Đã giao hàng")) {
             imgTrangthai.setImageResource(R.drawable.ic_finish);
             tvTrangthai.setTextColor(Color.BLUE);
