@@ -47,7 +47,7 @@ public class LineItemAdapter extends RecyclerView.Adapter<LineItemAdapter.MyView
         holder.tvNameSp.setText(lineitem.getId_sanpham().getTensp());
         holder.tvSoluong.setText("x" + lineitem.getSoluong());
         holder.tvPriceSp.setText(Utilities.addDots(lineitem.getGiatien()) + "đ");
-        holder.tvTongtien.setText(Utilities.addDots(lineitem.getTongtien()) + "đ");
+        holder.tvTongtien.setText(Utilities.addDots(lineitem.getTongmathang()) + "đ");
         Picasso.get().load(lineitem.getId_sanpham().getImage()).into(holder.img_Sp);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
