@@ -47,9 +47,6 @@ public class OrderDetail extends AppCompatActivity {
     RecyclerView rcv;
     Context context;
     String idOrder;
-    String trangthaihuy = " Đã hủy đơn hàng";
-    String trangthaidagiaohang = "Đã giao hàng";
-
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -196,6 +193,7 @@ public class OrderDetail extends AppCompatActivity {
             btnHuy.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    String trangthaihuy = " Đã hủy đơn hàng";
                     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
                     DatabaseReference reference = firebaseDatabase.getReference("orders").child(idOrder);
                     DatabaseReference reference1 = reference.child("trangthai");
@@ -214,6 +212,7 @@ public class OrderDetail extends AppCompatActivity {
             btnHuy.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    String trangthaidagiaohang = "Đã giao hàng";
                     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
                     DatabaseReference reference = firebaseDatabase.getReference("orders").child(idOrder);
                     DatabaseReference reference1 = reference.child("trangthai");
