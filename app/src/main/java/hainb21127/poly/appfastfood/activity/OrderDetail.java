@@ -47,6 +47,7 @@ public class OrderDetail extends AppCompatActivity {
     RecyclerView rcv;
     Context context;
     String idOrder;
+    FirebaseDatabase database;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
