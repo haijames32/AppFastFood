@@ -1,8 +1,10 @@
 package hainb21127.poly.appfastfood.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.Editable;
@@ -26,17 +28,20 @@ import java.util.List;
 
 import hainb21127.poly.appfastfood.R;
 import hainb21127.poly.appfastfood.adapter.AllProductAdapter;
+import hainb21127.poly.appfastfood.adapter.CategoryDetailAdapter;
 import hainb21127.poly.appfastfood.database.FirebaseDB;
 import hainb21127.poly.appfastfood.model.Product;
 
 public class AllProduct extends AppCompatActivity {
     GridView grv;
     EditText edSearch;
+    SwipeRefreshLayout swipeRefreshLayout;
     ImageView btnBack;
     LinearLayout ll_nopro;
-    AllProductAdapter adapter;
+    CategoryDetailAdapter adapter;
     List<Product> list;
     String idCat;
+    Context context;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -47,14 +52,22 @@ public class AllProduct extends AppCompatActivity {
         grv = findViewById(R.id.grv_all_detail);
         edSearch = findViewById(R.id.ed_search_all_product);
         ll_nopro = findViewById(R.id.no_product);
-
+        swipeRefreshLayout = findViewById(R.id.refresh_all_product);
+        context = this;
         list = new ArrayList<>();
-        adapter = new AllProductAdapter(getApplicationContext());
+        adapter = new CategoryDetailAdapter(context);
 
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onBackPressed();
+            }
+        });
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getListProduct();
+                swipeRefreshLayout.setRefreshing(false);
             }
         });
 
@@ -85,24 +98,24 @@ public class AllProduct extends AppCompatActivity {
                             for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                                 for (DataSnapshot dataSnapshot2 : dataSnapshot1.getChildren()) {
                                     idCat = dataSnapshot2.getKey();
+                                    product.setId_theloai(idCat);
                                 }
                             }
                             if (dataSnapshot.child("tensp").getValue(String.class).contains(editable)) {
-                                product.setId_theloai(idCat);
                                 product.setId(dataSnapshot.getKey());
                                 product.setTensp(dataSnapshot.child("tensp").getValue(String.class));
                                 product.setGiasp(dataSnapshot.child("giasp").getValue(Integer.class));
                                 product.setMota(dataSnapshot.child("mota").getValue(String.class));
                                 product.setImage(dataSnapshot.child("image").getValue(String.class));
-
                                 list.add(product);
+                                adapter.setData(list);
+                                grv.setAdapter(adapter);
                                 ll_nopro.setVisibility(View.INVISIBLE);
                             } else if (list.size() == 0) {
                                 ll_nopro.setVisibility(View.VISIBLE);
                             }
                         }
-                        grv.setAdapter(adapter);
-                        adapter.notifyDataSetChanged();
+
                     }
 
                     @Override
@@ -115,12 +128,13 @@ public class AllProduct extends AppCompatActivity {
     }
 
     private void getListProduct() {
+        list.clear();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myref = database.getReference("products");
-        myref.addValueEventListener(new ValueEventListener() {
+        myref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                list.clear();
+             list.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Product product = new Product();
                     for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
@@ -129,7 +143,6 @@ public class AllProduct extends AppCompatActivity {
                             product.setId_theloai(idCat);
                         }
                     }
-
                     product.setId(dataSnapshot.getKey());
                     product.setTensp(dataSnapshot.child("tensp").getValue(String.class));
                     product.setGiasp(dataSnapshot.child("giasp").getValue(Integer.class));
@@ -139,6 +152,7 @@ public class AllProduct extends AppCompatActivity {
                     list.add(product);
                     Log.i("sai", "onDataChange: "+list.size());
                 }
+
                 grv.setAdapter(adapter);
                 adapter.setData(list);
             }
