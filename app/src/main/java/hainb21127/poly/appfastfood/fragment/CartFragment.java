@@ -35,13 +35,14 @@ import hainb21127.poly.appfastfood.R;
 import hainb21127.poly.appfastfood.activity.ThanhToan;
 import hainb21127.poly.appfastfood.adapter.CartAdapter;
 import hainb21127.poly.appfastfood.config.Utilities;
+import hainb21127.poly.appfastfood.inter.MyInterface;
 import hainb21127.poly.appfastfood.model.Cart;
 import hainb21127.poly.appfastfood.model.Cart2;
 import hainb21127.poly.appfastfood.model.Product;
 import hainb21127.poly.appfastfood.model.User;
 
 
-public class CartFragment extends Fragment {
+public class CartFragment extends Fragment implements MyInterface {
 
     public CartFragment() {
 
@@ -70,7 +71,6 @@ public class CartFragment extends Fragment {
     LinearLayout no_cart, lo_footer;
     Button btnMua;
     FirebaseDatabase database;
-    DatabaseReference myref;
     FirebaseUser user;
     Product product;
     CartAdapter adapter;
@@ -86,8 +86,10 @@ public class CartFragment extends Fragment {
         tvTongtien = view.findViewById(R.id.tv_tongtien_cart);
         swipeRefreshLayout = view.findViewById(R.id.refresh_cart);
 
+        database = FirebaseDatabase.getInstance();
+
         listCart = new ArrayList<>();
-        adapter = new CartAdapter(getContext(), listCart);
+        adapter = new CartAdapter(getContext(), listCart, this::onDelete);
 
         getListCartbyUser();
 
@@ -109,19 +111,18 @@ public class CartFragment extends Fragment {
     }
 
     private void getListCartbyUser() {
-        database = FirebaseDatabase.getInstance();
-        myref = database.getReference("cart");
+        DatabaseReference myref = database.getReference("cart");
         user = FirebaseAuth.getInstance().getCurrentUser();
         String idU = user.getUid();
 
-        myref.addValueEventListener(new ValueEventListener() {
+        myref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 listCart.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     DatabaseReference refSp = dataSnapshot.child("id_sanpham").getRef();
                     DatabaseReference refU = dataSnapshot.child("id_user").getRef();
-                    refSp.addValueEventListener(new ValueEventListener() {
+                    refSp.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             for (DataSnapshot dataSnapshotsp : snapshot.getChildren()) {
@@ -139,7 +140,7 @@ public class CartFragment extends Fragment {
                             Log.i("sanpham", "onCancelled: " + error.toString());
                         }
                     });
-                    refU.addValueEventListener(new ValueEventListener() {
+                    refU.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             for (DataSnapshot dataSnapshotu : snapshot.getChildren()) {
@@ -157,16 +158,17 @@ public class CartFragment extends Fragment {
                                     cart.setId_user(user1);
                                     cart.setSoluong(dataSnapshot.child("soluong").getValue(Integer.class));
                                     cart.setTongtien(dataSnapshot.child("tongtien").getValue(Integer.class));
+
                                     listCart.add(cart);
+
+                                    lo_footer.setVisibility(View.VISIBLE);
                                     no_cart.setVisibility(View.INVISIBLE);
-                                    Log.i("sai", "onDataChange: "+listCart.size());
+                                    Log.i("sai", "onDataChange: " + listCart.size());
                                 } else if (listCart.size() == 0) {
                                     no_cart.setVisibility(View.VISIBLE);
+                                    lo_footer.setVisibility(View.INVISIBLE);
                                 }
                             }
-//                            else {
-//                                lo_footer.setVisibility(View.VISIBLE);
-//                            }
                             listView.setAdapter(adapter);
                             adapter.notifyDataSetChanged();
 
@@ -185,9 +187,7 @@ public class CartFragment extends Fragment {
                             Log.i("user", "onCancelled: " + error.toString());
                         }
                     });
-
                 }
-
             }
 
             @Override
@@ -197,4 +197,19 @@ public class CartFragment extends Fragment {
         });
     }
 
+    @Override
+    public void onDelete(Cart2 cart) {
+        DatabaseReference reference = database.getReference("cart").child(cart.getId());
+        reference.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Toast.makeText(getContext(), "Đã xóa", Toast.LENGTH_SHORT).show();
+                    getListCartbyUser();
+                } else {
+                    Toast.makeText(getContext(), "Xóa thất bại", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
 }

@@ -30,7 +30,7 @@ public class Register extends AppCompatActivity {
     Button btnRegister;
     ImageView btn_back;
     private FirebaseAuth firebaseAuth;
-    private FirebaseDatabase firebaseDatabase;
+    private FirebaseDatabase database;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -47,7 +47,7 @@ public class Register extends AppCompatActivity {
         btn_back = findViewById(R.id.btn_back_register);
 
         firebaseAuth = FirebaseAuth.getInstance();
-        firebaseDatabase = FirebaseDatabase.getInstance();
+        database = FirebaseDatabase.getInstance();
 
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,12 +103,11 @@ public class Register extends AppCompatActivity {
                                 String avt = "https://firebasestorage.googleapis.com/v0/b/fastfood-df956.appspot.com/o/images%2Favatar_guest.png?alt=media&token=b439a94d-a5ac-4580-8fd6-8f4bb301b47e&_gl=1*48vbm9*_ga*NTA2MTQ5NTg4LjE2OTA4NzQ3MzM.*_ga_CW55HF8NVT*MTY5OTAxODQ0Ny40NS4xLjE2OTkwMjE0ODQuNTUuMC4w";
                                 User user = new User(email, displayName, phoneNumber, address, avt);
                                 String uid = task.getResult().getUser().getUid();
-                                DatabaseReference userRef = firebaseDatabase.getReference("users").child(uid);
+                                DatabaseReference userRef = database.getReference("users").child(uid);
                                 userRef.setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if (task.isSuccessful()) {
-                                            Log.i("user", "onComplete: " + task.toString());
                                             Intent intent = new Intent(Register.this, Success.class);
                                             intent.putExtra("checkman", 1);
                                             startActivity(intent);

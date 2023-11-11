@@ -22,6 +22,7 @@ public class Success extends AppCompatActivity {
         setContentView(R.layout.activity_success);
         btn_next = findViewById(R.id.btn_next);
         tv_success = findViewById(R.id.tv_success);
+
         Intent intent = getIntent();
         check = intent.getIntExtra("checkman", 0);
 
@@ -31,8 +32,11 @@ public class Success extends AppCompatActivity {
         } else if (check == 2) {
             tv_success.setText("Thay đổi mật khẩu thành công");
             btn_next.setText("Complete");
-        } else {
+        } else if (check == 3) {
             tv_success.setText("Thay đổi thông tin thành công");
+            btn_next.setText("Complete");
+        } else if (check == 4) {
+            tv_success.setText("Đặt hàng thành công");
             btn_next.setText("Complete");
         }
         btn_next.setOnClickListener(new View.OnClickListener() {
@@ -45,6 +49,9 @@ public class Success extends AppCompatActivity {
                     startActivity(new Intent(Success.this, MainActivity.class));
                     finish();
                 } else if (check == 3) {
+                    startActivity(new Intent(Success.this, MainActivity.class));
+                    finish();
+                } else if (check == 4) {
                     startActivity(new Intent(Success.this, MainActivity.class));
                     finish();
                 }

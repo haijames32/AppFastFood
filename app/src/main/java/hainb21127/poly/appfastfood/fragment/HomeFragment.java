@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -45,7 +46,6 @@ import hainb21127.poly.appfastfood.activity.AllProduct;
 import hainb21127.poly.appfastfood.adapter.CategoryAdapter;
 import hainb21127.poly.appfastfood.adapter.ProductAdapter;
 import hainb21127.poly.appfastfood.adapter.SliderAdapter;
-import hainb21127.poly.appfastfood.database.FirebaseDB;
 import hainb21127.poly.appfastfood.model.Category;
 import hainb21127.poly.appfastfood.model.Product;
 import hainb21127.poly.appfastfood.model.User;
@@ -86,6 +86,8 @@ public class HomeFragment extends Fragment {
     List<Category> mCategories;
     TextView tvName;
     ImageView img_user;
+    CardView img_home;
+    FirebaseDatabase database;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -96,11 +98,14 @@ public class HomeFragment extends Fragment {
         img_user = view.findViewById(R.id.img_user_home);
         btn_seemore = view.findViewById(R.id.btn_seemore);
         swipeRefreshLayout = view.findViewById(R.id.refresh_home);
+        img_home = view.findViewById(R.id.img_home);
 
         mpProducts = new ArrayList<>();
         mCategories = new ArrayList<>();
         productAdapter = new ProductAdapter(context);
         categoryAdapter = new CategoryAdapter(context);
+
+        database = FirebaseDatabase.getInstance();
 
         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
         rcv_cate.setLayoutManager(linearLayoutManager1);
@@ -124,7 +129,6 @@ public class HomeFragment extends Fragment {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if(user != null){
-            FirebaseDatabase database = FirebaseDatabase.getInstance();
             DatabaseReference reference = database.getReference("users").child(user.getUid());
             reference.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -143,16 +147,16 @@ public class HomeFragment extends Fragment {
 
                 }
             });
+        }else{
+            img_home.setVisibility(View.INVISIBLE);
         }
 
         getListCate();
         getListProduct();
-
     }
 
 
     private void getListProduct() {
-        FirebaseDatabase database = FirebaseDB.getDatabaseInstance();
         DatabaseReference myref = database.getReference("products");
         Query query = myref.limitToFirst(10);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -189,7 +193,6 @@ public class HomeFragment extends Fragment {
     }
 
     private void getListCate() {
-        FirebaseDatabase database = FirebaseDB.getDatabaseInstance();
         DatabaseReference myref = database.getReference("category");
         Query query = myref.orderByChild("id");
         query.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -213,5 +216,4 @@ public class HomeFragment extends Fragment {
             }
         });
     }
-
 }

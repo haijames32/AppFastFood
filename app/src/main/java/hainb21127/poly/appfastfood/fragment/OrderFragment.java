@@ -60,6 +60,7 @@ public class OrderFragment extends Fragment {
     RecyclerView rcv_order;
     OrderAdapter orderAdapter;
     List<Order> listOrder;
+    FirebaseDatabase database;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -70,25 +71,27 @@ public class OrderFragment extends Fragment {
         orderAdapter = new OrderAdapter(getContext());
         listOrder = new ArrayList<>();
 
+        database = FirebaseDatabase.getInstance();
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         rcv_order.setLayoutManager(linearLayoutManager);
         rcv_order.setAdapter(orderAdapter);
+
         getListOrder();
     }
 
     private void getListOrder() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String id = user.getUid();
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference reference = database.getReference("orders");
-        reference.addValueEventListener(new ValueEventListener() {
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                         for (DataSnapshot dataSnapshot2 : dataSnapshot1.getChildren()) {
                             String idOrder = dataSnapshot2.getKey();
-                            Log.i("TAG", "onDataChange: "+idOrder);
+                            Log.i("TAG", "onDataChange: " + idOrder);
                             if (idOrder.equals(id)) {
                                 Order order = new Order();
                                 User user1 = new User();
@@ -103,11 +106,11 @@ public class OrderFragment extends Fragment {
                                 order.setTrangthai(dataSnapshot.child("trangthai").getValue(String.class));
                                 order.setThanhtoan(dataSnapshot.child("thanhtoan").getValue(String.class));
                                 order.setDate(dataSnapshot.child("date").getValue(String.class));
-                                order.setTongtien(dataSnapshot.child("tongdonhang").getValue(Integer.class));
+                                order.setTongdonhang(dataSnapshot.child("tongdonhang").getValue(Integer.class));
 
                                 listOrder.add(order);
 
-                                if(listOrder.size() == 0){
+                                if (listOrder.size() == 0) {
                                     no_order.setVisibility(View.VISIBLE);
                                 }
                             }

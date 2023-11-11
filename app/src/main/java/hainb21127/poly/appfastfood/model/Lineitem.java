@@ -6,18 +6,18 @@ public class Lineitem {
     Product id_sanpham;
     int soluong;
     int giatien;
-    int tongtien;
+    int tongmathang;
 
     public Lineitem() {
     }
 
-    public Lineitem(String id,String id_order, Product id_sanpham, int soluong, int giatien, int tongtien) {
+    public Lineitem(String id,String id_order, Product id_sanpham, int soluong, int giatien, int tongmathang) {
         this.id = id;
         this.id_order = id_order;
         this.id_sanpham = id_sanpham;
         this.soluong = soluong;
         this.giatien = giatien;
-        this.tongtien = tongtien;
+        this.tongmathang = tongmathang;
     }
 
     public String getId() {
@@ -60,11 +60,11 @@ public class Lineitem {
         this.giatien = giatien;
     }
 
-    public int getTongtien() {
-        return tongtien;
+    public int getTongmathang() {
+        return tongmathang;
     }
 
-    public void setTongtien(int tongtien) {
-        this.tongtien = tongtien;
+    public void setTongmathang(int tongtien) {
+        this.tongmathang = tongtien;
     }
 }

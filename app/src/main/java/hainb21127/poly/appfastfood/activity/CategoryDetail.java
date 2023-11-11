@@ -30,7 +30,6 @@ import java.util.List;
 
 import hainb21127.poly.appfastfood.R;
 import hainb21127.poly.appfastfood.adapter.CategoryDetailAdapter;
-import hainb21127.poly.appfastfood.database.FirebaseDB;
 import hainb21127.poly.appfastfood.model.Category;
 import hainb21127.poly.appfastfood.model.Product;
 
@@ -44,6 +43,7 @@ public class CategoryDetail extends AppCompatActivity {
     CategoryDetailAdapter categoryDetailAdapter;
     String id, keyword;
     LinearLayout id_lineaerlayout;
+    FirebaseDatabase database;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -55,9 +55,12 @@ public class CategoryDetail extends AppCompatActivity {
         btnBack = findViewById(R.id.btn_back_cate_detail);
         title = findViewById(R.id.title_cate_detail);
         ed_search = findViewById(R.id.ed_search_cate_detail);
+
         context = this;
         mProducts = new ArrayList<>();
         categoryDetailAdapter = new CategoryDetailAdapter(context);
+
+        database = FirebaseDatabase.getInstance();
 
         Intent intent = getIntent();
         id = intent.getStringExtra("id");
@@ -89,7 +92,6 @@ public class CategoryDetail extends AppCompatActivity {
             public void afterTextChanged(Editable editable) {
                 Log.i("zzzzz", "afterTextChanged: " + editable.toString());
                 mProducts.clear();
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
                 DatabaseReference myref = database.getReference("products");
                 myref.addValueEventListener(new ValueEventListener() {
                     @Override
@@ -130,7 +132,6 @@ public class CategoryDetail extends AppCompatActivity {
     }
 
     private void getListProductbyCategory() {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myref = database.getReference("products");
         myref.addValueEventListener(new ValueEventListener() {
             @Override
@@ -163,7 +164,6 @@ public class CategoryDetail extends AppCompatActivity {
     }
 
     private void searchProductbyCategory(String keyword) {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myref = database.getReference("products");
         myref.addValueEventListener(new ValueEventListener() {
             @Override

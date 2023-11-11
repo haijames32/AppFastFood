@@ -24,10 +24,11 @@ import com.google.firebase.database.ValueEventListener;
 import hainb21127.poly.appfastfood.R;
 
 public class ChangePass extends AppCompatActivity {
-TextInputEditText ed_edit_pass, ed_edit_passnew, ed_edit_changepass;
-ImageView btn_back;
-Button btn_save;
-String mk;
+    TextInputEditText ed_edit_pass, ed_edit_passnew, ed_edit_changepass;
+    ImageView btn_back;
+    Button btn_save;
+    String mk;
+    FirebaseDatabase database;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +38,9 @@ String mk;
         ed_edit_passnew = findViewById(R.id.ed_edit_passnew);
         ed_edit_changepass = findViewById(R.id.ed_edit_checkpass);
         btn_save = findViewById(R.id.btn_edit_save_profile);
+
+        database = FirebaseDatabase.getInstance();
+
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -52,18 +56,18 @@ String mk;
                 String pass = ed_edit_pass.getText().toString().trim();
                 String passnew = ed_edit_passnew.getText().toString().trim();
                 String checkpass = ed_edit_changepass.getText().toString().trim();
-                FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-                DatabaseReference reference1 = firebaseDatabase.getReference("users").child(iduser);
+                DatabaseReference reference1 = database.getReference("users").child(iduser);
                 reference1.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                         mk =snapshot.child("passwd").getValue(String.class);
+                        mk = snapshot.child("passwd").getValue(String.class);
                     }
+
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
                     }
                 });
-                if (pass.isEmpty() ){
+                if (pass.isEmpty()) {
                     ed_edit_pass.setError("không được để trống ");
                 } else if (passnew.isEmpty()) {
                     ed_edit_passnew.setError("Không được để trống ");
@@ -78,14 +82,13 @@ String mk;
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
-                                FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-                                DatabaseReference reference = firebaseDatabase.getReference("users").child(iduser);
+                                DatabaseReference reference = database.getReference("users").child(iduser);
                                 DatabaseReference reference1 = reference.child("passwd");
                                 reference1.setValue(passnew).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         Intent intent = new Intent(ChangePass.this, Success.class);
-                                        intent.putExtra("checkman",2);
+                                        intent.putExtra("checkman", 2);
                                         startActivity(intent);
                                         finish();
                                     }

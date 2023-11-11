@@ -6,18 +6,16 @@ public class Order {
     String date;
     String thanhtoan;
     String trangthai;
-    int tongtien;
+    int tongdonhang;
 
     public Order() {
     }
 
-    public Order(String id, User id_user, String date, String thanhtoan, String trangthai, int tongtien) {
-        this.id = id;
-        this.id_user = id_user;
+    public Order(String date, String thanhtoan, String trangthai, int tongdonhang) {
         this.date = date;
         this.thanhtoan = thanhtoan;
         this.trangthai = trangthai;
-        this.tongtien = tongtien;
+        this.tongdonhang = tongdonhang;
     }
 
     public String getId() {
@@ -52,12 +50,12 @@ public class Order {
         this.trangthai = trangthai;
     }
 
-    public int getTongtien() {
-        return tongtien;
+    public int getTongdonhang() {
+        return tongdonhang;
     }
 
-    public void setTongtien(int tongtien) {
-        this.tongtien = tongtien;
+    public void setTongdonhang(int tongdonhang) {
+        this.tongdonhang = tongdonhang;
     }
 
     public String getThanhtoan() {

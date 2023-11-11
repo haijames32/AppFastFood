@@ -42,6 +42,7 @@ public class OrderDetail extends AppCompatActivity {
     RecyclerView rcv;
     Context context;
     String idOrder;
+    FirebaseDatabase database;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -55,11 +56,13 @@ public class OrderDetail extends AppCompatActivity {
         tvAddress = findViewById(R.id.tv_address_order_detail);
         tvTongtien = findViewById(R.id.tv_tongtien_order_detail);
         tvDate = findViewById(R.id.tv_date_order_detail);
-        tvTrangthai = findViewById(R.id.tv_trangthai_order_item);
+        tvTrangthai = findViewById(R.id.tv_trangthai_order_detail);
         btnHuy = findViewById(R.id.btn_huy_order_detail);
         btnBack = findViewById(R.id.btn_back_order_detail);
         imgTrangthai = findViewById(R.id.img_trangthai_order_detail);
         tvThanhtoan = findViewById(R.id.tv_pttt_order_detail);
+
+        database = FirebaseDatabase.getInstance();
 
         List<Lineitem> listLine = new ArrayList<>();
         LineItemAdapter adapter = new LineItemAdapter(getApplicationContext(), listLine);
@@ -78,7 +81,6 @@ public class OrderDetail extends AppCompatActivity {
         getInfo();
 
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference reference = database.getReference("lineitems");
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -116,10 +118,9 @@ public class OrderDetail extends AppCompatActivity {
                                     lineitem.setId_sanpham(product);
                                     lineitem.setSoluong(dataSnapshot.child("soluong").getValue(Integer.class));
                                     lineitem.setGiatien(dataSnapshot.child("giatien").getValue(Integer.class));
-                                    lineitem.setTongtien(dataSnapshot.child("tongmathang").getValue(Integer.class));
+                                    lineitem.setTongmathang(dataSnapshot.child("tongmathang").getValue(Integer.class));
 
                                     listLine.add(lineitem);
-
                                 }
                             }
                             adapter.notifyDataSetChanged();
@@ -151,7 +152,6 @@ public class OrderDetail extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if(user != null){
             String id = user.getUid();
-            FirebaseDatabase database = FirebaseDatabase.getInstance();
             DatabaseReference reference = database.getReference("users").child(id);
             reference.addValueEventListener(new ValueEventListener() {
                 @Override
