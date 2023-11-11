@@ -24,7 +24,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import hainb21127.poly.appfastfood.activity.Login;
-import hainb21127.poly.appfastfood.database.FirebaseDB;
 import hainb21127.poly.appfastfood.databinding.ActivityMainBinding;
 import hainb21127.poly.appfastfood.fragment.CartFragment;
 import hainb21127.poly.appfastfood.fragment.HomeFragment;

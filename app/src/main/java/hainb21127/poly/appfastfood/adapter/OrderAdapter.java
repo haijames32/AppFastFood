@@ -50,22 +50,22 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
         holder.tvTrangthai.setText(order.getTrangthai());
         holder.tvDate.setText(order.getDate());
         holder.tvTongtien.setText(Utilities.addDots(order.getTongdonhang()) + "đ");
-        if (holder.tvTrangthai.getText().toString().equals("Chờ xác nhận")) {
+        if (holder.tvTrangthai.getText().toString().equalsIgnoreCase("Chờ xác nhận")) {
 //            #FF9800
             holder.lo_bg_status.setBackgroundColor(Color.YELLOW);
             holder.img_status.setImageResource(R.drawable.ic_preparing);
             holder.tvTrangthai.setTextColor(Color.YELLOW);
-        } else if (holder.tvTrangthai.getText().toString().equals("Đang giao hàng")) {
+        } else if (holder.tvTrangthai.getText().toString().equalsIgnoreCase("Đang giao hàng")) {
 //            #8BC34A
             holder.lo_bg_status.setBackgroundColor(Color.GREEN);
             holder.img_status.setImageResource(R.drawable.ic_shipping);
             holder.tvTrangthai.setTextColor(Color.GREEN);
-        } else if (holder.tvTrangthai.getText().toString().equals("Đã giao hàng")) {
+        } else if (holder.tvTrangthai.getText().toString().equalsIgnoreCase("Đã giao hàng")) {
 //            #03A9F4
             holder.lo_bg_status.setBackgroundColor(Color.BLUE);
             holder.img_status.setImageResource(R.drawable.ic_finish);
             holder.tvTrangthai.setTextColor(Color.BLUE);
-        } else if (holder.tvTrangthai.getText().toString().equals("Đã hủy")) {
+        } else if (holder.tvTrangthai.getText().toString().equalsIgnoreCase("Đã hủy đơn hàng")) {
             holder.img_status.setImageResource(R.drawable.ic_cancel);
             holder.lo_bg_status.setBackgroundColor(Color.RED);
             holder.tvTrangthai.setTextColor(Color.RED);

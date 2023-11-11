@@ -50,7 +50,6 @@
                     android:id="@+id/ed_email_login"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/item_email_res"
                     android:drawablePadding="8dp"
                     android:hint="Email" />
 

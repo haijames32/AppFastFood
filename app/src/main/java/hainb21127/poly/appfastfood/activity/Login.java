@@ -41,7 +41,8 @@ public class Login extends AppCompatActivity {
     public static final int RC_SIGN_IN = 9001;
     SignInButton btn_signin_google;
     private GoogleSignInClient mGoogleSignInClient;
-    public void saveSharedPref(String idUser, String displayname, String email){
+
+    public void saveSharedPref(String idUser, String displayname, String email) {
         SharedPreferences sharedPreferences = getSharedPreferences("user_signin_google", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("idUser", idUser);
@@ -49,6 +50,7 @@ public class Login extends AppCompatActivity {
         editor.putString("email", email);
         editor.apply();
     }
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,18 +58,18 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         FirebaseAuth auth = FirebaseAuth.getInstance();
         btn_signin_google = findViewById(R.id.btn_signin_google);
-        tv_dangky=findViewById(R.id.tv_dangky);
+        tv_dangky = findViewById(R.id.tv_dangky);
         edEmail = findViewById(R.id.ed_email_login);
         edPass = findViewById(R.id.ed_pw_login);
         btn_login = findViewById(R.id.btn_login);
         btn_back = findViewById(R.id.btn_back_login);
-tv_dangky.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View view) {
-        Intent intent = new Intent(Login.this, Register.class);
-        startActivity(intent);
-    }
-});
+        tv_dangky.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(Login.this, Register.class));
+            }
+        });
+
         // Tạo client Google Sign In
         mGoogleSignInClient = GoogleSignIn.getClient(this, new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
 //                .requestIdToken(getString(R.string.google_client_id))
@@ -92,9 +94,9 @@ tv_dangky.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 String email = edEmail.getText().toString();
                 String passwd = edPass.getText().toString();
-                if (!email.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-                    if (!passwd.isEmpty()){
-                        auth.signInWithEmailAndPassword(email,passwd)
+                if (!email.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                    if (!passwd.isEmpty()) {
+                        auth.signInWithEmailAndPassword(email, passwd)
                                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                                     @Override
                                     public void onSuccess(AuthResult authResult) {
@@ -140,7 +142,7 @@ tv_dangky.setOnClickListener(new View.OnClickListener() {
             String idToken = account.getIdToken();
             String email = account.getEmail();
             String name = account.getDisplayName();
-            saveSharedPref(idToken,name,email);
+            saveSharedPref(idToken, name, email);
             MainActivity.isLoggedIn = true;
             Intent intent = new Intent(Login.this, MainActivity.class);
             startActivity(intent);

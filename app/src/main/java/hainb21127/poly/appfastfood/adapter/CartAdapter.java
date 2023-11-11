@@ -47,7 +47,7 @@ public class CartAdapter extends BaseAdapter {
     int number = 1;
     int pricesp;
 
-    public CartAdapter(Context context, List<Cart2> list,MyInterface myInterface) {
+    public CartAdapter(Context context, List<Cart2> list, MyInterface myInterface) {
         this.context = context;
         this.list = list;
         this.myInterface = myInterface;
@@ -125,19 +125,7 @@ public class CartAdapter extends BaseAdapter {
                     btnAgree.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                                myInterface.onDelete(cart);
-//                            FirebaseDatabase database = FirebaseDatabase.getInstance();
-//                            DatabaseReference reference = database.getReference("cart").child(cart.getId());
-//                            reference.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
-//                                @Override
-//                                public void onComplete(@NonNull Task<Void> task) {
-//                                    if (task.isSuccessful()) {
-//                                        Toast.makeText(view.getContext(), "Đã xóa", Toast.LENGTH_SHORT).show();
-//                                    } else {
-//                                        Toast.makeText(view.getContext(), "Xóa thất bại", Toast.LENGTH_SHORT).show();
-//                                    }
-//                                }
-//                            });
+                            myInterface.onDelete(cart);
                             dialog.dismiss();
                         }
                     });

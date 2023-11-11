@@ -42,6 +42,7 @@ public class ProductDetail extends AppCompatActivity {
     String email, name, address, img;
     int phone;
     String idUser;
+    FirebaseDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,10 +66,11 @@ public class ProductDetail extends AppCompatActivity {
         String motasp = intent.getStringExtra("motaPro");
         String imgsp = intent.getStringExtra("imagePro");
         sum = giasp * number;
+
+        database = FirebaseDatabase.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             idUser = user.getUid();
-            FirebaseDatabase database = FirebaseDatabase.getInstance();
             DatabaseReference reference = database.getReference("users").child(idUser);
             reference.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -91,7 +93,6 @@ public class ProductDetail extends AppCompatActivity {
                 }
             });
         }
-
 
         tvName.setText(namesp);
         tvPrice.setText(Utilities.addDots(giasp) + "đ");
@@ -133,7 +134,6 @@ public class ProductDetail extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (MainActivity.isLoggedIn) {
-                    FirebaseDatabase database = FirebaseDatabase.getInstance();
                     DatabaseReference reference = database.getReference("cart").push();
                     int tong = Integer.parseInt(String.valueOf(sum));
                     Cart cart = new Cart(number, tong);
@@ -196,9 +196,7 @@ public class ProductDetail extends AppCompatActivity {
                         }
                     });
                     dialog.show();
-
                 }
-
             }
         });
     }

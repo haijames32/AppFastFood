@@ -22,6 +22,7 @@ public class Success extends AppCompatActivity {
         setContentView(R.layout.activity_success);
         btn_next = findViewById(R.id.btn_next);
         tv_success = findViewById(R.id.tv_success);
+
         Intent intent = getIntent();
         check = intent.getIntExtra("checkman", 0);
 

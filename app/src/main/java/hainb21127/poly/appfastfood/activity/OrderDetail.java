@@ -42,6 +42,7 @@ public class OrderDetail extends AppCompatActivity {
     RecyclerView rcv;
     Context context;
     String idOrder;
+    FirebaseDatabase database;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -61,6 +62,8 @@ public class OrderDetail extends AppCompatActivity {
         imgTrangthai = findViewById(R.id.img_trangthai_order_detail);
         tvThanhtoan = findViewById(R.id.tv_pttt_order_detail);
 
+        database = FirebaseDatabase.getInstance();
+
         List<Lineitem> listLine = new ArrayList<>();
         LineItemAdapter adapter = new LineItemAdapter(getApplicationContext(), listLine);
 
@@ -78,7 +81,6 @@ public class OrderDetail extends AppCompatActivity {
         getInfo();
 
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference reference = database.getReference("lineitems");
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -119,7 +121,6 @@ public class OrderDetail extends AppCompatActivity {
                                     lineitem.setTongtien(dataSnapshot.child("tongmathang").getValue(Integer.class));
 
                                     listLine.add(lineitem);
-
                                 }
                             }
                             adapter.notifyDataSetChanged();
@@ -151,7 +152,6 @@ public class OrderDetail extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if(user != null){
             String id = user.getUid();
-            FirebaseDatabase database = FirebaseDatabase.getInstance();
             DatabaseReference reference = database.getReference("users").child(id);
             reference.addValueEventListener(new ValueEventListener() {
                 @Override

@@ -122,8 +122,6 @@ public class ProfileFragment extends Fragment {
         }
 
 
-
-
 //        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("user_signin_google", Context.MODE_PRIVATE);
 //        String idu = sharedPreferences.getString("idUser","");
 //        String name = sharedPreferences.getString("displayname","");

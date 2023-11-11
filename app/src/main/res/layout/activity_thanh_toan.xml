@@ -268,7 +268,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="#ffbd59"
-            android:text="Thanh Toán"
+            android:text="Đặt hàng"
             android:textColor="@color/black" />
 
 

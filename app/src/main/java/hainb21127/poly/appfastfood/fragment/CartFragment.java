@@ -71,7 +71,6 @@ public class CartFragment extends Fragment implements MyInterface {
     LinearLayout no_cart, lo_footer;
     Button btnMua;
     FirebaseDatabase database;
-    DatabaseReference myref;
     FirebaseUser user;
     Product product;
     CartAdapter adapter;
@@ -86,6 +85,8 @@ public class CartFragment extends Fragment implements MyInterface {
         btnMua = view.findViewById(R.id.btn_mua_cart);
         tvTongtien = view.findViewById(R.id.tv_tongtien_cart);
         swipeRefreshLayout = view.findViewById(R.id.refresh_cart);
+
+        database = FirebaseDatabase.getInstance();
 
         listCart = new ArrayList<>();
         adapter = new CartAdapter(getContext(), listCart, this::onDelete);
@@ -110,8 +111,7 @@ public class CartFragment extends Fragment implements MyInterface {
     }
 
     private void getListCartbyUser() {
-        database = FirebaseDatabase.getInstance();
-        myref = database.getReference("cart");
+        DatabaseReference myref = database.getReference("cart");
         user = FirebaseAuth.getInstance().getCurrentUser();
         String idU = user.getUid();
 
@@ -169,9 +169,6 @@ public class CartFragment extends Fragment implements MyInterface {
                                     lo_footer.setVisibility(View.INVISIBLE);
                                 }
                             }
-//                            else {
-//
-//                            }
                             listView.setAdapter(adapter);
                             adapter.notifyDataSetChanged();
 
@@ -190,9 +187,7 @@ public class CartFragment extends Fragment implements MyInterface {
                             Log.i("user", "onCancelled: " + error.toString());
                         }
                     });
-
                 }
-
             }
 
             @Override
@@ -204,7 +199,6 @@ public class CartFragment extends Fragment implements MyInterface {
 
     @Override
     public void onDelete(Cart2 cart) {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference reference = database.getReference("cart").child(cart.getId());
         reference.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override

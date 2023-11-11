@@ -31,6 +31,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONObject;
@@ -63,11 +64,12 @@ public class ThanhToan extends AppCompatActivity {
     List<Cart2> listCart;
     ThanhToanAdapter adapter;
     Product product;
+    FirebaseDatabase database;
     String[] pttt = {"Thanh toán khi nhận hàng", "Thanh toán qua MoMo", "Thanh toán qua ZaloPay"};
-    String getPttt, name, email, address, image;
-    int phone;
+    String getPttt, name, email, address, image, idsp, tensp, imagesp, motasp;
+    int phone, giasp;
     SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-//    public static int total = 0;
+    int finalTotal;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -92,14 +94,16 @@ public class ThanhToan extends AppCompatActivity {
         // ZaloPay SDK Init
         ZaloPaySDK.init(2553, Environment.SANDBOX);
 
+        database = FirebaseDatabase.getInstance();
+
         listCart = new ArrayList<>();
         adapter = new ThanhToanAdapter(getApplicationContext(), listCart);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String idU = user.getUid();
-        FirebaseDatabase data = FirebaseDatabase.getInstance();
-        DatabaseReference ref = data.getReference("users").child(idU);
-        ref.addValueEventListener(new ValueEventListener() {
+
+        DatabaseReference ref = database.getReference("users").child(idU);
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 name = snapshot.child("fullname").getValue(String.class);
@@ -119,7 +123,6 @@ public class ThanhToan extends AppCompatActivity {
 //        getListCart(idU);
 
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myref = database.getReference("cart");
         myref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -137,6 +140,12 @@ public class ThanhToan extends AppCompatActivity {
                                 product.setGiasp(dataSnapshotsp.child("giasp").getValue(Integer.class));
                                 product.setImage(dataSnapshotsp.child("image").getValue(String.class));
                                 product.setMota(dataSnapshotsp.child("mota").getValue(String.class));
+
+                                idsp = dataSnapshotsp.getKey();
+                                tensp = dataSnapshotsp.child("tensp").getValue(String.class);
+                                giasp = dataSnapshotsp.child("giasp").getValue(Integer.class);
+                                imagesp = dataSnapshotsp.child("image").getValue(String.class);
+                                motasp = dataSnapshotsp.child("mota").getValue(String.class);
                             }
                         }
 
@@ -176,6 +185,7 @@ public class ThanhToan extends AppCompatActivity {
                                 Log.i("tong", "onDataChange: " + cart.getTongtien());
                             }
                             tvTongtien.setText(Utilities.addDots(total) + "đ");
+                            finalTotal = total;
                         }
 
                         @Override
@@ -192,8 +202,6 @@ public class ThanhToan extends AppCompatActivity {
             }
         });
 
-//        int finalTotal = Integer.valueOf(String.valueOf(tvTongtien));
-//        Log.i("tt", "onCreate: "+finalTotal);
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -221,33 +229,128 @@ public class ThanhToan extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (getPttt.equalsIgnoreCase("Thanh toán khi nhận hàng")) {
-                    FirebaseDatabase database = FirebaseDatabase.getInstance();
-                    DatabaseReference reference = database.getReference("orders").push();
-                    Order order = new Order();
-                    order.setDate(dateFormat.format(new Date()));
-                    order.setTrangthai("Chờ xác nhận");
-                    order.setThanhtoan(getPttt);
-//                    order.setTongtien(finalTotal);
-
-                    reference.setValue(order).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                DatabaseReference reference1 = reference.child("id_user");
-                                DatabaseReference reference2 = reference1.child(idU);
-                                User user1 = new User(email, name, phone, address, image);
-                                reference2.setValue(user1).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        Intent intent = new Intent(ThanhToan.this, Success.class);
-                                        intent.putExtra("checkman", 4);
-                                        startActivity(intent);
-                                        finish();
-                                    }
-                                });
+                    try {
+                        DatabaseReference reference = database.getReference("orders").push();
+                        String idO = reference.getKey();
+                        Order order = new Order(dateFormat.format(new Date()), getPttt, "Chờ xác nhận", finalTotal);
+                        reference.setValue(order).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    DatabaseReference reference1 = reference.child("id_user");
+                                    DatabaseReference reference2 = reference1.child(idU);
+                                    User user1 = new User(email, name, phone, address, image);
+                                    reference2.setValue(user1);
+                                }
                             }
-                        }
-                    });
+                        });
+
+                        //LineItems
+                        DatabaseReference refer = database.getReference("lineitems").push();
+                        DatabaseReference refer1 = refer.child("id_order");
+                        DatabaseReference refer2 = refer1.child(idO);
+                        DatabaseReference refer3 = refer2.child("id_user");
+                        DatabaseReference refer4 = refer3.child(idU);
+                        User user1 = new User(email, name, phone, address, image);
+                        refer4.setValue(user1);
+
+                        DatabaseReference refSp = refer.child("id_sanpham");
+                        DatabaseReference refSp1 = refSp.child(idsp);
+                        Product product1 = new Product();
+                        product1.setId(idsp);
+                        product1.setTensp(tensp);
+                        product1.setGiasp(giasp);
+                        product1.setImage(imagesp);
+                        product1.setMota(motasp);
+                        refSp1.setValue(product1);
+
+                        //Remove all item in cart
+//                        DatabaseReference refCart = database.getReference("cart");
+//                        refCart.addListenerForSingleValueEvent(new ValueEventListener() {
+//                            @Override
+//                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+//                                    DatabaseReference refu = dataSnapshot.child("id_user").getRef();
+//                                    refu.addListenerForSingleValueEvent(new ValueEventListener() {
+//                                        @Override
+//                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                                            for (DataSnapshot dataSnapshot1 : snapshot.getChildren()){
+//                                                String id = dataSnapshot1.getKey();
+//                                                Log.i("id", "onDataChange: "+id);
+//                                                if(id.equals(idU)){
+//                                                    refCart.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+//                                                        @Override
+//                                                        public void onComplete(@NonNull Task<Void> task) {
+//                                                            if(task.isSuccessful())
+//                                                                Log.i("zzzzz", "xóa tc: "+task.toString());
+//                                                        }
+//                                                    });
+//                                                }
+//                                            }
+//                                        }
+//
+//                                        @Override
+//                                        public void onCancelled(@NonNull DatabaseError error) {
+//
+//                                        }
+//                                    });
+//
+//                                }
+//                            }
+//
+//                            @Override
+//                            public void onCancelled(@NonNull DatabaseError error) {
+//
+//                            }
+//                        });
+
+
+
+                        DatabaseReference refCart = database.getReference("cart");
+                        refCart.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                    DatabaseReference refu = dataSnapshot.child("id_user").getRef();
+                                    refu.orderByValue().equalTo(idU).addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            for (DataSnapshot dataSnapshot1 : snapshot.getChildren()) {
+                                                String cartItemId = dataSnapshot1.getKey();
+                                                dataSnapshot1.getRef().removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                        if (task.isSuccessful()) {
+                                                            Log.i("zzzzz", "xóa tc: " + cartItemId);
+                                                        }
+                                                    }
+                                                });
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+                                            // Xử lý khi có lỗi xảy ra
+                                        }
+                                    });
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                // Xử lý khi có lỗi xảy ra
+                            }
+                        });
+
+
+
+                        Intent intent = new Intent(ThanhToan.this, Success.class);
+                        intent.putExtra("checkman", 4);
+                        startActivity(intent);
+                        finish();
+                    } catch (Exception ex) {
+                        Log.i("zzzzz", "onClick: " + ex.toString());
+                    }
 
                 }
 //                else if (getPttt.equalsIgnoreCase("Thanh toán qua MoMo")) {
@@ -257,7 +360,7 @@ public class ThanhToan extends AppCompatActivity {
 //
 //                    try {
 //                        JSONObject data = orderApi.createOrder(txtAmount.getText().toString());
-////                        lblZpTransToken.setVisibility(View.VISIBLE);
+//                        lblZpTransToken.setVisibility(View.VISIBLE);
 //                        String code = data.getString("return_code");
 //                        Toast.makeText(getApplicationContext(), "return_code: " + code, Toast.LENGTH_LONG).show();
 //
@@ -276,7 +379,6 @@ public class ThanhToan extends AppCompatActivity {
     }
 
     private void getInfoUser(String idU) {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference reference = database.getReference("users").child(idU);
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -284,11 +386,11 @@ public class ThanhToan extends AppCompatActivity {
                 User user1 = snapshot.getValue(User.class);
                 String name = user1.getFullname();
                 String email = user1.getEmail();
-                int phong = user1.getPhone();
+                int phone = user1.getPhone();
                 String address = user1.getAddress();
                 tvName.setText(name);
                 tvEmail.setText(email);
-                tvPhone.setText("0" + phong);
+                tvPhone.setText("0" + phone);
                 tvAddress.setText(address);
             }
 
@@ -297,10 +399,10 @@ public class ThanhToan extends AppCompatActivity {
                 Log.i("thanhtoan", "onCancelled: " + error.toString());
             }
         });
+
     }
 
     private void getListCart(String idU) {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myref = database.getReference("cart");
         myref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
