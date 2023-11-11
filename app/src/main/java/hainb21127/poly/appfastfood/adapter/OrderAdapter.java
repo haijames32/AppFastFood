@@ -49,7 +49,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
             return;
         holder.tvTrangthai.setText(order.getTrangthai());
         holder.tvDate.setText(order.getDate());
-        holder.tvTongtien.setText(Utilities.addDots(order.getTongtien()) + "đ");
+        holder.tvTongtien.setText(Utilities.addDots(order.getTongdonhang()) + "đ");
         if (holder.tvTrangthai.getText().toString().equals("Chờ xác nhận")) {
 //            #FF9800
             holder.lo_bg_status.setBackgroundColor(Color.YELLOW);
@@ -78,7 +78,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
                 intent.putExtra("pttt_order", order.getThanhtoan());
                 intent.putExtra("trangthai_order", order.getTrangthai());
                 intent.putExtra("date_order", order.getDate());
-                intent.putExtra("tongtien_order", order.getTongtien());
+                intent.putExtra("tongtien_order", order.getTongdonhang());
                 intent.putExtra("nameUser_order", order.getId_user().getFullname());
                 intent.putExtra("emailUser_order", order.getId_user().getEmail());
                 intent.putExtra("phoneUser_order", order.getId_user().getPhone());
