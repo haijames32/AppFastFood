@@ -29,7 +29,6 @@ import java.util.List;
 import hainb21127.poly.appfastfood.R;
 import hainb21127.poly.appfastfood.adapter.AllProductAdapter;
 import hainb21127.poly.appfastfood.adapter.CategoryDetailAdapter;
-import hainb21127.poly.appfastfood.database.FirebaseDB;
 import hainb21127.poly.appfastfood.model.Product;
 
 public class AllProduct extends AppCompatActivity {

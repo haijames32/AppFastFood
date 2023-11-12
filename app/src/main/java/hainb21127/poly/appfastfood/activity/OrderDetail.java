@@ -189,13 +189,13 @@ public class OrderDetail extends AppCompatActivity {
 
         if (trangthai.equals("Chờ xác nhận")) {
             imgTrangthai.setImageResource(R.drawable.ic_preparing);
-            tvTrangthai.setTextColor(Color.YELLOW);
+            tvTrangthai.setTextColor(Color.CYAN);
+            btnHuy.setText("Hủy đơn hàng");
             btnHuy.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     String trangthaihuy = " Đã hủy đơn hàng";
-                    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-                    DatabaseReference reference = firebaseDatabase.getReference("orders").child(idOrder);
+                    DatabaseReference reference = database.getReference("orders").child(idOrder);
                     DatabaseReference reference1 = reference.child("trangthai");
                     reference1.setValue(trangthaihuy).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
@@ -209,17 +209,16 @@ public class OrderDetail extends AppCompatActivity {
         } else if (trangthai.equals("Đang giao hàng")) {
             imgTrangthai.setImageResource(R.drawable.ic_shipping);
             tvTrangthai.setTextColor(Color.GREEN);
+            btnHuy.setText("Đã nhận được hàng");
             btnHuy.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     String trangthaidagiaohang = "Đã giao hàng";
-                    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-                    DatabaseReference reference = firebaseDatabase.getReference("orders").child(idOrder);
+                    DatabaseReference reference = database.getReference("orders").child(idOrder);
                     DatabaseReference reference1 = reference.child("trangthai");
                     reference1.setValue(trangthaidagiaohang).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-                            btnHuy.setText("Đã giao hàng");
                             btnHuy.setEnabled(false);
                         }
                     });
