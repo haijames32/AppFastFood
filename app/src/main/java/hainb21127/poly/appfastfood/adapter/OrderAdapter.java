@@ -55,6 +55,11 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
             holder.lo_bg_status.setBackgroundColor(Color.CYAN);
             holder.img_status.setImageResource(R.drawable.ic_preparing);
             holder.tvTrangthai.setTextColor(Color.CYAN);
+        } else if (holder.tvTrangthai.getText().toString().equalsIgnoreCase("Đã thanh toán và chờ xác nhận")) {
+//            #8BC34A
+            holder.lo_bg_status.setBackgroundColor(Color.CYAN);
+            holder.img_status.setImageResource(R.drawable.ic_preparing);
+            holder.tvTrangthai.setTextColor(Color.CYAN);
         } else if (holder.tvTrangthai.getText().toString().equalsIgnoreCase("Đang giao hàng")) {
 //            #8BC34A
             holder.lo_bg_status.setBackgroundColor(Color.GREEN);
