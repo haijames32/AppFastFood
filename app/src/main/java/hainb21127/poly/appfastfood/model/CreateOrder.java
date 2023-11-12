@@ -44,7 +44,7 @@ public class CreateOrder {
                     this.EmbedData,
                     this.Items);
 
-//            Mac = Helpers.getMac(AppInfo.MAC_KEY, inputHMac);
+            Mac = Helpers.getMac(AppInfo.MAC_KEY, inputHMac);
         }
     }
 

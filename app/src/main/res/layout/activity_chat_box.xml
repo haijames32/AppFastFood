@@ -39,6 +39,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rcv_chatbox"
             android:background="#EFBDBD"
+            android:padding="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>
@@ -66,13 +67,14 @@
                 android:hint="đồ ngon"
                 android:drawablePadding="8dp" />
         </com.google.android.material.textfield.TextInputLayout>
+
         <Button
             android:id="@+id/btn_dathang_thanhtoan"
             android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_height="34dp"
             android:layout_marginLeft="10dp"
-            android:backgroundTint="@color/black"
             android:background="@drawable/ic_send"
+            android:backgroundTint="@color/black"
             android:textColor="@color/black" />
 
 

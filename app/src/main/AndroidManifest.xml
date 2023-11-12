@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -21,14 +22,19 @@
             android:name=".activity.AllProduct"
             android:exported="false" />
         <activity
-            android:name=".activity.demo"
-            android:exported="false" />
-        <activity
             android:name=".activity.Success"
             android:exported="false" />
         <activity
             android:name=".activity.ThanhToan"
-            android:exported="false" />
+            android:exported="true"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="demozpdk" android:host="app" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".activity.CategoryDetail"
             android:exported="false" />

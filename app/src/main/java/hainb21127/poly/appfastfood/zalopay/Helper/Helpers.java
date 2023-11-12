@@ -11,6 +11,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 
+import hainb21127.poly.appfastfood.zalopay.Helper.HMac.HMacUtil;
+
 public class Helpers {
     private static int transIdDefault = 1;
 
@@ -27,8 +29,8 @@ public class Helpers {
         return String.format("%s%06d", timeString, transIdDefault);
     }
 
-//    @NotNull
-//    public static String getMac(@NotNull String key, @NotNull String data) throws NoSuchAlgorithmException, InvalidKeyException {
-////        return Objects.requireNonNull(HMacUtil.HMacHexStringEncode(HMacUtil.HMACSHA256, key, data));
-//     }
+    @NotNull
+    public static String getMac(@NotNull String key, @NotNull String data) throws NoSuchAlgorithmException, InvalidKeyException {
+        return Objects.requireNonNull(HMacUtil.HMacHexStringEncode(HMacUtil.HMACSHA256, key, data));
+     }
 }

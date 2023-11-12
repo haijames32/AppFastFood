@@ -29,7 +29,6 @@ import hainb21127.poly.appfastfood.fragment.CartFragment;
 import hainb21127.poly.appfastfood.fragment.HomeFragment;
 import hainb21127.poly.appfastfood.fragment.OrderFragment;
 import hainb21127.poly.appfastfood.fragment.ProfileFragment;
-import hainb21127.poly.appfastfood.url.URL;
 
 public class MainActivity extends AppCompatActivity {
     //    ActivityMainBinding binding;
