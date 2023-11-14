@@ -11,20 +11,14 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.viewpager2.widget.ViewPager2;
 
-import android.os.Handler;
 import android.util.Log;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -38,14 +32,15 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
+import hainb21127.poly.appfastfood.MainActivity;
 import hainb21127.poly.appfastfood.R;
 import hainb21127.poly.appfastfood.activity.AllProduct;
+import hainb21127.poly.appfastfood.activity.CartActivity;
+import hainb21127.poly.appfastfood.activity.Chat;
+import hainb21127.poly.appfastfood.activity.Login;
 import hainb21127.poly.appfastfood.adapter.CategoryAdapter;
 import hainb21127.poly.appfastfood.adapter.ProductAdapter;
-import hainb21127.poly.appfastfood.adapter.SliderAdapter;
 import hainb21127.poly.appfastfood.model.Category;
 import hainb21127.poly.appfastfood.model.Product;
 import hainb21127.poly.appfastfood.model.User;
@@ -78,7 +73,7 @@ public class HomeFragment extends Fragment {
 
     RecyclerView rcv_recommended, rcv_cate;
     SwipeRefreshLayout swipeRefreshLayout;
-    LinearLayout btn_seemore;
+    LinearLayout btn_seemore, btnChat, btnCart;
     ProductAdapter productAdapter;
     CategoryAdapter categoryAdapter;
     Context context;
@@ -99,6 +94,8 @@ public class HomeFragment extends Fragment {
         btn_seemore = view.findViewById(R.id.btn_seemore);
         swipeRefreshLayout = view.findViewById(R.id.refresh_home);
         img_home = view.findViewById(R.id.img_home);
+        btnChat = view.findViewById(R.id.btn_chat);
+        btnCart = view.findViewById(R.id.btn_cart);
 
         mpProducts = new ArrayList<>();
         mCategories = new ArrayList<>();
@@ -120,6 +117,23 @@ public class HomeFragment extends Fragment {
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
+
+        btnChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(), Chat.class));
+            }
+        });
+        btnCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(MainActivity.isLoggedIn)
+                    startActivity(new Intent(getContext(), CartActivity.class));
+                else
+                    startActivity(new Intent(getContext(), Login.class));
+            }
+        });
+
         btn_seemore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

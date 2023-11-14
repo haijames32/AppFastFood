@@ -85,7 +85,7 @@ public class OrderFragment extends Fragment {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String id = user.getUid();
         DatabaseReference reference = database.getReference("orders");
-        Query query = reference.limitToLast(999);
+        Query query = reference.limitToLast(99);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

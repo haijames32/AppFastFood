@@ -3,7 +3,9 @@ package hainb21127.poly.appfastfood.activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,8 +36,7 @@ import hainb21127.poly.appfastfood.model.User;
 
 public class ProductDetail extends AppCompatActivity {
     TextView tvName, tvPrice, tvSoluong, tvMota, tvTongtien;
-    ImageView btnBack;
-    ImageView imgSp, minus, plus;
+    ImageView imgSp, minus, plus, btnBack, btnCart;
     Button btnAddcart;
     int number = 1;
     int sum = 0;
@@ -43,7 +44,9 @@ public class ProductDetail extends AppCompatActivity {
     int phone;
     String idUser;
     FirebaseDatabase database;
+    Context context;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +61,8 @@ public class ProductDetail extends AppCompatActivity {
         plus = findViewById(R.id.btn_plus_detailsp);
         btnAddcart = findViewById(R.id.btn_addcart_detailsp);
         btnBack = findViewById(R.id.btn_back_sp_detail);
+        btnCart = findViewById(R.id.btn_cart_sp_detail);
+        context = this;
 
         Intent intent = getIntent();
         String idPro = intent.getStringExtra("idPro");
@@ -105,6 +110,15 @@ public class ProductDetail extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 onBackPressed();
+            }
+        });
+        btnCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (MainActivity.isLoggedIn)
+                    startActivity(new Intent(ProductDetail.this, CartActivity.class));
+                else
+                    startActivity(new Intent(ProductDetail.this, Login.class));
             }
         });
 
@@ -155,18 +169,18 @@ public class ProductDetail extends AppCompatActivity {
                                 User user1 = new User(email, name, phone, address, img);
                                 referenceu1.setValue(user1);
 
-//                                Dialog dialog = new Dialog(getApplicationContext());
-//                                dialog.setContentView(R.layout.dialog_success);
-//                                TextView tvConfirm = dialog.findViewById(R.id.tv_success_dialog_success);
-//                                Button btnAgree = dialog.findViewById(R.id.btn_agree_dialog_success);
-//                                tvConfirm.setText("Đã thêm vào giỏ hàng");
-//                                btnAgree.setOnClickListener(new View.OnClickListener() {
-//                                    @Override
-//                                    public void onClick(View view) {
-//                                        dialog.dismiss();
-//                                    }
-//                                });
-//                                dialog.show();
+                                Dialog dialog = new Dialog(context);
+                                dialog.setContentView(R.layout.dialog_success);
+                                TextView tvConfirm = dialog.findViewById(R.id.tv_success_dialog_success);
+                                Button btnAgree = dialog.findViewById(R.id.btn_agree_dialog_success);
+                                tvConfirm.setText("Đã thêm vào giỏ hàng");
+                                btnAgree.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        dialog.dismiss();
+                                    }
+                                });
+                                dialog.show();
                                 Toast.makeText(ProductDetail.this, "Đã thêm vào giỏ", Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(ProductDetail.this, "Thêm thất bại", Toast.LENGTH_SHORT).show();

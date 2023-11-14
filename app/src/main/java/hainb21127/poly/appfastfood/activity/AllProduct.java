@@ -34,7 +34,6 @@ import hainb21127.poly.appfastfood.model.Product;
 public class AllProduct extends AppCompatActivity {
     GridView grv;
     EditText edSearch;
-    SwipeRefreshLayout swipeRefreshLayout;
     ImageView btnBack;
     LinearLayout ll_nopro;
     CategoryDetailAdapter adapter;
@@ -51,7 +50,6 @@ public class AllProduct extends AppCompatActivity {
         grv = findViewById(R.id.grv_all_detail);
         edSearch = findViewById(R.id.ed_search_all_product);
         ll_nopro = findViewById(R.id.no_product);
-        swipeRefreshLayout = findViewById(R.id.refresh_all_product);
         context = this;
         list = new ArrayList<>();
         adapter = new CategoryDetailAdapter(context);
@@ -60,13 +58,6 @@ public class AllProduct extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 onBackPressed();
-            }
-        });
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                getListProduct();
-                swipeRefreshLayout.setRefreshing(false);
             }
         });
 
@@ -85,7 +76,6 @@ public class AllProduct extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                list.clear();
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 DatabaseReference myref = database.getReference("products");
                 myref.addValueEventListener(new ValueEventListener() {
@@ -97,11 +87,11 @@ public class AllProduct extends AppCompatActivity {
                             for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                                 for (DataSnapshot dataSnapshot2 : dataSnapshot1.getChildren()) {
                                     idCat = dataSnapshot2.getKey();
-                                    product.setId_theloai(idCat);
                                 }
                             }
                             if (dataSnapshot.child("tensp").getValue(String.class).contains(editable)) {
                                 product.setId(dataSnapshot.getKey());
+                                product.setId_theloai(idCat);
                                 product.setTensp(dataSnapshot.child("tensp").getValue(String.class));
                                 product.setGiasp(dataSnapshot.child("giasp").getValue(Integer.class));
                                 product.setMota(dataSnapshot.child("mota").getValue(String.class));
@@ -114,7 +104,6 @@ public class AllProduct extends AppCompatActivity {
                                 ll_nopro.setVisibility(View.VISIBLE);
                             }
                         }
-
                     }
 
                     @Override
