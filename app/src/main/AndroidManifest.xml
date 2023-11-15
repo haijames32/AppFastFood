@@ -16,7 +16,13 @@
         android:theme="@style/Theme.AppFastFood"
         tools:targetApi="31">
         <activity
-            android:name=".activity.chatBox"
+            android:name=".activity.Messagers"
+            android:exported="false" />
+        <activity
+            android:name=".activity.CartActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.Chat"
             android:exported="false" />
         <activity
             android:name=".activity.AllProduct"
@@ -30,9 +36,13 @@
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="demozpdk" android:host="app" />
+
+                <data
+                    android:host="app"
+                    android:scheme="demozpdk" />
             </intent-filter>
         </activity>
         <activity

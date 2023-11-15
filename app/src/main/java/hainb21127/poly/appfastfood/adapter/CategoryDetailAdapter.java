@@ -55,28 +55,28 @@ public class CategoryDetailAdapter extends BaseAdapter {
         LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (view == null) {
             view = mInflater.inflate(R.layout.category_detail_item, null);
-            Product product = aProducts.get(i);
-
-            TextView tv_name = view.findViewById(R.id.tv_name_detailtl_item);
-            TextView tv_price = view.findViewById(R.id.tv_price_detailtl_item);
-            ImageView img_item = view.findViewById(R.id.img_detailtl_item);
-
-            Picasso.get().load(product.getImage()).into(img_item);
-            tv_name.setText(product.getTensp());
-            tv_price.setText(Utilities.addDots(product.getGiasp()) + "đ");
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(view.getContext(), ProductDetail.class);
-                    intent.putExtra("idPro", product.getId());
-                    intent.putExtra("namePro", product.getTensp());
-                    intent.putExtra("pricePro", product.getGiasp());
-                    intent.putExtra("imagePro", product.getImage());
-                    intent.putExtra("motaPro", product.getMota());
-                    view.getContext().startActivity(intent);
-                }
-            });
         }
+        Product product = aProducts.get(i);
+
+        TextView tv_name = view.findViewById(R.id.tv_name_detailtl_item);
+        TextView tv_price = view.findViewById(R.id.tv_price_detailtl_item);
+        ImageView img_item = view.findViewById(R.id.img_detailtl_item);
+
+        Picasso.get().load(product.getImage()).into(img_item);
+        tv_name.setText(product.getTensp());
+        tv_price.setText(Utilities.addDots(product.getGiasp()) + "đ");
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), ProductDetail.class);
+                intent.putExtra("idPro", product.getId());
+                intent.putExtra("namePro", product.getTensp());
+                intent.putExtra("pricePro", product.getGiasp());
+                intent.putExtra("imagePro", product.getImage());
+                intent.putExtra("motaPro", product.getMota());
+                view.getContext().startActivity(intent);
+            }
+        });
         return view;
     }
 }

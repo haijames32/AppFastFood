@@ -76,7 +76,7 @@ public class CartAdapter extends BaseAdapter {
         if (view == null) {
             view = mInflater.inflate(R.layout.cart_item, null);
             Cart2 cart = list.get(i);
-
+            Log.i("size", "getView: "+list.size());
             TextView tv_item_name = view.findViewById(R.id.tv_name_cart_item);
             TextView tv_item_price = view.findViewById(R.id.tv_price_cart_item);
             TextView tv_soluong = view.findViewById(R.id.tv_soluong_cart_item);

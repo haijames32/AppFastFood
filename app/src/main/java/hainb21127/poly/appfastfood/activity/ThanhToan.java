@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -60,11 +62,12 @@ public class ThanhToan extends AppCompatActivity {
     ThanhToanAdapter adapter;
     Product product;
     FirebaseDatabase database;
-    String[] pttt = {"Thanh toán khi nhận hàng", "Thanh toán qua ZaloPay"};
+    String[] pttt = {"Chọn phương thức thanh toán", "Thanh toán khi nhận hàng", "Thanh toán qua ZaloPay"};
     String getPttt, name, email, address, image, idsp, tensp, imagesp, motasp;
     int phone, giasp, soluongsp, tongmathang;
     SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
     int finalTotal;
+    Context context;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -80,6 +83,7 @@ public class ThanhToan extends AppCompatActivity {
         spn = findViewById(R.id.spn_thanhtoan);
         btnDathang = findViewById(R.id.btn_dathang_thanhtoan);
         btnBack = findViewById(R.id.btn_back_thanhtoan);
+        context = this;
 
         //zalopay
         StrictMode.ThreadPolicy policy = new
@@ -235,7 +239,21 @@ public class ThanhToan extends AppCompatActivity {
         btnDathang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (getPttt.equalsIgnoreCase("Thanh toán khi nhận hàng")) {
+                if (getPttt.equalsIgnoreCase("Chọn phương thức thanh toán")) {
+                    Dialog dialog = new Dialog(context);
+                    dialog.setContentView(R.layout.dialog_success);
+
+                    TextView msg = dialog.findViewById(R.id.tv_success_dialog_success);
+                    Button btn = dialog.findViewById(R.id.btn_agree_dialog_success);
+                    msg.setText("Vui lòng chọn phương thức thanh toán");
+                    btn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            dialog.dismiss();
+                        }
+                    });
+                    dialog.show();
+                } else if (getPttt.equalsIgnoreCase("Thanh toán khi nhận hàng")) {
                     try {
                         DatabaseReference reference = database.getReference("orders").push();
                         String idO = reference.getKey();

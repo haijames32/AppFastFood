@@ -72,16 +72,16 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 }
-                if (item.getItemId() == R.id.nav_cart) {
-                    if (isLoggedIn) {
-                        fragment = new CartFragment();
-                        replaceFragment(fragment);
-                        return true;
-                    } else {
-                        startActivity(new Intent(MainActivity.this, Login.class));
-                    }
-
-                }
+//                if (item.getItemId() == R.id.nav_cart) {
+//                    if (isLoggedIn) {
+//                        fragment = new CartFragment();
+//                        replaceFragment(fragment);
+//                        return true;
+//                    } else {
+//                        startActivity(new Intent(MainActivity.this, Login.class));
+//                    }
+//
+//                }
                 if (item.getItemId() == R.id.nav_profile) {
                     if (isLoggedIn) {
                         fragment = new ProfileFragment();

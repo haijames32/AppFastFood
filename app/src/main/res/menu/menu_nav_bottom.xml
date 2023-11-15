@@ -5,10 +5,10 @@
         android:id="@+id/nav_home"
         android:title=""
         android:icon="@drawable/ic_store"/>
-    <item
-        android:id="@+id/nav_cart"
-        android:title=""
-        android:icon="@drawable/ic_cart"/>
+<!--    <item-->
+<!--        android:id="@+id/nav_cart"-->
+<!--        android:title=""-->
+<!--        android:icon="@drawable/ic_cart"/>-->
     <item
         android:id="@+id/nav_order"
         android:title=""
