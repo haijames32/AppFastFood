@@ -121,16 +121,15 @@ public class HomeFragment extends Fragment {
         btnChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getContext(), Chat.class));
+                if(MainActivity.isLoggedIn) startActivity(new Intent(getContext(), Chat.class));
+                else startActivity(new Intent(getContext(), Login.class));
             }
         });
         btnCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(MainActivity.isLoggedIn)
-                    startActivity(new Intent(getContext(), CartActivity.class));
-                else
-                    startActivity(new Intent(getContext(), Login.class));
+                if(MainActivity.isLoggedIn) startActivity(new Intent(getContext(), CartActivity.class));
+                else startActivity(new Intent(getContext(), Login.class));
             }
         });
 

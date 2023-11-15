@@ -1,59 +1,63 @@
 package hainb21127.poly.appfastfood.adapter;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-
-import androidx.recyclerview.widget.RecyclerView;
+import android.widget.BaseAdapter;
 
 import java.util.List;
 
 import hainb21127.poly.appfastfood.R;
-import hainb21127.poly.appfastfood.model.Messager;
+import hainb21127.poly.appfastfood.activity.Messagers;
+import hainb21127.poly.appfastfood.model.Chats;
 
-public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> {
+public class ChatAdapter extends BaseAdapter {
     Context context;
-    List<Messager> list;
+    List<Chats> list;
 
-    public ChatAdapter(Context context, List<Messager> list) {
+    public ChatAdapter(Context context, List<Chats> list) {
         this.context = context;
         this.list = list;
     }
 
-    @androidx.annotation.NonNull
-    @Override
-    public MyViewHolder onCreateViewHolder(@androidx.annotation.NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.chatsend_item, parent, false);
-        return new MyViewHolder(view);
-    }
 
     @Override
-    public void onBindViewHolder(@androidx.annotation.NonNull MyViewHolder holder, int position) {
-        int i = position;
-        Messager messager = list.get(i);
-        if (messager == null)
-            return;
-        holder.content.setText(messager.getContent());
-        holder.time.setText(messager.getTime());
-    }
-
-    @Override
-    public int getItemCount() {
-        if (list != null)
-            list.size();
+    public int getCount() {
+        if(list != null)
+            return list.size();
         return 0;
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView content, time;
+    @Override
+    public Object getItem(int i) {
+        return list.get(i);
+    }
 
-        public MyViewHolder(@NonNull View itemView) {
-            super(itemView);
-            content = itemView.findViewById(R.id.tv_message_chat_sender_item);
-            time = itemView.findViewById(R.id.tv_time_chat_sender_item);
+    @Override
+    public long getItemId(int i) {
+        return i;
+    }
+
+    @Override
+    public View getView(int i, View view, ViewGroup viewGroup) {
+        LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        if (view == null) {
+            view = mInflater.inflate(R.layout.chat_item, null);
+
+            Chats chats = list.get(i);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(view.getContext(), Messagers.class);
+                    intent.putExtra("idChat",chats.getId());
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    view.getContext().startActivity(intent);
+                }
+            });
         }
+
+        return view;
     }
 }

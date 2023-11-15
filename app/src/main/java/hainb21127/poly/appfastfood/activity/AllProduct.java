@@ -1,7 +1,6 @@
 package hainb21127.poly.appfastfood.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -20,14 +19,12 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import hainb21127.poly.appfastfood.R;
-import hainb21127.poly.appfastfood.adapter.AllProductAdapter;
 import hainb21127.poly.appfastfood.adapter.CategoryDetailAdapter;
 import hainb21127.poly.appfastfood.model.Product;
 

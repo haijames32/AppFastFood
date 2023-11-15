@@ -3,19 +3,19 @@ package hainb21127.poly.appfastfood.model;
 public class Messager {
     String id;
     String content;
+    String id_chat;
     User id_sender;
     String id_receiver;
     String time;
+    String status;
 
     public Messager() {
     }
 
-    public Messager(String id, String content, User id_sender, String id_receiver, String time) {
-        this.id = id;
+    public Messager(String content, String time, String status) {
         this.content = content;
-        this.id_sender = id_sender;
-        this.id_receiver = id_receiver;
         this.time = time;
+        this.status = status;
     }
 
     public String getId() {
@@ -56,5 +56,21 @@ public class Messager {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public String getId_chat() {
+        return id_chat;
+    }
+
+    public void setId_chat(String id_chat) {
+        this.id_chat = id_chat;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

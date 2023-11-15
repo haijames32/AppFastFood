@@ -2,10 +2,12 @@ package hainb21127.poly.appfastfood.adapter;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -22,15 +24,10 @@ public class MessageAdapter extends BaseAdapter {
         this.list = arrayList;
     }
 
-//    public void setData(List<Messager> list){
-//        this.list = list;
-//        notifyDataSetChanged();
-//    }
-
     @Override
     public int getCount() {
         if (list != null)
-            list.size();
+            return list.size();
         return 0;
     }
 
@@ -47,18 +44,26 @@ public class MessageAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        if (view == null) {
-            view = mInflater.inflate(R.layout.chatsend_item, null);
-        }
         Messager message = list.get(i);
-        TextView content = view.findViewById(R.id.tv_message_chat_sender_item);
-        TextView time = view.findViewById(R.id.tv_time_chat_sender_item);
+        if (view == null) {
+            if(message.getStatus().equals("1")){
+                view = mInflater.inflate(R.layout.chatreceived_item, null);
 
-        content.setText(message.getContent());
-        time.setText(message.getTime());
+                TextView content = view.findViewById(R.id.tv_message_chat_receiver_item);
+                TextView time = view.findViewById(R.id.tv_time_chat_receiver_item);
 
-        Log.i("mess_sender", "getView: " + message.getContent());
-        Log.i("mess_sender", "getView: " + message.getTime());
+                content.setText(message.getContent());
+                time.setText(message.getTime());
+            }else{
+                view = mInflater.inflate(R.layout.chatsend_item, null);
+
+                TextView content = view.findViewById(R.id.tv_message_chat_sender_item);
+                TextView time = view.findViewById(R.id.tv_time_chat_sender_item);
+
+                content.setText(message.getContent());
+                time.setText(message.getTime());
+            }
+        }
         return view;
     }
 }
