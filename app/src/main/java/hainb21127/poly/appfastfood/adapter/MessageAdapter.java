@@ -44,8 +44,8 @@ public class MessageAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        Messager message = list.get(i);
         if (view == null) {
+            Messager message = list.get(i);
             if(message.getStatus().equals("1")){
                 view = mInflater.inflate(R.layout.chatreceived_item, null);
 
