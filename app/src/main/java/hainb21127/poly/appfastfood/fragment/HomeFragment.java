@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -73,7 +74,8 @@ public class HomeFragment extends Fragment {
 
     RecyclerView rcv_recommended, rcv_cate;
     SwipeRefreshLayout swipeRefreshLayout;
-    LinearLayout btn_seemore, btnChat, btnCart;
+    LinearLayout btn_seemore, btnCart;
+    FloatingActionButton floating;
     ProductAdapter productAdapter;
     CategoryAdapter categoryAdapter;
     Context context;
@@ -94,7 +96,7 @@ public class HomeFragment extends Fragment {
         btn_seemore = view.findViewById(R.id.btn_seemore);
         swipeRefreshLayout = view.findViewById(R.id.refresh_home);
         img_home = view.findViewById(R.id.img_home);
-        btnChat = view.findViewById(R.id.btn_chat);
+        floating = view.findViewById(R.id.fachatbot);
         btnCart = view.findViewById(R.id.btn_cart);
 
         mpProducts = new ArrayList<>();
@@ -118,7 +120,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        btnChat.setOnClickListener(new View.OnClickListener() {
+        floating.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(MainActivity.isLoggedIn) startActivity(new Intent(getContext(), Chat.class));
