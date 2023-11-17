@@ -41,10 +41,9 @@
                         android:layout_height="match_parent">
 
                         <ImageView
-                            android:id="@+id/img_user_home"
                             android:layout_width="60dp"
                             android:layout_height="60dp"
-                            android:src="@drawable/avatar_guest" />
+                            android:src="@drawable/logo_fastfood" />
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
@@ -78,25 +77,26 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="3"
-                    android:gravity="center_horizontal|end"
+                    android:gravity="center"
                     android:orientation="horizontal">
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginRight="7dp"
                         app:cardCornerRadius="30dp">
 
-<!--                        <LinearLayout-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:id="@+id/btn_chat"-->
-<!--                            android:padding="7dp">-->
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/btn_chat"
+                            android:padding="10dp">
 
-<!--&lt;!&ndash;                            <ImageView&ndash;&gt;-->
-<!--&lt;!&ndash;                                android:layout_width="20dp"&ndash;&gt;-->
-<!--&lt;!&ndash;                                android:layout_height="20dp"&ndash;&gt;-->
-<!--&lt;!&ndash;                                android:src="@drawable/ic_chat" />&ndash;&gt;-->
-<!--                        </LinearLayout>-->
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/ic_chat" />
+                        </LinearLayout>
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
@@ -106,15 +106,13 @@
 
                         <LinearLayout
                             android:id="@+id/btn_cart"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:padding="7dp">
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp">
 
                             <ImageView
-                                android:layout_width="25dp"
-                                android:layout_gravity="center"
-                                android:layout_marginLeft="7dp"
-                                android:layout_height="25dp"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
                                 android:src="@drawable/ic_cart" />
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
@@ -274,14 +272,14 @@
                 </LinearLayout>
             </ScrollView>
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fachatbot"
-                android:layout_width="153dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|right"
-                android:src="@drawable/ic_chat"
-                app:backgroundTint="#cccc"
-                tools:ignore="MissingConstraints,SpeakableTextPresentCheck" />
+<!--            <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--                android:id="@+id/fachatbot"-->
+<!--                android:layout_width="153dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="bottom|right"-->
+<!--                android:src="@drawable/ic_chat"-->
+<!--                app:backgroundTint="#cccc"-->
+<!--                tools:ignore="MissingConstraints,SpeakableTextPresentCheck" />-->
 
 
         </LinearLayout>

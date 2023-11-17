@@ -85,45 +85,6 @@ public class Messagers extends AppCompatActivity {
 
         getListMess(idchat);
 
-//        DatabaseReference reference = database.getReference("messages");
-//        reference.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                listMess.clear();
-//                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-//                    DatabaseReference reference1 = dataSnapshot.child("id_chat").getRef();
-//                    reference1.addValueEventListener(new ValueEventListener() {
-//                        @Override
-//                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                            for (DataSnapshot dataSnapshot1 : snapshot.getChildren()) {
-//                                if (dataSnapshot1.getKey().equals(idchat)) {
-//                                    Messager messager = new Messager();
-//                                    messager.setContent(dataSnapshot.child("content").getValue(String.class));
-//                                    messager.setTime(dataSnapshot.child("time").getValue(String.class));
-//                                    messager.setStatus(dataSnapshot.child("status").getValue(String.class));
-//
-//                                    listMess.add(messager);
-//                                }
-//                            }
-////                            lv.setAdapter(adapter);
-////                            adapter.notifyDataSetChanged();
-//                            lv.setAdapter(new MessageAdapter(getApplicationContext(), listMess));
-//                        }
-//
-//                        @Override
-//                        public void onCancelled(@NonNull DatabaseError error) {
-//                            Log.i("err", "onCancelled: " + error);
-//                        }
-//                    });
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//                Log.i("err", "onCancelled: " + error);
-//            }
-//        });
-
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -137,7 +98,6 @@ public class Messagers extends AppCompatActivity {
                 String content = edContent.getText().toString().trim();
                 if (content.length() == 0) {
                     edContent.setError("Hãy nhập tin nhắn");
-                    return;
                 } else {
                     DatabaseReference ref = database.getReference("messages").push();
                     Messager messager = new Messager(content, getCurrentTime(), idU);
@@ -168,7 +128,7 @@ public class Messagers extends AppCompatActivity {
                 listMess.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     DatabaseReference reference1 = dataSnapshot.child("id_chat").getRef();
-                    reference1.addListenerForSingleValueEvent(new ValueEventListener() {
+                    reference1.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             for (DataSnapshot dataSnapshot1 : snapshot.getChildren()) {

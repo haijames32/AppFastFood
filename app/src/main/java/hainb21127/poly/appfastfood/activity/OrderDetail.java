@@ -187,7 +187,7 @@ public class OrderDetail extends AppCompatActivity {
         tvTrangthai.setText(trangthai);
         tvThanhtoan.setText(pttt);
 
-        if (trangthai.equals("Chờ xác nhận")) {
+        if (trangthai.equals("Chờ xác nhận") || trangthai.equals("Đã thanh toán và chờ xác nhận")) {
             imgTrangthai.setImageResource(R.drawable.ic_preparing);
             tvTrangthai.setTextColor(Color.CYAN);
             btnHuy.setText("Hủy đơn hàng");
