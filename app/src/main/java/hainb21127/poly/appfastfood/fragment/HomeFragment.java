@@ -74,7 +74,7 @@ public class HomeFragment extends Fragment {
 
     RecyclerView rcv_recommended, rcv_cate;
     SwipeRefreshLayout swipeRefreshLayout;
-    LinearLayout btn_seemore, btnCart;
+    LinearLayout btn_seemore, btnCart,btnChat;
     FloatingActionButton floating;
     ProductAdapter productAdapter;
     CategoryAdapter categoryAdapter;
@@ -82,7 +82,6 @@ public class HomeFragment extends Fragment {
     List<Product> mpProducts;
     List<Category> mCategories;
     TextView tvName;
-    ImageView img_user;
     CardView img_home;
     FirebaseDatabase database;
 
@@ -92,12 +91,11 @@ public class HomeFragment extends Fragment {
         rcv_recommended = view.findViewById(R.id.rcv_recommended);
         rcv_cate = view.findViewById(R.id.rcv_cate);
         tvName = view.findViewById(R.id.tv_name_user_home);
-        img_user = view.findViewById(R.id.img_user_home);
         btn_seemore = view.findViewById(R.id.btn_seemore);
         swipeRefreshLayout = view.findViewById(R.id.refresh_home);
         img_home = view.findViewById(R.id.img_home);
-        floating = view.findViewById(R.id.fachatbot);
         btnCart = view.findViewById(R.id.btn_cart);
+        btnChat = view.findViewById(R.id.btn_chat);
 
         mpProducts = new ArrayList<>();
         mCategories = new ArrayList<>();
@@ -120,7 +118,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        floating.setOnClickListener(new View.OnClickListener() {
+        btnChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(MainActivity.isLoggedIn) startActivity(new Intent(getContext(), Chat.class));
@@ -151,9 +149,7 @@ public class HomeFragment extends Fragment {
                     if(snapshot.exists()){
                         User user1 = snapshot.getValue(User.class);
                         String name = user1.getFullname();
-                        String img = user1.getImage();
                         tvName.setText("Hi "+name);
-                        Picasso.get().load(img).into(img_user);
                     }
                 }
 
