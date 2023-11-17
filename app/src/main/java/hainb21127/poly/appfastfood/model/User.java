@@ -1,6 +1,7 @@
 package hainb21127.poly.appfastfood.model;
 
 public class User {
+    private String id;
     private String email;
     private String fullname;
     private int phone;
@@ -16,6 +17,14 @@ public class User {
         this.phone = phone;
         this.address = address;
         this.image = image;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getEmail() {

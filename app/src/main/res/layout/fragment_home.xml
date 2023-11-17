@@ -12,32 +12,54 @@
         android:id="@+id/refresh_home"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="20dp"
                 android:layout_marginTop="7dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:weightSum="10"
+                android:paddingHorizontal="20dp"
                 android:paddingVertical="5dp"
-                android:paddingLeft="5dp">
+                android:paddingLeft="5dp"
+                android:weightSum="10">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/img_home"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="35dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:id="@+id/img_user_home"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:src="@drawable/avatar_guest" />
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="9"
-                    android:orientation="vertical">
+                    android:layout_weight="6"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="7dp">
 
                     <TextView
                         android:id="@+id/tv_name_user_home"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
+                        android:layout_marginBottom="5dp"
                         android:text="Hi Guys"
                         android:textColor="#FF541F"
                         android:textSize="20dp"
@@ -51,25 +73,51 @@
 
                 </LinearLayout>
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/img_home"
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:cardCornerRadius="35dp">
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center_horizontal|end"
+                    android:orientation="horizontal">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-                        <ImageView
-                            android:id="@+id/img_user_home"
-                            android:layout_width="70dp"
-                            android:layout_height="70dp"
-                            android:src="@drawable/avatar_guest" />
-                    </LinearLayout>
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="30dp">
 
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/btn_chat"
+                            android:padding="7dp">
 
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/ic_chat" />
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
 
-                </androidx.cardview.widget.CardView>
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="30dp">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/btn_cart"
+                            android:padding="7dp">
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/ic_cart" />
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                </LinearLayout>
+
 
             </LinearLayout>
             <!--            <androidx.cardview.widget.CardView-->
@@ -139,7 +187,6 @@
                 android:src="@drawable/banner" />
 
 
-
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -195,6 +242,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"

@@ -227,10 +227,12 @@ public class OrderDetail extends AppCompatActivity {
         } else if (trangthai.equals("Đã giao hàng")) {
             imgTrangthai.setImageResource(R.drawable.ic_finish);
             tvTrangthai.setTextColor(Color.BLUE);
+            btnHuy.setText("Hoàn thành");
             btnHuy.setEnabled(false);
         } else {
             imgTrangthai.setImageResource(R.drawable.ic_cancel);
             tvTrangthai.setTextColor(Color.RED);
+            btnHuy.setText("Đã hủy đơn hàng");
             btnHuy.setEnabled(false);
         }
     }

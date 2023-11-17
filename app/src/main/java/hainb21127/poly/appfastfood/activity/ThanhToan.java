@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -37,14 +39,12 @@ import java.util.List;
 
 import hainb21127.poly.appfastfood.MainActivity;
 import hainb21127.poly.appfastfood.R;
-import hainb21127.poly.appfastfood.adapter.PaymentSpnAdapter;
 import hainb21127.poly.appfastfood.adapter.ThanhToanAdapter;
 import hainb21127.poly.appfastfood.config.Utilities;
 import hainb21127.poly.appfastfood.model.Cart2;
 import hainb21127.poly.appfastfood.model.CreateOrder;
 import hainb21127.poly.appfastfood.model.Lineitem;
 import hainb21127.poly.appfastfood.model.Order;
-import hainb21127.poly.appfastfood.model.Payment;
 import hainb21127.poly.appfastfood.model.Product;
 import hainb21127.poly.appfastfood.model.User;
 import vn.zalopay.sdk.Environment;
@@ -60,15 +60,14 @@ public class ThanhToan extends AppCompatActivity {
     ImageView btnBack;
     List<Cart2> listCart;
     ThanhToanAdapter adapter;
-    PaymentSpnAdapter spnAdapter;
     Product product;
     FirebaseDatabase database;
-    List<Payment> listPttt;
-    String[] pttt = {"Thanh toán khi nhận hàng", "Thanh toán qua MoMo", "Thanh toán qua ZaloPay"};
+    String[] pttt = {"Chọn phương thức thanh toán", "Thanh toán khi nhận hàng", "Thanh toán qua ZaloPay"};
     String getPttt, name, email, address, image, idsp, tensp, imagesp, motasp;
     int phone, giasp, soluongsp, tongmathang;
     SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
     int finalTotal;
+    Context context;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -84,6 +83,7 @@ public class ThanhToan extends AppCompatActivity {
         spn = findViewById(R.id.spn_thanhtoan);
         btnDathang = findViewById(R.id.btn_dathang_thanhtoan);
         btnBack = findViewById(R.id.btn_back_thanhtoan);
+        context = this;
 
         //zalopay
         StrictMode.ThreadPolicy policy = new
@@ -239,7 +239,21 @@ public class ThanhToan extends AppCompatActivity {
         btnDathang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (getPttt.equalsIgnoreCase("Thanh toán khi nhận hàng")) {
+                if (getPttt.equalsIgnoreCase("Chọn phương thức thanh toán")) {
+                    Dialog dialog = new Dialog(context);
+                    dialog.setContentView(R.layout.dialog_success);
+
+                    TextView msg = dialog.findViewById(R.id.tv_success_dialog_success);
+                    Button btn = dialog.findViewById(R.id.btn_agree_dialog_success);
+                    msg.setText("Vui lòng chọn phương thức thanh toán");
+                    btn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            dialog.dismiss();
+                        }
+                    });
+                    dialog.show();
+                } else if (getPttt.equalsIgnoreCase("Thanh toán khi nhận hàng")) {
                     try {
                         DatabaseReference reference = database.getReference("orders").push();
                         String idO = reference.getKey();
@@ -321,8 +335,6 @@ public class ThanhToan extends AppCompatActivity {
                         Log.i("zzzzz", "onClick: " + ex.toString());
                     }
 
-                } else if (getPttt.equalsIgnoreCase("Thanh toán qua MoMo")) {
-                    Toast.makeText(ThanhToan.this, "MoMo", Toast.LENGTH_SHORT).show();
                 } else if (getPttt.equalsIgnoreCase("Thanh toán qua ZaloPay")) {
                     CreateOrder orderApi = new CreateOrder();
                     try {
@@ -338,7 +350,7 @@ public class ThanhToan extends AppCompatActivity {
                                     try {
                                         DatabaseReference reference = database.getReference("orders").push();
                                         String idO = reference.getKey();
-                                        Order order = new Order(dateFormat.format(new Date()), getPttt, "Chờ xác nhận", finalTotal);
+                                        Order order = new Order(dateFormat.format(new Date()), getPttt, "Đã thanh toán và chờ xác nhận", finalTotal);
                                         reference.setValue(order).addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
@@ -547,79 +559,6 @@ public class ThanhToan extends AppCompatActivity {
                 Log.d("TAG", "onCancelled: " + error.toString());
             }
         });
-
-
-//        DatabaseReference myref = database.getReference("cart");
-//        myref.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-//                    DatabaseReference refSp = dataSnapshot.child("id_sanpham").getRef();
-//                    DatabaseReference refU = dataSnapshot.child("id_user").getRef();
-//                    refSp.addValueEventListener(new ValueEventListener() {
-//                        @Override
-//                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                            for (DataSnapshot dataSnapshotsp : snapshot.getChildren()) {
-//                                product = new Product();
-//                                product.setId(dataSnapshotsp.getKey());
-//                                product.setTensp(dataSnapshotsp.child("tensp").getValue(String.class));
-//                                product.setGiasp(dataSnapshotsp.child("giasp").getValue(Integer.class));
-//                                product.setImage(dataSnapshotsp.child("image").getValue(String.class));
-//                                product.setMota(dataSnapshotsp.child("mota").getValue(String.class));
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void onCancelled(@NonNull DatabaseError error) {
-//                            Log.i("sanpham", "onCancelled: " + error.toString());
-//                        }
-//                    });
-//                    refU.addValueEventListener(new ValueEventListener() {
-//                        @Override
-//                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                            for (DataSnapshot dataSnapshotu : snapshot.getChildren()) {
-//                                String iduser = dataSnapshotu.getKey();
-//                                if (iduser.equals(idU)) {
-//                                    Cart2 cart = new Cart2();
-//                                    User user1 = new User();
-//                                    user1.setEmail(dataSnapshotu.child("email").getValue(String.class));
-//                                    user1.setFullname(dataSnapshotu.child("fullname").getValue(String.class));
-//                                    user1.setPhone(dataSnapshotu.child("phone").getValue(Integer.class));
-//                                    user1.setAddress(dataSnapshotu.child("address").getValue(String.class));
-//
-//                                    cart.setId(dataSnapshot.getKey());
-//                                    cart.setId_sanpham(product);
-//                                    cart.setId_user(user1);
-//                                    cart.setSoluong(dataSnapshot.child("soluong").getValue(Integer.class));
-//                                    cart.setTongtien(dataSnapshot.child("tongtien").getValue(Integer.class));
-//                                    listCart.add(cart);
-//                                }
-//                            }
-//                            lv.setAdapter(adapter);
-//                            adapter.notifyDataSetChanged();
-//
-//                            int total = 0;
-//                            for (int i = 0; i < adapter.getCount(); i++) {
-//                                Cart2 cart = (Cart2) adapter.getItem(i);
-//                                total += cart.getTongtien();
-//                                Log.i("tong", "onDataChange: " + cart.getTongtien());
-//                            }
-//                            tvTongtien.setText(Utilities.addDots(total) + "đ");
-//                        }
-//
-//                        @Override
-//                        public void onCancelled(@NonNull DatabaseError error) {
-//                            Log.i("user", "onCancelled: " + error.toString());
-//                        }
-//                    });
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//                Log.d("TAG", "onCancelled: " + error.toString());
-//            }
-//        });
     }
 
     @Override
