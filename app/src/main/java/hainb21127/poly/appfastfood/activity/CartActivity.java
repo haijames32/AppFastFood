@@ -177,7 +177,6 @@ public class CartActivity extends AppCompatActivity implements MyInterface {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    Toast.makeText(getApplicationContext(), "Đã xóa", Toast.LENGTH_SHORT).show();
                     getListCartbyUser();
                 } else {
                     Toast.makeText(getApplicationContext(), "Xóa thất bại", Toast.LENGTH_SHORT).show();

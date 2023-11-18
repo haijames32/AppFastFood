@@ -139,6 +139,8 @@ public class ProfileFragment extends Fragment {
                 TextView tvConfirm = dialog.findViewById(R.id.tv_confirm);
                 Button btnCancel = dialog.findViewById(R.id.btn_cancel_dialog_confirm);
                 Button btnAgree = dialog.findViewById(R.id.btn_agree_dialog_confirm);
+                ImageView img = dialog.findViewById(R.id.img_dialog_confirm);
+                img.setImageResource(R.drawable.ic_warning);
                 tvConfirm.setText("Bạn muốn đăng xuất?");
                 btnCancel.setOnClickListener(new View.OnClickListener() {
                     @Override
