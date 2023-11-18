@@ -46,12 +46,11 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
     implementation 'com.squareup.picasso:picasso:2.71828'
-    implementation 'com.google.firebase:firebase-storage:20.0.0'
 
     //firebase
+    implementation 'com.google.firebase:firebase-storage:20.0.0'
     implementation platform('com.google.firebase:firebase-bom:32.3.1')
     implementation 'com.google.firebase:firebase-analytics'
-
     implementation 'com.google.android.gms:play-services-auth:19.2.0'
 
     //signin with google
@@ -71,4 +70,10 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.6.0")
     implementation("commons-codec:commons-codec:1.14")
     implementation files('libs/zpdk-release-v3.1.aar')
+
+    ///ViewPager2
+    implementation 'androidx.viewpager2:viewpager2:1.0.0'
+
+    //RoundedImgeView
+    implementation 'com.makeramen:roundedimageview:2.3.0'
 }

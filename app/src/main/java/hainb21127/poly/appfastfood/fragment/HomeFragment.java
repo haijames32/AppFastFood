@@ -11,7 +11,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.viewpager2.widget.CompositePageTransformer;
+import androidx.viewpager2.widget.MarginPageTransformer;
+import androidx.viewpager2.widget.ViewPager2;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,10 +44,13 @@ import hainb21127.poly.appfastfood.activity.AllProduct;
 import hainb21127.poly.appfastfood.activity.CartActivity;
 import hainb21127.poly.appfastfood.activity.Chat;
 import hainb21127.poly.appfastfood.activity.Login;
+import hainb21127.poly.appfastfood.activity.Messagers;
 import hainb21127.poly.appfastfood.adapter.CategoryAdapter;
 import hainb21127.poly.appfastfood.adapter.ProductAdapter;
+import hainb21127.poly.appfastfood.adapter.SliderAdapter;
 import hainb21127.poly.appfastfood.model.Category;
 import hainb21127.poly.appfastfood.model.Product;
+import hainb21127.poly.appfastfood.model.Slider;
 import hainb21127.poly.appfastfood.model.User;
 
 
@@ -74,8 +81,7 @@ public class HomeFragment extends Fragment {
 
     RecyclerView rcv_recommended, rcv_cate;
     SwipeRefreshLayout swipeRefreshLayout;
-    LinearLayout btn_seemore, btnCart,btnChat;
-    FloatingActionButton floating;
+    LinearLayout btn_seemore, btnCart, btnChat;
     ProductAdapter productAdapter;
     CategoryAdapter categoryAdapter;
     Context context;
@@ -84,6 +90,10 @@ public class HomeFragment extends Fragment {
     TextView tvName;
     CardView img_home;
     FirebaseDatabase database;
+    ViewPager2 viewPager2;
+    Handler sliderHandler;
+    List<Slider> listSlider;
+    SliderAdapter sliderAdapter;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -94,15 +104,57 @@ public class HomeFragment extends Fragment {
         btn_seemore = view.findViewById(R.id.btn_seemore);
         swipeRefreshLayout = view.findViewById(R.id.refresh_home);
         img_home = view.findViewById(R.id.img_home);
-        btnCart = view.findViewById(R.id.btn_cart);
+//        btnCart = view.findViewById(R.id.btn_cart);
         btnChat = view.findViewById(R.id.btn_chat);
+        viewPager2 = view.findViewById(R.id.viewPager2_slider_home);
+
+        database = FirebaseDatabase.getInstance();
 
         mpProducts = new ArrayList<>();
         mCategories = new ArrayList<>();
+        listSlider = new ArrayList<>();
         productAdapter = new ProductAdapter(context);
         categoryAdapter = new CategoryAdapter(context);
+        sliderAdapter = new SliderAdapter(listSlider, viewPager2);
+        sliderHandler = new Handler();
 
-        database = FirebaseDatabase.getInstance();
+        listSlider.add(new Slider(R.drawable.img_slide1));
+        listSlider.add(new Slider(R.drawable.img_slide2));
+        listSlider.add(new Slider(R.drawable.img_slide3));
+        listSlider.add(new Slider(R.drawable.img_slide4));
+        listSlider.add(new Slider(R.drawable.img_slide5));
+        listSlider.add(new Slider(R.drawable.img_slide6));
+        listSlider.add(new Slider(R.drawable.img_slide7));
+        listSlider.add(new Slider(R.drawable.img_slide8));
+        listSlider.add(new Slider(R.drawable.img_slide9));
+        listSlider.add(new Slider(R.drawable.img_slide10));
+        viewPager2.setAdapter(sliderAdapter);
+
+        viewPager2.setClipToPadding(false);
+        viewPager2.setClipChildren(false);
+        viewPager2.setOffscreenPageLimit(3);
+        viewPager2.getChildAt(0).setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
+
+        CompositePageTransformer compositePageTransformer = new CompositePageTransformer();
+        compositePageTransformer.addTransformer(new MarginPageTransformer(40));
+        compositePageTransformer.addTransformer(new ViewPager2.PageTransformer() {
+            @Override
+            public void transformPage(@NonNull View page, float position) {
+                float r = 1 - Math.abs(position);
+                page.setScaleY(0.85f + r * 0.15f);
+            }
+        });
+
+        viewPager2.setPageTransformer(compositePageTransformer);
+        viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                sliderHandler.removeCallbacks(sliderRunnable);
+                sliderHandler.postDelayed(sliderRunnable, 4000);
+            }
+        });
+
 
         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
         rcv_cate.setLayoutManager(linearLayoutManager1);
@@ -121,17 +173,18 @@ public class HomeFragment extends Fragment {
         btnChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(MainActivity.isLoggedIn) startActivity(new Intent(getContext(), Chat.class));
+                if (MainActivity.isLoggedIn) startActivity(new Intent(getContext(), Messagers.class));
                 else startActivity(new Intent(getContext(), Login.class));
             }
         });
-        btnCart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(MainActivity.isLoggedIn) startActivity(new Intent(getContext(), CartActivity.class));
-                else startActivity(new Intent(getContext(), Login.class));
-            }
-        });
+
+//        btnCart.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if (MainActivity.isLoggedIn) startActivity(new Intent(getContext(), CartActivity.class));
+//                else startActivity(new Intent(getContext(), Login.class));
+//            }
+//        });
 
         btn_seemore.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,15 +194,15 @@ public class HomeFragment extends Fragment {
         });
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if(user != null){
+        if (user != null) {
             DatabaseReference reference = database.getReference("users").child(user.getUid());
             reference.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if(snapshot.exists()){
+                    if (snapshot.exists()) {
                         User user1 = snapshot.getValue(User.class);
                         String name = user1.getFullname();
-                        tvName.setText("Hi "+name);
+                        tvName.setText("Hi " + name);
                     }
                 }
 
@@ -158,14 +211,13 @@ public class HomeFragment extends Fragment {
 
                 }
             });
-        }else{
+        } else {
             img_home.setVisibility(View.INVISIBLE);
         }
 
         getListCate();
         getListProduct();
     }
-
 
     private void getListProduct() {
         DatabaseReference myref = database.getReference("products");
@@ -227,4 +279,11 @@ public class HomeFragment extends Fragment {
             }
         });
     }
+
+    private Runnable sliderRunnable = new Runnable() {
+        @Override
+        public void run() {
+            viewPager2.setCurrentItem(viewPager2.getCurrentItem() + 1);
+        }
+    };
 }

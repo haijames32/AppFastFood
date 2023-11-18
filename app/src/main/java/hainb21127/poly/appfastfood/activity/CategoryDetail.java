@@ -133,7 +133,7 @@ public class CategoryDetail extends AppCompatActivity {
 
     private void getListProductbyCategory() {
         DatabaseReference myref = database.getReference("products");
-        myref.addValueEventListener(new ValueEventListener() {
+        myref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {

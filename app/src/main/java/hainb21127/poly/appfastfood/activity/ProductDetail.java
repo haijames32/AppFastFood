@@ -173,6 +173,8 @@ public class ProductDetail extends AppCompatActivity {
                                 dialog.setContentView(R.layout.dialog_success);
                                 TextView tvConfirm = dialog.findViewById(R.id.tv_success_dialog_success);
                                 Button btnAgree = dialog.findViewById(R.id.btn_agree_dialog_success);
+                                ImageView img = dialog.findViewById(R.id.img_dialog_success);
+                                img.setImageResource(R.drawable.ic_finish);
                                 tvConfirm.setText("Đã thêm vào giỏ hàng");
                                 btnAgree.setOnClickListener(new View.OnClickListener() {
                                     @Override
@@ -181,7 +183,6 @@ public class ProductDetail extends AppCompatActivity {
                                     }
                                 });
                                 dialog.show();
-                                Toast.makeText(ProductDetail.this, "Đã thêm vào giỏ", Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(ProductDetail.this, "Thêm thất bại", Toast.LENGTH_SHORT).show();
                                 Log.i("cart", "onComplete: " + task.toString());

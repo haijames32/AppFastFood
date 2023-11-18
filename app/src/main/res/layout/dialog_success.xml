@@ -12,6 +12,7 @@
         android:orientation="horizontal">
 
         <ImageView
+            android:id="@+id/img_dialog_success"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginRight="7dp"
@@ -20,6 +21,7 @@
             android:id="@+id/tv_success_dialog_success"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textStyle="bold"
             android:text="Thành công"
             android:textSize="16dp"/>
 
